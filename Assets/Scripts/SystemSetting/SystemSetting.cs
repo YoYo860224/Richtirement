@@ -39,7 +39,7 @@ public class SystemSetting : MonoBehaviour {
 
     public void ReturnStartMenu()
     {
-        SceneManager.LoadScene("StartMenu");
+        SceneManager.LoadScene("Splash");
     }
 
     public void Default()

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Setting;
+using UnityEngine.SceneManagement;
+
 public class StoryHappenManager : MonoBehaviour {
     public Image MoneyImage;
     public Image MentalImage;
@@ -24,7 +26,8 @@ public class StoryHappenManager : MonoBehaviour {
 
     private static bool canTouch = true;
     private static bool helpState = false;
-
+    public Choice trueChoice;
+    public Choice falseChoice;
     // Use this for initialization
     void Start () {
         // TODO: set money value
@@ -155,7 +158,7 @@ public class StoryHappenManager : MonoBehaviour {
         if (fadeAway)
         {
             // loop over 1 second backwards
-            for (float i = 3; i >= 0; i -= Time.deltaTime)
+            for (float i = 1; i >= 0; i -= Time.deltaTime)
             {
                 // set color with i as alpha
                 var tempColor = gameObject.color;
@@ -168,7 +171,7 @@ public class StoryHappenManager : MonoBehaviour {
         else
         {
             // loop over 1 second
-            for (float i = 0; i <= 3; i += Time.deltaTime)
+            for (float i = 0; i <= 1; i += Time.deltaTime)
             {
                 // set color with i as alpha
                 var tempColor = gameObject.color;
@@ -185,21 +188,34 @@ public class StoryHappenManager : MonoBehaviour {
     {
         //Setting.CharacterSetting.SocialHearth -= 5;
         //StartCoroutine(SliderChange(SocialHearth, Setting.CharacterSetting.SocialHearth));
+        int nextId = trueChoice.NextEvent();
 
+        // TODO: showResult
 
-        Debug.Log("true");
+        EventLog log = new EventLog(StoryManager.nowId, true, nextId);
+        StoryManager.EndNowStory(log);
+
+        // 判斷是不是5年
+        SceneManager.LoadScene("Story");
     }
 
     public void choiceNo()
     {
-        Debug.Log("false");
+        int nextId = trueChoice.NextEvent();
+        Debug.Log("next ID = " + nextId);
+        // TODO: showResult
+
+        EventLog log = new EventLog(StoryManager.nowId, true, nextId);
+        StoryManager.EndNowStory(log);
+
+        // 判斷是不是5年
+        SceneManager.LoadScene("Story");
     }
 
     public void help()
     {
         if (canTouch)
         {
-            helpText.text = "help help help";
             if (helpState)
             {
                 //var tempTextColor = helpText.GetComponent<Text>().color;

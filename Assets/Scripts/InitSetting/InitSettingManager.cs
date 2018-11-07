@@ -50,9 +50,6 @@ public class InitSettingManager : MonoBehaviour {
         }
         Setting.CharacterSetting.currentAssets = (int)(currentAssets.value);
 
-        Debug.Log(Setting.CharacterSetting.name);
-        Debug.Log(Setting.CharacterSetting.kidAmount);
-        Debug.Log(Setting.CharacterSetting.currentAssets);
         SceneManager.LoadScene("Story");
     }
 }

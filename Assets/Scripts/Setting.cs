@@ -48,7 +48,12 @@ namespace Setting
         public static float Mental = 70.0f;
         public static float PhysicalHearth = 70.0f;
         public static float SocialHearth = 70.0f;
-
+        /*
+         * P心理
+         * S社交
+         * H健康
+         * $(萬)
+        */
     }
 }
 

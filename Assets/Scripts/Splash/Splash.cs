@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SplashDark : MonoBehaviour {
-    public string nextSceneName;
+public class Splash : MonoBehaviour {
+    public Text titleText;
+
     public List<Image> startImage;
     public List<Text> startText;
 
@@ -25,15 +26,28 @@ public class SplashDark : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        var nowColor = GetComponent<Image>().color;
+        
 
         if (showFlag == 0) // black fade out
         {
+            var titleColor = titleText.color;
+            titleColor.a = titleColor.a + fadeSpeed * Time.deltaTime;
+            titleText.color = titleColor;
 
-            nowColor.a = nowColor.a - fadeSpeed * Time.deltaTime;
-            GetComponent<Image>().color = nowColor;
-            if (nowColor.a < 0f)
-                showFlag = 1;
+            for (int i = 0; i < startImage.Count; i++)
+            {
+                var tempColor = startImage[i].GetComponent<Image>().color;
+                tempColor.a = tempColor.a + fadeSpeed * Time.deltaTime;
+                startImage[i].GetComponent<Image>().color = tempColor;
+            }
+            for (int i = 0; i < startText.Count; i++)
+            {
+                var tempColor = startText[i].GetComponent<Text>().color;
+                tempColor.a = tempColor.a + fadeSpeed * Time.deltaTime;
+                startText[i].GetComponent<Text>().color = tempColor;
+                if (tempColor.a > 1f)
+                    showFlag = 1;
+            }
         }
         else if(showFlag == 1) { // logo and detail fade out
 
@@ -71,7 +85,19 @@ public class SplashDark : MonoBehaviour {
                 var tempColor = buttonText[i].color;
                 tempColor.a = tempColor.a + fadeSpeed * Time.deltaTime;
                 buttonText[i].color = tempColor;
+                if (tempColor.a > 1f)
+                    showFlag = 3;
             }
         }
+    }
+
+    public void StartGameButton()
+    {
+        SceneManager.LoadScene("InitSetting");
+    }
+
+    public void SettingButton()
+    {
+        SceneManager.LoadScene("SystemSetting");
     }
 }
