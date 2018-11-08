@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: df6d1521042a5004ea51f77e8356a92d
+guid: 3a8a35f8c428fb1468129bd1f0c9c608
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Noto Sans
+  fontName: Helvetica Neue
   fontNames:
-  - Noto Sans
+  - Helvetica Neue
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
