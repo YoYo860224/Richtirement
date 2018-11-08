@@ -6,17 +6,16 @@ using UnityEngine.UI;
 
 public class Splash : MonoBehaviour {
     public Text titleText;
-
     public List<Image> startImage;
     public List<Text> startText;
-
     public List<GameObject> button;
     public List<Text> buttonText;
+    public float fadeSpeed = 0.4f;
 
     int showFlag = 0;
-    public float fadeSpeed = 0.4f;
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         for (int i = 0; i < button.Count; i++)
         {
             button[i].GetComponent<Button>().enabled = false;
@@ -26,8 +25,6 @@ public class Splash : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
-
         if (showFlag == 0) // black fade out
         {
             var titleColor = titleText.color;
@@ -49,8 +46,8 @@ public class Splash : MonoBehaviour {
                     showFlag = 1;
             }
         }
-        else if(showFlag == 1) { // logo and detail fade out
-
+        else if(showFlag == 1)  // logo and detail fade out
+        {  
             for(int i = 0; i < startImage.Count; i++)
             {
                 var tempColor = startImage[i].GetComponent<Image>().color;
@@ -72,14 +69,12 @@ public class Splash : MonoBehaviour {
             {
                 button[i].GetComponent<Button>().enabled = true;
             }
-
             for (int i = 0; i < button.Count; i++)
             {
                 var tempColor = button[i].GetComponent<Image>().color;
                 tempColor.a = tempColor.a + fadeSpeed * Time.deltaTime;
                 button[i].GetComponent<Image>().color = tempColor;
             }
-
             for (int i = 0; i < buttonText.Count; i++)
             {
                 var tempColor = buttonText[i].color;
@@ -91,6 +86,8 @@ public class Splash : MonoBehaviour {
         }
     }
 
+
+    // For buttom
     public void StartGameButton()
     {
         SceneManager.LoadScene("InitSetting");
