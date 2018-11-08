@@ -6,41 +6,40 @@ using Setting;
 using UnityEngine.SceneManagement;
 
 public class StoryHappenManager : MonoBehaviour {
-    public Image MoneyImage;
-    public Image MentalImage;
-    public Image PhysicalHearthImage;
-    public Image SocialHearthImage;
-
-    public Slider Money;
-    public Slider Mental;
-    public Slider PhysicalHearth;
-    public Slider SocialHearth;
+    public Image MoneyFilled;
+    public Image MentalFilled;
+    public Image PhysicalHearthFilled;
+    public Image SocialHearthFilled;
 
     public Text content;
 
     public Text trueText;
     public Text falseText;
 
-    public GameObject helpImage;
+    public GameObject helpField;
+    public Image helpImage;
     public Text helpText;
 
     private static bool canTouch = true;
     private static bool helpState = false;
     public Choice trueChoice;
     public Choice falseChoice;
+
     // Use this for initialization
     void Start () {
         // TODO: set money value
-        Mental.value = Setting.CharacterSetting.Mental;
-        PhysicalHearth.value = Setting.CharacterSetting.PhysicalHearth;
-        SocialHearth.value = Setting.CharacterSetting.SocialHearth;
-
-
+        // MoneyFilled.fillAmount = Setting.CharacterSetting.??;
+        MentalFilled.fillAmount = Setting.CharacterSetting.Mental;
+        PhysicalHearthFilled.fillAmount = Setting.CharacterSetting.PhysicalHearth;
+        SocialHearthFilled.fillAmount = Setting.CharacterSetting.SocialHearth;
 
         // TODO: set content
+        content.text = "content text";
 
         // TODO: set true text
+        trueText.text = "true text";
         // TODO: set false text
+        falseText.text = "false text";
 
         canTouch = true;
         helpState = false;
@@ -84,42 +83,42 @@ public class StoryHappenManager : MonoBehaviour {
     //    return ((t = t - 1) * t * t + 1);
     //}
 
-    IEnumerator SliderChange(Slider slider, float value)
-    {
-        bool add = value > slider.value;
-        // fade from opaque to transparent
-        if (add)
-        {
-            // loop over 1 second backwards
-            for (float i = 1; i >= 0; i -= Time.deltaTime)
-            {
-                // set color with i as alpha
-                if(slider.value < value)
-                {
-                    slider.value += i;
-                }
-                yield return null;
-            }
-        }
-        // fade from transparent to opaque
-        else
-        {
-            // loop over 1 second
-            for (float i = 0; i <= 1; i += Time.deltaTime)
-            {
-                // set color with i as alpha
-                if (slider.value > value)
-                {
-                    slider.value -= i;
-                }
-                yield return null;
-            }
-        }
-        slider.value = value;
-    }
+    //IEnumerator SliderChange(Slider slider, float value)
+    //{
+    //    bool add = value > slider.value;
+    //    // fade from opaque to transparent
+    //    if (add)
+    //    {
+    //        // loop over 1 second backwards
+    //        for (float i = 1; i >= 0; i -= Time.deltaTime)
+    //        {
+    //            // set color with i as alpha
+    //            if(slider.value < value)
+    //            {
+    //                slider.value += i;
+    //            }
+    //            yield return null;
+    //        }
+    //    }
+    //    // fade from transparent to opaque
+    //    else
+    //    {
+    //        // loop over 1 second
+    //        for (float i = 0; i <= 1; i += Time.deltaTime)
+    //        {
+    //            // set color with i as alpha
+    //            if (slider.value > value)
+    //            {
+    //                slider.value -= i;
+    //            }
+    //            yield return null;
+    //        }
+    //    }
+    //    slider.value = value;
+    //}
 
 
-    IEnumerator FadeImage(GameObject gameObject, bool fadeAway)
+    IEnumerator FadeImage(Image gameObject, bool fadeAway)
     {
         canTouch = false;
         // fade from opaque to transparent
@@ -129,22 +128,24 @@ public class StoryHappenManager : MonoBehaviour {
             for (float i = 1; i >= 0; i -= Time.deltaTime)
             {
                 // set color with i as alpha
-                var tempColor = gameObject.GetComponent<Image>().color;
-                tempColor.a = i;
-                helpImage.GetComponent<Image>().color = tempColor;
+                var tempColor = gameObject.color;
+                tempColor.a = i / 2.0f;
+                gameObject.color = tempColor;
                 yield return null;
             }
+            helpField.SetActive(false);
         }
         // fade from transparent to opaque
         else
         {
+            helpField.SetActive(true);
             // loop over 1 second
             for (float i = 0; i <= 1; i += Time.deltaTime)
             {
                 // set color with i as alpha
-                var tempColor = gameObject.GetComponent<Image>().color;
-                tempColor.a = i;
-                helpImage.GetComponent<Image>().color = tempColor;
+                var tempColor = gameObject.color;
+                tempColor.a = i / 2.0f;
+                gameObject.color = tempColor;
                 yield return null;
             }
         }

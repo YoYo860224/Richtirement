@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class StoryStartManager : MonoBehaviour {
-    public GameObject storyChoicePrefab;
-    public GameObject panel;
-    GameObject storyChoice;
+    public GameObject storyChoice;
     StoryContent nowStory;
+
     // Use this for initialization
     void Start () {
         Debug.Log("new Story");
@@ -24,15 +23,8 @@ public class StoryStartManager : MonoBehaviour {
 		
 	}
         
-
     void ShowChoice()
     {
-        storyChoice = Instantiate(storyChoicePrefab);
-        storyChoice.GetComponent<Transform>().SetParent(panel.transform);
-        storyChoice.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
-        storyChoice.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
-        storyChoice.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-
         // TODO: 圖 = nowStory.imageUrl
         storyChoice.GetComponent<StoryHappenManager>().content.text = nowStory.questionText;
         storyChoice.GetComponent<StoryHappenManager>().trueText.text = nowStory.trueChoice.text;
