@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class StoryStartManager : MonoBehaviour {
+    public Image storyImage;
     public GameObject storyChoice;
-    StoryContent nowStory;
+
+    private void Awake()
+    {
+        Debug.Log("new Story, now ID = " + StoryManager.nowId);
+        StoryManager.NextEvent();   // 選出此事件
+
+        SetChoice();
+        storyChoice.SetActive(false);
+
+    }
 
     // Use this for initialization
     void Start () {
-        Debug.Log("new Story");
 
-        StoryManager.NextEvent();   // 選出下一個事件
-        Debug.Log("now ID = " + StoryManager.nowId);
         // TODO: 對話
-        nowStory = StoryManager.storyList[StoryManager.nowId];
 
-        ShowChoice();
+        storyChoice.SetActive(true);
     }
 
     // Update is called once per frame
@@ -23,14 +29,14 @@ public class StoryStartManager : MonoBehaviour {
 		
 	}
         
-    void ShowChoice()
+    void SetChoice()
     {
         // TODO: 圖 = nowStory.imageUrl
-        storyChoice.GetComponent<StoryHappenManager>().content.text = nowStory.questionText;
-        storyChoice.GetComponent<StoryHappenManager>().trueText.text = nowStory.trueChoice.text;
-        storyChoice.GetComponent<StoryHappenManager>().falseText.text = nowStory.falseChoice.text;
-        storyChoice.GetComponent<StoryHappenManager>().helpText.text = nowStory.hintText;
-        storyChoice.GetComponent<StoryHappenManager>().trueChoice = nowStory.trueChoice;
-        storyChoice.GetComponent<StoryHappenManager>().falseChoice = nowStory.falseChoice;
+        storyChoice.GetComponent<StoryHappenManager>().content.text = StoryManager.nowStory.questionText;
+        storyChoice.GetComponent<StoryHappenManager>().trueText.text = StoryManager.nowStory.trueChoice.text;
+        storyChoice.GetComponent<StoryHappenManager>().falseText.text = StoryManager.nowStory.falseChoice.text;
+        storyChoice.GetComponent<StoryHappenManager>().helpText.text = StoryManager.nowStory.hintText;
+        storyChoice.GetComponent<StoryHappenManager>().trueChoice = StoryManager.nowStory.trueChoice;
+        storyChoice.GetComponent<StoryHappenManager>().falseChoice = StoryManager.nowStory.falseChoice;
     }
 }

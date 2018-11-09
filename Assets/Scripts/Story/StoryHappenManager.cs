@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class StoryHappenManager : MonoBehaviour {
+    public Image storyImage;
+
     public Image MoneyFilled;
     public Image MentalFilled;
     public Image PhysicalHearthFilled;
@@ -37,12 +39,33 @@ public class StoryHappenManager : MonoBehaviour {
     public Transform helpFadeOutPosition;
     public Transform helpFadeInPosition;
 
-    private static bool canTouch = true;
-    private static bool helpState = false;
+    private bool canTouch = true;
+    private bool helpState = false;
+
     public Choice trueChoice;
     public Choice falseChoice;
 
-    private static bool choiceCard = false;
+    private bool choiceCard = false;
+
+    public Transform DoubleChoiceCardPosition;
+
+    public GameObject resultBox;
+    public Text resultText;
+    public Text attributeText;
+    public Text totalAssetText;
+    private int canTouchToNextStory = 0;
+
+    public GameObject whitePanel;
+    private void Awake()
+    {
+        resultBox.SetActive(false);
+        var tempColor = resultText.color;
+        tempColor.a = 0;
+        resultText.color = tempColor;
+
+        whitePanel.SetActive(false);
+        helpField.SetActive(false);
+    }
 
     // Use this for initialization
     void Start () {
@@ -52,13 +75,6 @@ public class StoryHappenManager : MonoBehaviour {
         PhysicalHearthFilled.fillAmount = Setting.CharacterSetting.PhysicalHearth;
         SocialHearthFilled.fillAmount = Setting.CharacterSetting.SocialHearth;
 
-        // TODO: set content
-        content.text = "content text";
-
-        // TODO: set true text
-        trueText.text = "true text";
-        // TODO: set false text
-        falseText.text = "false text";
 
         canTouch = true;
         helpState = false;
@@ -69,34 +85,16 @@ public class StoryHappenManager : MonoBehaviour {
 		
 	}
 
-    float CubicEaseOut(float t)
-    {
-        return ((t = t - 1) * t * t + 1);
-    }
-
     public void choiceYes()
     {
-        //Setting.CharacterSetting.SocialHearth -= 5;
-        //StartCoroutine(SliderChange(SocialHearth, Setting.CharacterSetting.SocialHearth));
         if (!choiceCard)
         {
-            choiceCard = !choiceCard;
+            choiceCard = true;
             StartCoroutine(TweenOut(true));
-
         }
         else
         {
-            choiceCard = !choiceCard;
-            StartCoroutine(TweenIn(true));
-            //int nextId = trueChoice.NextEvent();
-
-            //// TODO: showResult
-
-            //EventLog log = new EventLog(StoryManager.nowId, true, nextId);
-            //StoryManager.EndNowStory(log);
-
-            //// 判斷是不是5年
-            //SceneManager.LoadScene("Story");
+            StartCoroutine(DoubleChoiceCard(true));
         }
     }
 
@@ -104,26 +102,41 @@ public class StoryHappenManager : MonoBehaviour {
     {
         if (!choiceCard)
         {
-            choiceCard = !choiceCard;
+            choiceCard = true;
             StartCoroutine(TweenOut(false));
 
         }
         else
         {
-            choiceCard = !choiceCard;
-            StartCoroutine(TweenIn(false));
-
-            //int nextId = falseChoice.NextEvent();
-            //Debug.Log("next ID = " + nextId);
-            //// TODO: showResult
-
-            //EventLog log = new EventLog(StoryManager.nowId, true, nextId);
-            //StoryManager.EndNowStory(log);
-
-            //// 判斷是不是5年
-            //SceneManager.LoadScene("Story");
+            StartCoroutine(DoubleChoiceCard(false));
         }
     }
+
+    public void TouchBackGround()
+    {
+        if(choiceCard)
+        {
+            StartCoroutine(TweenIn());
+            choiceCard = false;
+        }
+    }
+
+    public void TouchToNextStory()
+    {
+        if (canTouchToNextStory == 0)
+        {
+            canTouchToNextStory = 1;
+            StartCoroutine(ShowResultText());
+        }
+        if (canTouchToNextStory == 2)
+        {
+            //EventLog log = new EventLog(StoryManager.nowId, true, nextId);
+            //StoryManager.EndNowStory(log);
+            //// 判斷是不是5年
+            SceneManager.LoadScene("Story");
+        }
+    }
+
 
     public void help()
     {
@@ -131,37 +144,15 @@ public class StoryHappenManager : MonoBehaviour {
         {
             if (helpState)
             {
-                //var tempTextColor = helpText.GetComponent<Text>().color;
-                //tempTextColor.a = 0f;
-                //helpText.GetComponent<Text>().color = tempTextColor;
-
-                //var tempColor = helpImage.GetComponent<Image>().color;
-                //tempColor.a = 0;
-                //helpImage.GetComponent<Image>().color = tempColor;
-                StartCoroutine(FadeImage(helpImage, true));
-                StartCoroutine(FadeText(helpText, true));
-                Debug.Log("fade out");
-                //helpImage.transform.localPosition = new Vector3(0, -Screen.height, 0);
+                StartCoroutine(HelpFadeImage(helpImage, helpState));
+                StartCoroutine(HelpFadeText(helpText, helpState));
             }
             else
             {
-                //tween(helpImage, 1, helpImage.transform.localPosition, new Vector3(0, Screen.height, 0));
-                //helpImage.transform.localPosition = new Vector3(0, Screen.height / 2, 0);
-
-                //var tempTextColor = helpText.GetComponent<Text>().color;
-                //tempTextColor.a = 255f;
-                //helpText.GetComponent<Text>().color = tempTextColor;
-                StartCoroutine(FadeImage(helpImage, false));
-                StartCoroutine(FadeText(helpText, false));
-
-                Debug.Log("fade in");
-                //var tempColor = helpImage.GetComponent<Image>().color;
-                //tempColor.a = 180f;
-                //helpImage.GetComponent<Image>().color = tempColor;
-
+                StartCoroutine(HelpFadeImage(helpImage, helpState));
+                StartCoroutine(HelpFadeText(helpText, helpState));
             }
             helpState = !helpState;
-            Debug.Log("help");
         }
     }
 
@@ -172,7 +163,7 @@ public class StoryHappenManager : MonoBehaviour {
         while (Time.time < timeEnd)
         {
             var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-            var v = CubicEaseOut(t);
+            var v = CubicEaseIn(t);
             var position = Vector3.LerpUnclamped(content.transform.localPosition, contentFadeOutPosition.localPosition, v);
             content.transform.localPosition = position;
 
@@ -234,38 +225,51 @@ public class StoryHappenManager : MonoBehaviour {
         }
     }
 
-    IEnumerator TweenIn(bool choice)
+    IEnumerator ShowResultText()
+    {
+        for (float i = 1; i >= 0; i -= Time.deltaTime)
+        {
+            // set color with i as alpha
+            var tempColor = attributeText.color;
+            tempColor.a = i;
+            attributeText.color = tempColor;
+
+            tempColor = totalAssetText.color;
+            tempColor.a = i;
+            totalAssetText.color = tempColor;
+            yield return null;
+        }
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            // set color with i as alpha
+            var tempColor = resultText.color;
+            tempColor.a = i;
+            resultText.color = tempColor;
+            yield return null;
+        }
+        canTouchToNextStory = 2;
+    }
+
+    IEnumerator TweenIn()
     {
         var timeStart1 = Time.time;
         var timeEnd1 = timeStart1 + 0.2f;
         while (Time.time < timeEnd1)
         {
-            if (choice)
-            {
-                var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
-                var v = CubicEaseOut(t);
-                var position = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, trueCardImageFadeOutPosition.localPosition, v);
-                trueCardImage.transform.localPosition = position;
-            }
-            else
-            {
+            var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
+            var v = CubicEaseIn(t);
+            var position = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, trueCardImageFadeOutPosition.localPosition, v);
+            trueCardImage.transform.localPosition = position;
 
-                var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
-                var v = CubicEaseOut(t);
-                var position = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, falseCardImageFadeOutPosition.localPosition, v);
-                falseCardImage.transform.localPosition = position;
-            }
+            var position1 = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, falseCardImageFadeOutPosition.localPosition, v);
+            falseCardImage.transform.localPosition = position1;
 
             yield return null;
         }
-        if (choice)
-        {
-            trueCardImage.transform.localPosition = trueCardImageFadeOutPosition.localPosition;
-        }
-        else
-        {
-            falseCardImage.transform.localPosition = falseCardImageFadeOutPosition.localPosition;
-        }
+
+        trueCardImage.transform.localPosition = trueCardImageFadeOutPosition.localPosition;
+        falseCardImage.transform.localPosition = falseCardImageFadeOutPosition.localPosition;
+
         trueCardImage.transform.localScale = new Vector3(1f, 1f, 1);
         falseCardImage.transform.localScale = new Vector3(1f, 1f, 1);
 
@@ -294,10 +298,80 @@ public class StoryHappenManager : MonoBehaviour {
         falseCardImage.transform.localPosition = falseCardImageFadeInPosition.localPosition;
         trueCardImage.transform.localPosition = trueCardImageFadeInPosition.localPosition;
         helpButton.transform.localPosition = helpFadeInPosition.localPosition;
-
     }
 
-    IEnumerator FadeImage(Image gameObject, bool fadeAway)
+    IEnumerator DoubleChoiceCard(bool choice)
+    {
+        choiceCard = false;
+        var timeStart = Time.time;
+        var timeEnd = timeStart + 0.3f;
+        while (Time.time < timeEnd)
+        {
+            if (choice)
+            {
+                var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+                var v = CubicEaseIn(t);
+                var position = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
+                trueCardImage.transform.localPosition = position;
+            }
+            else
+            {
+                var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+                var v = CubicEaseIn(t);
+                var position = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
+                falseCardImage.transform.localPosition = position;
+            }
+            yield return null;
+        }
+        if (choice)
+        {
+            trueCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
+
+        }
+        else
+        {
+            falseCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
+        }
+
+        // 轉場
+
+        //for (float i = 1; i <= 0; i -= Time.deltaTime)
+        //{
+        //    var tempColor = this.GetComponent<Image>().color;
+        //    tempColor.a = i;
+        //    this.GetComponent<Image>().color = tempColor;
+        //    yield return null;
+        //}
+        whitePanel.SetActive(true);
+        
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            var tempColor = whitePanel.GetComponent<Image>().color;
+            tempColor.a = i;
+            tempColor.r = i;
+            tempColor.g = i;
+            tempColor.b = i;
+            whitePanel.GetComponent<Image>().color = tempColor;
+            yield return null;
+        }
+
+        this.GetComponent<Image>().sprite = null;
+        var thisColor = this.GetComponent<Image>().color;
+        thisColor.a = 0;
+        this.GetComponent<Image>().color = thisColor;
+
+        for (float i = 1; i >= 0; i -= Time.deltaTime)
+        {
+            var tempColor = whitePanel.GetComponent<Image>().color;
+            tempColor.a = i;
+            whitePanel.GetComponent<Image>().color = tempColor;
+            yield return null;
+        }
+        whitePanel.SetActive(false);
+        resultBox.SetActive(true);
+    }
+
+    IEnumerator HelpFadeImage(Image gameObject, bool fadeAway)
     {
         canTouch = false;
         // fade from opaque to transparent
@@ -308,7 +382,7 @@ public class StoryHappenManager : MonoBehaviour {
             {
                 // set color with i as alpha
                 var tempColor = gameObject.color;
-                tempColor.a = i / 2.0f;
+                tempColor.a = i;
                 gameObject.color = tempColor;
                 yield return null;
             }
@@ -323,7 +397,7 @@ public class StoryHappenManager : MonoBehaviour {
             {
                 // set color with i as alpha
                 var tempColor = gameObject.color;
-                tempColor.a = i / 2.0f;
+                tempColor.a = i;
                 gameObject.color = tempColor;
                 yield return null;
             }
@@ -331,7 +405,7 @@ public class StoryHappenManager : MonoBehaviour {
         canTouch = true;
     }
 
-    IEnumerator FadeText(Text gameObject, bool fadeAway)
+    IEnumerator HelpFadeText(Text gameObject, bool fadeAway)
     {
         canTouch = false;
         // fade from opaque to transparent
@@ -363,4 +437,14 @@ public class StoryHappenManager : MonoBehaviour {
         canTouch = true;
     }
 
+    // first first
+    float CubicEaseOut(float t)
+    {
+        return ((t = t - 1) * t * t + 1);
+    }
+    //first slow
+    float CubicEaseIn(float t)
+    {
+        return t * t * t;
+    }
 }

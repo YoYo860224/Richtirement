@@ -8,6 +8,7 @@ public static class StoryManager
 
     public static List<int> willHappenEventId = new List<int>();  // 有可能發生的事件LIST
     public static int nowId;            // 現在發生的事件
+    public static StoryContent nowStory;
     public static List<EventLog> log = new List<EventLog>();       // 事件紀錄
     public static List<StoryContent> storyList = new List<StoryContent>(); // 事件List
 
@@ -18,12 +19,11 @@ public static class StoryManager
     }
 
     // 產生下一個事件
-    public static int NextEvent()
+    public static void NextEvent()
     {       
-        int randomId = crandom.Next(0, willHappenEventId.Count);
-        nowId = willHappenEventId[randomId];
-
-        return nowId;
+        int randomIndex = crandom.Next(0, willHappenEventId.Count);
+        nowId = willHappenEventId[randomIndex];
+        nowStory = storyList[FindStoryIndexById(nowId)];
     }
 
     // 選擇完根據log刪除現在的story,增加nextId進list
@@ -35,6 +35,18 @@ public static class StoryManager
         {
             willHappenEventId.Add(log.nextId);
         }
+    }
+
+    public static int FindStoryIndexById(int id)
+    {
+        for (int i = 0; i < storyList.Count; i++)
+        {
+            if (storyList[i].id == id)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static void Clear()

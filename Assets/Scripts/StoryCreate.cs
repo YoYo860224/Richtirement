@@ -8,18 +8,18 @@ public class StoryCreate : MonoBehaviour {
     {
         int id = 0;
         string imageUrl = "0.png";                                                  // 圖的url
-        List<string> content = new List<string> { "hello", "I'm", "Peter Shen" };   // 開頭簡介
-        string questionText = "question 0";                                         // 問題內容
-        string hintText = "hint0";                                               // hint的Text
+        List<string> content = new List<string> { ""};                              // 開頭簡介
+        string questionText = "有了一點存款，做點理財嗎?";                          // 問題內容
+        string hintText = "hint0";                                                  // hint的Text
 
         Choice trueChoice = new Choice("Yes"); // text
         // id, imageUrl, prob, result, changeValue
-        trueChoice.AddEventAtChoice(1, "0.png", 0.5f, new List<string> { "yesyesyes", "idk" }, new List<string> { "P -1", "S -1", "H -1" });
-        trueChoice.AddEventAtChoice(0, "0.png", 0.5f, new List<string> { "yesyesyes", "idk" }, new List<string> { "P -1", "S -1", "H -1" });
+        trueChoice.AddEventAtChoice(1, "1.png", 0.5f, new List<string> { "$ -982塊 / 每月" }, new List<string> { "P + 1 3" });
+        trueChoice.AddEventAtChoice(2, "2.png", 0.5f, new List<string> { "$ -982塊 / 每月" }, new List<string> { "P + 1 3" });
 
         Choice falseChoice = new Choice("No"); // text
         // id, imageUrl, prob, result, changeValue
-        falseChoice.AddEventAtChoice(0, "0.png", 1.0f, new List<string> { "nonono", "idk" }, new List<string> { "P 1", "S 1", "H 1" });
+        falseChoice.AddEventAtChoice(0, "0.png", 1.0f, new List<string> { "存一般定存" }, new List<string> { "P + 1", "S 1", "H 1" });
 
         StoryManager.AddStory(new StoryContent(id,imageUrl, questionText, content, hintText, trueChoice, falseChoice));
 
