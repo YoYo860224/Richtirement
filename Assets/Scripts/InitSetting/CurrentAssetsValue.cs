@@ -14,6 +14,8 @@ public class CurrentAssetsValue : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        value.text = ((int)sliders.value).ToString();
-	}
+        value.text = ((int)(sliders.value/ 100) * 100).ToString();
+        sliders.value = (int)(sliders.value / 100) * 100;
+
+    }
 }

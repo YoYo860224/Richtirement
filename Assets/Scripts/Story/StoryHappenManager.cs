@@ -71,9 +71,9 @@ public class StoryHappenManager : MonoBehaviour {
     void Start () {
         // TODO: set money value
         // MoneyFilled.fillAmount = Setting.CharacterSetting.??;
-        MentalFilled.fillAmount = Setting.CharacterSetting.Mental;
-        PhysicalHearthFilled.fillAmount = Setting.CharacterSetting.PhysicalHearth;
-        SocialHearthFilled.fillAmount = Setting.CharacterSetting.SocialHearth;
+        MentalFilled.fillAmount = Setting.CharacterSetting.Mental / 100.0f;
+        PhysicalHearthFilled.fillAmount = Setting.CharacterSetting.Hearth / 100.0f;
+        SocialHearthFilled.fillAmount = Setting.CharacterSetting.Social / 100.0f;
 
 
         canTouch = true;
@@ -123,12 +123,12 @@ public class StoryHappenManager : MonoBehaviour {
 
     public void TouchToNextStory()
     {
-        if (canTouchToNextStory == 0)
+        if (canTouchToNextStory == 1)
         {
-            canTouchToNextStory = 1;
+            canTouchToNextStory = 2;
             StartCoroutine(ShowResultText());
         }
-        if (canTouchToNextStory == 2)
+        if (canTouchToNextStory == 3)
         {
             //EventLog log = new EventLog(StoryManager.nowId, true, nextId);
             //StoryManager.EndNowStory(log);
@@ -247,7 +247,7 @@ public class StoryHappenManager : MonoBehaviour {
             resultText.color = tempColor;
             yield return null;
         }
-        canTouchToNextStory = 2;
+        canTouchToNextStory = 3;
     }
 
     IEnumerator TweenIn()
@@ -302,6 +302,15 @@ public class StoryHappenManager : MonoBehaviour {
 
     IEnumerator DoubleChoiceCard(bool choice)
     {
+        if (choice)
+        {
+            StoryManager.nowChoice = StoryManager.nowStory.trueChoice;
+        }
+        else
+        {
+            StoryManager.nowChoice = StoryManager.nowStory.falseChoice;
+        }
+
         choiceCard = false;
         var timeStart = Time.time;
         var timeEnd = timeStart + 0.3f;
@@ -368,7 +377,41 @@ public class StoryHappenManager : MonoBehaviour {
             yield return null;
         }
         whitePanel.SetActive(false);
+
+        // random result and nextId
+        int nextId = StoryManager.nowChoice.NextEvent();
+
+        // set result
+        attributeText.text = Setting.CharacterSetting.AttributeChanged(StoryManager.nowChoice.nextChangeValue[nextId]);
+
+        // TODO : Total Assets
+
+        resultText.text = StoryManager.nowChoice.nextResult[nextId];
+
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            yield return null;
+        }
+
         resultBox.SetActive(true);
+
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            var tempColor = resultBox.GetComponent<Image>().color;
+            tempColor.a = i * 0.8f;
+            resultBox.GetComponent<Image>().color = tempColor;
+
+            tempColor = attributeText.color;
+            tempColor.a = i;
+            attributeText.color = tempColor;
+
+            tempColor = totalAssetText.color;
+            tempColor.a = i;
+            totalAssetText.color = tempColor;
+
+            yield return null;
+        }
+        canTouchToNextStory = 1;
     }
 
     IEnumerator HelpFadeImage(Image gameObject, bool fadeAway)

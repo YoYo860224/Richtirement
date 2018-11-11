@@ -14,12 +14,12 @@ public class StoryCreate : MonoBehaviour {
 
         Choice trueChoice = new Choice("Yes"); // text
         // id, imageUrl, prob, result, changeValue
-        trueChoice.AddEventAtChoice(1, "1.png", 0.5f, new List<string> { "$ -982塊 / 每月" }, new List<string> { "P + 1 3" });
-        trueChoice.AddEventAtChoice(2, "2.png", 0.5f, new List<string> { "$ -982塊 / 每月" }, new List<string> { "P + 1 3" });
+        trueChoice.AddEventAtChoice(0, "1.png", 0.5f, "$ -982塊 / 每月", new List<string> { "P + 1 3" });
+        trueChoice.AddEventAtChoice(0, "2.png", 0.5f, "$ -982塊 / 每月", new List<string> { "P + 1 3" });
 
         Choice falseChoice = new Choice("No"); // text
         // id, imageUrl, prob, result, changeValue
-        falseChoice.AddEventAtChoice(0, "0.png", 1.0f, new List<string> { "存一般定存" }, new List<string> { "P + 1", "S 1", "H 1" });
+        falseChoice.AddEventAtChoice(0, "0.png", 1.0f, "存一般定存", new List<string> { "P + 1", "S 1", "H 1" });
 
         StoryManager.AddStory(new StoryContent(id,imageUrl, questionText, content, hintText, trueChoice, falseChoice));
 
@@ -33,12 +33,12 @@ public class StoryCreate : MonoBehaviour {
 
         trueChoice = new Choice("Yes"); // text
         // id, imageUrl, prob, result, changeValue
-        trueChoice.AddEventAtChoice(0, "0.png", 1.0f, new List<string> { "yesyesyes", "idk" }, new List<string> { "P -1", "S -1", "H -1" });
-        trueChoice.AddEventAtChoice(1, "0.png", 0f, new List<string> { "yesyesyes", "idk" }, new List<string> { "P -1", "S -1", "H -1" });
+        trueChoice.AddEventAtChoice(0, "0.png", 1.0f,  "yesyesyes", new List<string> { "P -1", "S -1", "H -1" });
+        trueChoice.AddEventAtChoice(1, "0.png", 0f, "yesyesyes", new List<string> { "P -1", "S -1", "H -1" });
 
         falseChoice = new Choice("No"); // text
         // id, imageUrl, prob, result, changeValue
-        falseChoice.AddEventAtChoice(0, "0.png", 1.0f, new List<string> { "nonono", "idk" }, new List<string> { "P 1", "S 1", "H 1" });
+        falseChoice.AddEventAtChoice(0, "0.png", 1.0f, "nonono idk" , new List<string> { "P 1", "S 1", "H 1" });
 
         StoryManager.AddStory(new StoryContent(id, imageUrl, questionText, content, hintText, trueChoice, falseChoice));
 

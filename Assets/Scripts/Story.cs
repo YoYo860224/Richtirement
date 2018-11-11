@@ -9,6 +9,7 @@ public static class StoryManager
     public static List<int> willHappenEventId = new List<int>();  // 有可能發生的事件LIST
     public static int nowId;            // 現在發生的事件
     public static StoryContent nowStory;
+    public static Choice nowChoice;
     public static List<EventLog> log = new List<EventLog>();       // 事件紀錄
     public static List<StoryContent> storyList = new List<StoryContent>(); // 事件List
 
@@ -86,7 +87,7 @@ public class Choice
     public List<int> nextId;                     // 用list存接下來會連接到哪些id, 如果是-1代表事件結束
     public List<string> imageUrl;                // 圖的url
     public List<float> nextProb;                 // 各個事件的機率
-    public List<List<string>> nextResult;        // 各個事件的結果對話
+    public List<string> nextResult;        // 各個事件的結果對話
     public List<List<string>> nextChangeValue;   // 各個事件會造成的
 
     public Choice(string text)
@@ -95,11 +96,11 @@ public class Choice
         this.nextId = new List<int>();
         this.imageUrl = new List<string>();
         this.nextProb = new List<float>();
-        this.nextResult = new List<List<string>>();
+        this.nextResult = new List<string>();
         this.nextChangeValue = new List<List<string>>();
     }
 
-    public void AddEventAtChoice(int id,string imageUrl, float nextProb, List<string> result, List<string> changeValue)
+    public void AddEventAtChoice(int id,string imageUrl, float nextProb, string result, List<string> changeValue)
     {
         this.nextId.Add(id);
         this.imageUrl.Add(imageUrl);
@@ -115,16 +116,11 @@ public class Choice
         for(int i = 0; i < nextId.Count; i++)
         {
             int times = (int)(this.nextProb[i] * 99.9f + 1);
-            
-            //Debug.Log(times);
             for(int j = 0; j < times; j++)
             {
                 tempList.Add(i);
             }
         }
-
-        //Debug.Log(tempList.Count);
-
         System.Random crandom = new System.Random();
         int index = crandom.Next(0, tempList.Count);
         return nextId[tempList[index]];

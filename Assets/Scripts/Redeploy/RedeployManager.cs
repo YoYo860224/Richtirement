@@ -88,56 +88,56 @@ public class RedeployManager : MonoBehaviour {
         switch (id)
         {
             case 0:
-                conversionSuccessful = float.TryParse(deposity.text, out Setting.CharacterSetting.deposit);
+                conversionSuccessful = int.TryParse(deposity.text, out Setting.CharacterSetting.deposit);
                 if (!conversionSuccessful)
                 {
                     Setting.CharacterSetting.deposit = 0;
                 }
                 break;
             case 1:
-                conversionSuccessful = float.TryParse(stock.text, out Setting.CharacterSetting.stock);
+                conversionSuccessful = int.TryParse(stock.text, out Setting.CharacterSetting.stock);
                 if (!conversionSuccessful)
                 {
                     Setting.CharacterSetting.stock = 0;
                 }
                 break;
             case 2:
-                conversionSuccessful = float.TryParse(foreign.text, out Setting.CharacterSetting.foreignCurrency);
+                conversionSuccessful = int.TryParse(foreign.text, out Setting.CharacterSetting.foreignCurrency);
                 if (!conversionSuccessful)
                 {
                     Setting.CharacterSetting.foreignCurrency = 0;
                 }
                 break;
             case 3:
-                conversionSuccessful = float.TryParse(rent.text, out Setting.CharacterSetting.estateAndRent);
+                conversionSuccessful = int.TryParse(rent.text, out Setting.CharacterSetting.estateAndRent);
                 if (!conversionSuccessful)
                 {
                     Setting.CharacterSetting.estateAndRent = 0;
                 }
                 break;
             case 4:
-                conversionSuccessful = float.TryParse(dividend.text, out Setting.CharacterSetting.dividend);
+                conversionSuccessful = int.TryParse(dividend.text, out Setting.CharacterSetting.dividend);
                 if (!conversionSuccessful)
                 {
                     Setting.CharacterSetting.dividend = 0;
                 }
                 break;
             case 5:
-                conversionSuccessful = float.TryParse(annuity.text, out Setting.CharacterSetting.annuity);
+                conversionSuccessful = int.TryParse(annuity.text, out Setting.CharacterSetting.annuity);
                 if (!conversionSuccessful)
                 {
                     Setting.CharacterSetting.annuity = 0;
                 }
                 break;
             case 6:
-                conversionSuccessful = float.TryParse(illinessInsurance.text, out Setting.CharacterSetting.criticalIllnessInsurance);
+                conversionSuccessful = int.TryParse(illinessInsurance.text, out Setting.CharacterSetting.criticalIllnessInsurance);
                 if (!conversionSuccessful)
                 {
                     Setting.CharacterSetting.criticalIllnessInsurance = 0;
                 }
                 break;
             case 7:
-                conversionSuccessful = float.TryParse(longTermCareInsurance.text, out Setting.CharacterSetting.longTermCareInsurance);
+                conversionSuccessful = int.TryParse(longTermCareInsurance.text, out Setting.CharacterSetting.longTermCareInsurance);
                 if (!conversionSuccessful)
                 {
                     Setting.CharacterSetting.longTermCareInsurance = 0;
