@@ -21,7 +21,7 @@ public static class StoryManager
     // 產生下一個事件
     public static void NextEvent()
     {       
-        int randomIndex = RandomUtil.crandom.Next(0, willHappenEventId.Count);
+        int randomIndex = RandomUtil.random.Next(0, willHappenEventId.Count);
         nowId = willHappenEventId[randomIndex];
         nowStory = storyList[FindStoryIndexById(nowId)];
     }
@@ -122,8 +122,7 @@ public class Choice
                 tempList.Add(i);
             }
         }
-        System.Random crandom = new System.Random();
-        int index = crandom.Next(0, tempList.Count);
+        int index = RandomUtil.random.Next(0, tempList.Count);
         return nextId[tempList[index]];
     }
 }
