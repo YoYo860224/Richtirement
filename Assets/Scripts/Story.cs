@@ -4,16 +4,16 @@ using UnityEngine;
 
 public static class StoryManager
 {
-    public static List<int> willHappenEventId = new List<int>();  // 有可能發生的事件LIST
-    public static int nowId;            // 現在發生的事件
-    public static int nextId;           // 下一個事件
-    public static StoryContent nowStory;
-    public static Choice nowChoice;
-    public static List<EventLog> log = new List<EventLog>();       // 事件紀錄
-    public static List<StoryContent> storyList = new List<StoryContent>(); // 事件List
+    public static int nowId;                                                // 當前事件 ID
+    public static int nextId;                                               // 下一個事件 ID
+    public static List<int> futureEvents = new List<int>();                 // 有可能發生的事件LIST
+    public static StoryEvent nowEvent;                                      // 當前事件
+    public static Choice nowChoice;                                         // 當前選擇
+    public static List<EventLog> log = new List<EventLog>();                // 事件紀錄
+    public static List<StoryEvent> storyList = new List<StoryEvent>();      // 事件List
 
-
-    public static void AddStory(StoryContent story)   // 增加story
+    // 增加story
+    public static void AddStory(StoryEvent story)   
     {
         storyList.Add(story);
     }
@@ -21,60 +21,70 @@ public static class StoryManager
     // 產生下一個事件
     public static void NextEvent()
     {       
-        int randomIndex = RandomUtil.random.Next(0, willHappenEventId.Count);
-        nowId = willHappenEventId[randomIndex];
-        nowStory = storyList[FindStoryIndexById(nowId)];
+        int randomIndex = RandomUtil.random.Next(0, futureEvents.Count);
+        nowId = futureEvents[randomIndex];
+        nowEvent = storyList.Find(x => x.id == nowId);
     }
 
-    // 選擇完根據log刪除現在的story,增加nextId進list
+    // 選擇完根據 log 刪除現在的 story, 增加 nextId 進 list
     public static void EndNowStory(EventLog log)   
     {
-        int index = willHappenEventId.IndexOf(log.id);
-        willHappenEventId.RemoveAt(index);
+        int index = futureEvents.IndexOf(log.id);
+        futureEvents.RemoveAt(index);
         if (log.nextId != -1)   // -1 代表後面沒有事件了
         {
-            willHappenEventId.Add(log.nextId);
+            futureEvents.Add(log.nextId);
         }
-    }
-
-    public static int FindStoryIndexById(int id)
-    {
-        for (int i = 0; i < storyList.Count; i++)
-        {
-            if (storyList[i].id == id)
-            {
-                return i;
-            }
-        }
-        return -1;
     }
 
     public static void Clear()
     {
-        willHappenEventId.Clear();
         nowId = 0;
+        futureEvents.Clear();
         log.Clear();
         storyList.Clear();
     }
 }
 
-public class StoryContent
+public class StoryEvent
 {
     public int id;
     public string imageUrl;                      // 圖的url
-    public string questionText;                  // 問題
-    public string content;                 // 用get分辨語言
-    public string hintText;                      // hint的Text
-    public Choice leftChoice;                      // True的Text
-    public Choice rightChoice;                     // False的Text
+    public string content;                       // 內容
+    public Question question;                    // 問題
 
-    public StoryContent(int id,string imageUrl, string questionText, string content, string hintText, Choice leftChoice, Choice rightChoice)
+    public StoryEvent(int id, string imageUrl, string content, Question q)
     {
         this.id = id;
         this.imageUrl = imageUrl;
-        this.questionText = questionText;
         this.content = content;
-        this.hintText = hintText;
+
+        this.question = new Question();
+        this.question.content = q.content;
+        this.question.hint = q.hint;
+        this.question.leftChoice = q.leftChoice;
+        this.question.rightChoice = q.rightChoice;
+    }
+}
+
+public class Question
+{
+    public string imageUrl;
+    public string content;
+    public string hint;
+    public Choice leftChoice;
+    public Choice rightChoice;
+
+    public Question()
+    {
+        content = "";
+    }
+
+    public Question(string content, string imageUrl, string hint, Choice leftChoice, Choice rightChoice)
+    {
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.hint = hint;
         this.leftChoice = leftChoice;
         this.rightChoice = rightChoice;
     }
@@ -82,54 +92,78 @@ public class StoryContent
 
 public class Choice
 {
-    public string text;                          // Text
-    public Question question;                    // nowQuestion
-    public List<int> nextId;                     // 用list存接下來會連接到哪些id, 如果是-1代表事件結束
-    public List<string> imageUrl;                // 圖的url
-    public List<float> nextProb;                 // 各個事件的機率
-    public List<string> nextResult;        // 各個事件的結果對話
-    public List<List<string>> nextChangeValue;   // 各個事件會造成的
+    public string content;                      // Text
+    public Question nowQuestion;                // nowQuestion
 
-    public Choice(string text)
+    public Question nextQuestion;               // 如果有 nextQuestion，就沒 choiceResult
+    public List<ChoiceResult> choiceResults;    // 如果有 choiceResults 要去選一種結果
+
+    public Choice(string content)
     {
-        this.text = text;
-        this.question = new Question();
-        this.nextId = new List<int>();
-        this.imageUrl = new List<string>();
-        this.nextProb = new List<float>();
-        this.nextResult = new List<string>();
-        this.nextChangeValue = new List<List<string>>();
+        this.content = content;
+        this.nextQuestion = null;
+        this.choiceResults = new List<ChoiceResult>();
     }
 
-    public void AddEventAtChoice(int id,string imageUrl, float nextProb, string result, List<string> changeValue)
+    public void AfterChoiceDo(ChoiceResult cr)
     {
-        this.nextId.Add(id);
-        this.imageUrl.Add(imageUrl);
-        this.nextProb.Add(nextProb);
-        this.nextResult.Add(result);
-        this.nextChangeValue.Add(changeValue);
+        var choiceResult = new ChoiceResult();
+        choiceResult.nextId = cr.nextId;
+        choiceResult.imageUrl = cr.imageUrl;
+        choiceResult.prob = cr.prob;
+        choiceResult.content = cr.content;
+        choiceResult.valueChanges = cr.valueChanges;
+
+        choiceResults.Add(choiceResult);
+    }
+
+    public void AfterChoiceDo(Question q)
+    {
+        this.nextQuestion = new Question();
+        this.nextQuestion.imageUrl = q.imageUrl;
+        this.nextQuestion.content = q.content;
+        this.nextQuestion.hint = q.hint;
+        this.nextQuestion.leftChoice = q.leftChoice;
+        this.nextQuestion.rightChoice = q.rightChoice;
     }
 
     public int NextEvent()
     {
-        List<int> tempList = new List<int>();
-
-        for(int i = 0; i < nextId.Count; i++)
+        if (nextQuestion == null)   // 執行結果
         {
-            int times = (int)(this.nextProb[i] * 99.9f + 1);
-            for(int j = 0; j < times; j++)
+            // 抽獎選事件
+            List<int> tempList = new List<int>();
+            for (int i = 0; i < choiceResults.Count; i++)
             {
-                tempList.Add(i);
+                int times = (int)(choiceResults[i].prob * 99.9f + 1);
+                for (int j = 0; j < times; j++)
+                {
+                    tempList.Add(i);
+                }
             }
+            int index = RandomUtil.random.Next(0, tempList.Count);
+            return choiceResults[tempList[index]].nextId;
         }
-        int index = RandomUtil.random.Next(0, tempList.Count);
-        return nextId[tempList[index]];
+        else
+        {
+            // 改做 nextQuestion
+            return -1;
+        }
+        
     }
+}
+
+public class ChoiceResult
+{
+    public string content;                  // 結果對話
+    public string imageUrl;                 // 圖的url
+    public float prob;                      // 發生機率
+    public List<string> valueChanges;       // 此結果造成的數值改變
+    public int nextId;                      // 追加的 Event 是什麼  ##感覺要用 List 可能有多個##
 }
 
 public class EventLog
 {
-
     public int id;
     public bool choice;
     public int nextId;
@@ -139,27 +173,5 @@ public class EventLog
         this.id = id;
         this.choice = choice;
         this.nextId = nextId;
-    }
-}
-
-public class Question
-{
-    public string content;
-    public string imageUrl;
-    public string hint;
-    public Choice leftChoice;
-    public Choice rightChoice;
-
-    public Question()
-    {
-        content = "";
-    }
-    public Question(string content, string imageUrl, string hint, Choice leftChoice, Choice rightChoice)
-    {
-        this.content = content;
-        this.imageUrl = imageUrl;
-        this.hint = hint;
-        this.leftChoice = leftChoice;
-        this.rightChoice = rightChoice;
     }
 }

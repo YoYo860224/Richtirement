@@ -72,8 +72,8 @@ public class StoryHappenManager : MonoBehaviour {
     {
         // TODO: 圖 = nowStory.imageUrl
         this.content.text = StoryManager.nowChoice.question.content;
-        this.trueText.text = StoryManager.nowChoice.question.leftChoice.text;
-        this.falseText.text = StoryManager.nowChoice.question.rightChoice.text;
+        this.trueText.text = StoryManager.nowChoice.question.leftChoice.content;
+        this.falseText.text = StoryManager.nowChoice.question.rightChoice.content;
         this.helpText.text = StoryManager.nowChoice.question.hint;
         this.trueChoice = StoryManager.nowChoice.question.leftChoice;
         this.falseChoice = StoryManager.nowChoice.question.rightChoice;
@@ -315,11 +315,11 @@ public class StoryHappenManager : MonoBehaviour {
     {
         if (choice)
         {
-            StoryManager.nowChoice = StoryManager.nowStory.leftChoice;
+            StoryManager.nowChoice = StoryManager.nowEvent.leftChoice;
         }
         else
         {
-            StoryManager.nowChoice = StoryManager.nowStory.rightChoice;
+            StoryManager.nowChoice = StoryManager.nowEvent.rightChoice;
         }
 
         choiceCard = false;
@@ -355,11 +355,11 @@ public class StoryHappenManager : MonoBehaviour {
 
         if(StoryManager.nowChoice.question.content != "")
         {
-            StoryManager.nowStory.content = StoryManager.nowChoice.question.content;
+            StoryManager.nowEvent.content = StoryManager.nowChoice.question.content;
             // TODO: ChangeImg
-            StoryManager.nowStory.leftChoice = StoryManager.nowChoice.question.leftChoice;
-            StoryManager.nowStory.rightChoice = StoryManager.nowChoice.question.rightChoice;
-            StoryManager.nowStory.rightChoice = StoryManager.nowChoice.question.rightChoice;
+            StoryManager.nowEvent.leftChoice = StoryManager.nowChoice.question.leftChoice;
+            StoryManager.nowEvent.rightChoice = StoryManager.nowChoice.question.rightChoice;
+            StoryManager.nowEvent.rightChoice = StoryManager.nowChoice.question.rightChoice;
             SetQuestion();
 
             trueCardImage.transform.localPosition = trueCardImageFadeOutPosition.localPosition;

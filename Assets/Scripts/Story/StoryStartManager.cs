@@ -33,12 +33,12 @@ public class StoryStartManager : MonoBehaviour {
     void SetChoice()
     {
         // TODO: 圖 = nowStory.imageUrl
-        storyChoice.GetComponent<StoryHappenManager>().content.text = StoryManager.nowStory.questionText;
-        storyChoice.GetComponent<StoryHappenManager>().trueText.text = StoryManager.nowStory.leftChoice.text;
-        storyChoice.GetComponent<StoryHappenManager>().falseText.text = StoryManager.nowStory.rightChoice.text;
-        storyChoice.GetComponent<StoryHappenManager>().helpText.text = StoryManager.nowStory.hintText;
-        storyChoice.GetComponent<StoryHappenManager>().trueChoice = StoryManager.nowStory.leftChoice;
-        storyChoice.GetComponent<StoryHappenManager>().falseChoice = StoryManager.nowStory.rightChoice;
+        storyChoice.GetComponent<StoryHappenManager>().content.text = StoryManager.nowEvent.questionText;
+        storyChoice.GetComponent<StoryHappenManager>().trueText.text = StoryManager.nowEvent.leftChoice.text;
+        storyChoice.GetComponent<StoryHappenManager>().falseText.text = StoryManager.nowEvent.rightChoice.text;
+        storyChoice.GetComponent<StoryHappenManager>().helpText.text = StoryManager.nowEvent.hintText;
+        storyChoice.GetComponent<StoryHappenManager>().trueChoice = StoryManager.nowEvent.leftChoice;
+        storyChoice.GetComponent<StoryHappenManager>().falseChoice = StoryManager.nowEvent.rightChoice;
     }
 
     IEnumerator StoryStart()
