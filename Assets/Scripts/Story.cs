@@ -4,8 +4,6 @@ using UnityEngine;
 
 public static class StoryManager
 {
-    public static System.Random crandom = new System.Random();
-
     public static List<int> willHappenEventId = new List<int>();  // 有可能發生的事件LIST
     public static int nowId;            // 現在發生的事件
     public static int nextId;           // 下一個事件
@@ -23,7 +21,7 @@ public static class StoryManager
     // 產生下一個事件
     public static void NextEvent()
     {       
-        int randomIndex = crandom.Next(0, willHappenEventId.Count);
+        int randomIndex = RandomUtil.crandom.Next(0, willHappenEventId.Count);
         nowId = willHappenEventId[randomIndex];
         nowStory = storyList[FindStoryIndexById(nowId)];
     }

@@ -8,15 +8,12 @@ namespace Setting
     // 系統設定
     public class SystemSetting
     {
-
         public static Localize nowLanguage = Localize.en;
         public static List<int> story = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     }
 
     public class CharacterSetting
     {
-        public static System.Random crandom = new System.Random();
-
         // 基本人設
         public static string name;
         public static int kidAmount;
@@ -84,7 +81,7 @@ namespace Setting
                 else if(words.Length == 3)
                 {
                     // example: "P - 3 5"
-                    value = crandom.Next(int.Parse(words[2]), int.Parse(words[3]));
+                    value = RandomUtil.random.Next(int.Parse(words[2]), int.Parse(words[3]));
                 }
 
                 // 判斷+-
