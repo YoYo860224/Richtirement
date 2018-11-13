@@ -8,7 +8,6 @@ public static class StoryManager
 
     public static List<int> willHappenEventId = new List<int>();  // 有可能發生的事件LIST
     public static int nowId;            // 現在發生的事件
-    public static int nextId;           // 下一個事件
     public static StoryContent nowStory;
     public static Choice nowChoice;
     public static List<EventLog> log = new List<EventLog>();       // 事件紀錄
@@ -65,27 +64,26 @@ public class StoryContent
     public int id;
     public string imageUrl;                      // 圖的url
     public string questionText;                  // 問題
-    public string content;                 // 用get分辨語言
+    public List<string> content;                 // 用get分辨語言
     public string hintText;                      // hint的Text
-    public Choice leftChoice;                      // True的Text
-    public Choice rightChoice;                     // False的Text
+    public Choice trueChoice;                      // True的Text
+    public Choice falseChoice;                     // False的Text
 
-    public StoryContent(int id,string imageUrl, string questionText, string content, string hintText, Choice leftChoice, Choice rightChoice)
+    public StoryContent(int id,string imageUrl, string questionText, List<string> content, string hintText, Choice trueChoice, Choice falseChoice)
     {
         this.id = id;
         this.imageUrl = imageUrl;
         this.questionText = questionText;
         this.content = content;
         this.hintText = hintText;
-        this.leftChoice = leftChoice;
-        this.rightChoice = rightChoice;
+        this.trueChoice = trueChoice;
+        this.falseChoice = falseChoice;
     }
 }
 
 public class Choice
 {
     public string text;                          // Text
-    public Question question;                    // nowQuestion
     public List<int> nextId;                     // 用list存接下來會連接到哪些id, 如果是-1代表事件結束
     public List<string> imageUrl;                // 圖的url
     public List<float> nextProb;                 // 各個事件的機率
@@ -95,7 +93,6 @@ public class Choice
     public Choice(string text)
     {
         this.text = text;
-        this.question = new Question();
         this.nextId = new List<int>();
         this.imageUrl = new List<string>();
         this.nextProb = new List<float>();
@@ -128,6 +125,7 @@ public class Choice
         int index = crandom.Next(0, tempList.Count);
         return nextId[tempList[index]];
     }
+
 }
 
 public class EventLog
@@ -142,27 +140,5 @@ public class EventLog
         this.id = id;
         this.choice = choice;
         this.nextId = nextId;
-    }
-}
-
-public class Question
-{
-    public string content;
-    public string imageUrl;
-    public string hint;
-    public Choice leftChoice;
-    public Choice rightChoice;
-
-    public Question()
-    {
-        content = "";
-    }
-    public Question(string content, string imageUrl, string hint, Choice leftChoice, Choice rightChoice)
-    {
-        this.content = content;
-        this.imageUrl = imageUrl;
-        this.hint = hint;
-        this.leftChoice = leftChoice;
-        this.rightChoice = rightChoice;
     }
 }

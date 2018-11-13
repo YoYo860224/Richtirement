@@ -67,19 +67,6 @@ public class StoryHappenManager : MonoBehaviour {
         helpField.SetActive(false);
     }
 
-
-    void SetQuestion()
-    {
-        // TODO: 圖 = nowStory.imageUrl
-        this.content.text = StoryManager.nowChoice.question.content;
-        this.trueText.text = StoryManager.nowChoice.question.leftChoice.text;
-        this.falseText.text = StoryManager.nowChoice.question.rightChoice.text;
-        this.helpText.text = StoryManager.nowChoice.question.hint;
-        this.trueChoice = StoryManager.nowChoice.question.leftChoice;
-        this.falseChoice = StoryManager.nowChoice.question.rightChoice;
-    }
-
-
     // Use this for initialization
     void Start () {
         // TODO: set money value
@@ -143,6 +130,8 @@ public class StoryHappenManager : MonoBehaviour {
         }
         if (canTouchToNextStory == 3)
         {
+            //EventLog log = new EventLog(StoryManager.nowId, true, nextId);
+            //StoryManager.EndNowStory(log);
             //// 判斷是不是5年
             SceneManager.LoadScene("Story");
         }
@@ -315,11 +304,11 @@ public class StoryHappenManager : MonoBehaviour {
     {
         if (choice)
         {
-            StoryManager.nowChoice = StoryManager.nowStory.leftChoice;
+            StoryManager.nowChoice = StoryManager.nowStory.trueChoice;
         }
         else
         {
-            StoryManager.nowChoice = StoryManager.nowStory.rightChoice;
+            StoryManager.nowChoice = StoryManager.nowStory.falseChoice;
         }
 
         choiceCard = false;
@@ -353,126 +342,76 @@ public class StoryHappenManager : MonoBehaviour {
             falseCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
         }
 
-        if(StoryManager.nowChoice.question.content != "")
-        {
-            StoryManager.nowStory.content = StoryManager.nowChoice.question.content;
-            // TODO: ChangeImg
-            StoryManager.nowStory.leftChoice = StoryManager.nowChoice.question.leftChoice;
-            StoryManager.nowStory.rightChoice = StoryManager.nowChoice.question.rightChoice;
-            StoryManager.nowStory.rightChoice = StoryManager.nowChoice.question.rightChoice;
-            SetQuestion();
+        // 轉場
 
-            trueCardImage.transform.localPosition = trueCardImageFadeOutPosition.localPosition;
-            falseCardImage.transform.localPosition = falseCardImageFadeOutPosition.localPosition;
-            trueCardImage.transform.localScale = new Vector3(1f, 1f, 1);
-            falseCardImage.transform.localScale = new Vector3(1f, 1f, 1);
-
-            timeStart = Time.time;
-            timeEnd = timeStart + 0.2f;
-            while (Time.time < timeEnd)
-            {
-                var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-                var v = CubicEaseOut(t);
-                var position = Vector3.LerpUnclamped(content.transform.localPosition, contentFadeInPosition.localPosition, v);
-                content.transform.localPosition = position;
-
-                var position0 = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, trueCardImageFadeInPosition.localPosition, v);
-                trueCardImage.transform.localPosition = position0;
-
-                var position1 = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, falseCardImageFadeInPosition.localPosition, v);
-                falseCardImage.transform.localPosition = position1;
-
-                var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
-                helpButton.transform.localPosition = position2;
-
-                yield return null;
-            }
-
-            content.transform.localPosition = contentFadeInPosition.localPosition;
-            falseCardImage.transform.localPosition = falseCardImageFadeInPosition.localPosition;
-            trueCardImage.transform.localPosition = trueCardImageFadeInPosition.localPosition;
-            helpButton.transform.localPosition = helpFadeInPosition.localPosition;
-
-            canTouch = true;
-            helpState = false;
-        }
-        else
-        {
-            // 轉場
-
-            //for (float i = 1; i <= 0; i -= Time.deltaTime)
-            //{
-            //    var tempColor = this.GetComponent<Image>().color;
-            //    tempColor.a = i;
-            //    this.GetComponent<Image>().color = tempColor;
-            //    yield return null;
-            //}
-            whitePanel.SetActive(true);
-
-            for (float i = 0; i <= 1; i += Time.deltaTime)
-            {
-                var tempColor = whitePanel.GetComponent<Image>().color;
-                tempColor.a = i;
-                tempColor.r = i;
-                tempColor.g = i;
-                tempColor.b = i;
-                whitePanel.GetComponent<Image>().color = tempColor;
-                yield return null;
-            }
-
-            this.GetComponent<Image>().sprite = null;
-            var thisColor = this.GetComponent<Image>().color;
-            thisColor.a = 0;
-            this.GetComponent<Image>().color = thisColor;
-
-            for (float i = 1; i >= 0; i -= Time.deltaTime)
-            {
-                var tempColor = whitePanel.GetComponent<Image>().color;
-                tempColor.a = i;
-                whitePanel.GetComponent<Image>().color = tempColor;
-                yield return null;
-            }
-            whitePanel.SetActive(false);
-
-            // random result and nextId
-            int nextId = StoryManager.nowChoice.NextEvent();
-
-            // set result
-            attributeText.text = Setting.CharacterSetting.AttributeChanged(StoryManager.nowChoice.nextChangeValue[nextId]);
-
-            // TODO : Total Assets
-
-            resultText.text = StoryManager.nowChoice.nextResult[nextId];
-
-            StoryManager.EndNowStory(new EventLog(StoryManager.nowId, choice, nextId));
-
-            for (float i = 0; i <= 1; i += Time.deltaTime)
-            {
-                yield return null;
-            }
-
-            resultBox.SetActive(true);
-
-            for (float i = 0; i <= 1; i += Time.deltaTime)
-            {
-                var tempColor = resultBox.GetComponent<Image>().color;
-                tempColor.a = i * 0.8f;
-                resultBox.GetComponent<Image>().color = tempColor;
-
-                tempColor = attributeText.color;
-                tempColor.a = i;
-                attributeText.color = tempColor;
-
-                tempColor = totalAssetText.color;
-                tempColor.a = i;
-                totalAssetText.color = tempColor;
-
-                yield return null;
-            }
-            canTouchToNextStory = 1;
-        }
-
+        //for (float i = 1; i <= 0; i -= Time.deltaTime)
+        //{
+        //    var tempColor = this.GetComponent<Image>().color;
+        //    tempColor.a = i;
+        //    this.GetComponent<Image>().color = tempColor;
+        //    yield return null;
+        //}
+        whitePanel.SetActive(true);
         
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            var tempColor = whitePanel.GetComponent<Image>().color;
+            tempColor.a = i;
+            tempColor.r = i;
+            tempColor.g = i;
+            tempColor.b = i;
+            whitePanel.GetComponent<Image>().color = tempColor;
+            yield return null;
+        }
+
+        this.GetComponent<Image>().sprite = null;
+        var thisColor = this.GetComponent<Image>().color;
+        thisColor.a = 0;
+        this.GetComponent<Image>().color = thisColor;
+
+        for (float i = 1; i >= 0; i -= Time.deltaTime)
+        {
+            var tempColor = whitePanel.GetComponent<Image>().color;
+            tempColor.a = i;
+            whitePanel.GetComponent<Image>().color = tempColor;
+            yield return null;
+        }
+        whitePanel.SetActive(false);
+
+        // random result and nextId
+        int nextId = StoryManager.nowChoice.NextEvent();
+
+        // set result
+        attributeText.text = Setting.CharacterSetting.AttributeChanged(StoryManager.nowChoice.nextChangeValue[nextId]);
+
+        // TODO : Total Assets
+
+        resultText.text = StoryManager.nowChoice.nextResult[nextId];
+
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            yield return null;
+        }
+
+        resultBox.SetActive(true);
+
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            var tempColor = resultBox.GetComponent<Image>().color;
+            tempColor.a = i * 0.8f;
+            resultBox.GetComponent<Image>().color = tempColor;
+
+            tempColor = attributeText.color;
+            tempColor.a = i;
+            attributeText.color = tempColor;
+
+            tempColor = totalAssetText.color;
+            tempColor.a = i;
+            totalAssetText.color = tempColor;
+
+            yield return null;
+        }
+        canTouchToNextStory = 1;
     }
 
     IEnumerator HelpFadeImage(Image gameObject, bool fadeAway)

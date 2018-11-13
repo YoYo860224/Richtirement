@@ -9,8 +9,8 @@ public class StoryStartManager : MonoBehaviour {
     private float scaleTime = 3.0f;
     private void Awake()
     {
-        StoryManager.NextEvent();   // 選出此事件
         Debug.Log("new Story, now ID = " + StoryManager.nowId);
+        StoryManager.NextEvent();   // 選出此事件
 
         SetChoice();
         storyChoice.SetActive(false);
@@ -34,11 +34,11 @@ public class StoryStartManager : MonoBehaviour {
     {
         // TODO: 圖 = nowStory.imageUrl
         storyChoice.GetComponent<StoryHappenManager>().content.text = StoryManager.nowStory.questionText;
-        storyChoice.GetComponent<StoryHappenManager>().trueText.text = StoryManager.nowStory.leftChoice.text;
-        storyChoice.GetComponent<StoryHappenManager>().falseText.text = StoryManager.nowStory.rightChoice.text;
+        storyChoice.GetComponent<StoryHappenManager>().trueText.text = StoryManager.nowStory.trueChoice.text;
+        storyChoice.GetComponent<StoryHappenManager>().falseText.text = StoryManager.nowStory.falseChoice.text;
         storyChoice.GetComponent<StoryHappenManager>().helpText.text = StoryManager.nowStory.hintText;
-        storyChoice.GetComponent<StoryHappenManager>().trueChoice = StoryManager.nowStory.leftChoice;
-        storyChoice.GetComponent<StoryHappenManager>().falseChoice = StoryManager.nowStory.rightChoice;
+        storyChoice.GetComponent<StoryHappenManager>().trueChoice = StoryManager.nowStory.trueChoice;
+        storyChoice.GetComponent<StoryHappenManager>().falseChoice = StoryManager.nowStory.falseChoice;
     }
 
     IEnumerator StoryStart()

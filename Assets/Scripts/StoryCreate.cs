@@ -8,39 +8,55 @@ public class StoryCreate : MonoBehaviour {
     {
         int id = 0;
         string imageUrl = "0.png";                                                  // 圖的url
-        List<string> content = new List<string> { ""};                              // 開頭簡介
+        string content = "轉眼間也到了在十年就要退休的年紀呢!";                     // 開頭簡介
         string questionText = "有了一點存款，做點理財嗎?";                          // 問題內容
-        string hintText = "hint0";                                                  // hint的Text
+        string hintText = "";                                                       // hint的Text
 
-        Choice trueChoice = new Choice("Yes"); // text
+        Choice leftChoice = new Choice("Yes"); // text
+
+        Choice questionLeftChoice = new Choice("買股票");
+        questionLeftChoice.AddEventAtChoice(1, "0_1.png", 0.3f, "Result1", new List<string> { "P + 5 8" });
+        questionLeftChoice.AddEventAtChoice(1, "0_2.png", 0.7f, "Result2", new List<string> { "P - 5 8" });
+        Choice questionRightChoice = new Choice("買儲蓄險");
+        questionRightChoice.AddEventAtChoice(1, "0_3.png", 1.0f, "Result4", new List<string> { "P + 1 5" });
+        Question leftQuestion = new Question("做點什麼?", "", "", questionLeftChoice, questionRightChoice);
+        leftChoice.question = leftQuestion;
+
+        //leftChoice.AddEventAtChoice(0, "1.png", 0.5f, "$ -982塊 / 每月", new List<string> { "P + 1 3" });
+        //leftChoice.AddEventAtChoice(0, "2.png", 0.5f, "$ -982塊 / 每月", new List<string> { "P + 1 3" });
+
+        Choice rightChoice = new Choice("No"); // text
+        Question rightQuestion = new Question();
         // id, imageUrl, prob, result, changeValue
-        trueChoice.AddEventAtChoice(0, "1.png", 0.5f, "$ -982塊 / 每月", new List<string> { "P + 1 3" });
-        trueChoice.AddEventAtChoice(0, "2.png", 0.5f, "$ -982塊 / 每月", new List<string> { "P + 1 3" });
+        rightChoice.AddEventAtChoice(1, "0_4.png", 1.0f, "存一般定存", new List<string> { "P - 2 5" });
 
-        Choice falseChoice = new Choice("No"); // text
-        // id, imageUrl, prob, result, changeValue
-        falseChoice.AddEventAtChoice(0, "0.png", 1.0f, "存一般定存", new List<string> { "P + 1", "S 1", "H 1" });
-
-        StoryManager.AddStory(new StoryContent(id,imageUrl, questionText, content, hintText, trueChoice, falseChoice));
+        StoryManager.AddStory(new StoryContent(id,imageUrl, questionText, content, hintText, leftChoice, rightChoice));
 
         // ============================================
 
         id = 1;
-        imageUrl = "1.png";                                                  // 圖的url
-        content = new List<string> { "hello", "I'm", "Peter Shen" };   // 開頭簡介
-        questionText = "question 1";                                         // 問題內容
-        hintText = "hint1";                                               // hint的Text
+        imageUrl = "1.png";                                              
+        content = "60歲了，小孩也都長大了，再五年就可以享受退休生活了，在努力一下吧！";   
+        questionText = "老闆叫你平日加班假日上班，你會？";                                  
+        hintText = "";                                                                     
 
-        trueChoice = new Choice("Yes"); // text
-        // id, imageUrl, prob, result, changeValue
-        trueChoice.AddEventAtChoice(0, "0.png", 1.0f,  "yesyesyes", new List<string> { "P -1", "S -1", "H -1" });
-        trueChoice.AddEventAtChoice(1, "0.png", 0f, "yesyesyes", new List<string> { "P -1", "S -1", "H -1" });
+        leftChoice = new Choice("加到底"); // text
+        questionLeftChoice = new Choice("去");
+        questionLeftChoice.AddEventAtChoice(2, "1_1.png", 1.0f, "Result3", new List<string> { "H - 3 8", "P - 6 15", "S + 5 8" });
+        questionRightChoice = new Choice("不去，回家");
+        questionRightChoice.AddEventAtChoice(2, "1_2.png", 1.0f, "Result4", new List<string> { "P - 1 3", "H - 1 3", "S - 5 8" });
+        leftQuestion = new Question("老闆叫你去應酬?", "", "", questionLeftChoice, questionRightChoice);
+        leftChoice.question = leftQuestion;
 
-        falseChoice = new Choice("No"); // text
-        // id, imageUrl, prob, result, changeValue
-        falseChoice.AddEventAtChoice(0, "0.png", 1.0f, "nonono idk" , new List<string> { "P 1", "S 1", "H 1" });
+        rightChoice = new Choice("花時間陪陪家人"); // text
+        questionLeftChoice = new Choice("踏青");
+        questionLeftChoice.AddEventAtChoice(2, "1_3.png", 1.0f, "Result3", new List<string> { "H + 2 5", "P + 3 6", "S + 3 6" });
+        questionRightChoice = new Choice("看電影");
+        questionRightChoice.AddEventAtChoice(2, "1_4.png", 1.0f, "Result4", new List<string> { "P + 2 5", "H - 1 4", "S + 2 5" });
+        rightQuestion = new Question("做點什麼?", "", "", questionLeftChoice, questionRightChoice);
+        rightChoice.question = rightQuestion;
 
-        StoryManager.AddStory(new StoryContent(id, imageUrl, questionText, content, hintText, trueChoice, falseChoice));
+        StoryManager.AddStory(new StoryContent(id, imageUrl, questionText, content, hintText, leftChoice, rightChoice));
 
 
         StoryManager.willHappenEventId.Add(0);
