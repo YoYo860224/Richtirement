@@ -10,47 +10,53 @@ public class StoryCreate : MonoBehaviour {
         string imageUrl = "0.png";                                            // 圖的url
         string content = "轉眼間也到了在十年就要退休的年紀呢！";                  // 開頭簡介
 
-        Question q0 = new Question();
-        q0.imageUrl = "0.png";
-        q0.content = "有了一點存款，做點理財嗎？";
-        q0.hint = "hint test";
-        q0.leftChoice = new Choice("Yes");
-        q0.rightChoice = new Choice("No");
+        Question q0 = new Question("有了一點存款，做點理財嗎？")
+        {
+            imageUrl = "0.png",
+            hint = "hint test",
+            leftChoice = new Choice("Yes"),
+            rightChoice = new Choice("No")
+        };
 
-        Question q0_1 = new Question();
-        q0_1.imageUrl = "";
-        q0_1.content = "做點什麼？";
-        q0_1.hint = "hint test";
-        q0_1.leftChoice = new Choice("買股票");
-        q0_1.rightChoice = new Choice("買儲蓄險");
+        Question q0_1 = new Question("做點什麼？")
+        {
+            imageUrl = "",
+            hint = "hint test",
+            leftChoice = new Choice("買股票"),
+            rightChoice = new Choice("買儲蓄險")
+        };
 
-        ChoiceResult r1 = new ChoiceResult();
-        r1.content = "結果1";                
-        r1.imageUrl = "0_1.png";              
-        r1.prob = 0.3f;                    
-        r1.valueChanges = new List<string> { "P + 5 8" };    
-        r1.nextId = 1;
+        ChoiceResult r1 = new ChoiceResult("結果1")
+        {
+            imageUrl = "0_1.png",
+            prob = 0.3f,
+            valueChanges = new List<string> { "P + 5 8" },
+            nextIds = new List<int> { 1 }
+        };
 
-        ChoiceResult r2 = new ChoiceResult();
-        r2.content = "結果2";
-        r2.imageUrl = "0_2.png";
-        r2.prob = 0.7f;
-        r2.valueChanges = new List<string> { "P - 5 8" };
-        r2.nextId = 1;
+        ChoiceResult r2 = new ChoiceResult("結果2")
+        {
+            imageUrl = "0_2.png",
+            prob = 0.7f,
+            valueChanges = new List<string> { "P - 5 8" },
+            nextIds = new List<int> { 1 }
+        };
 
-        ChoiceResult r3 = new ChoiceResult();
-        r2.content = "結果3";
-        r2.imageUrl = "0_3.png";
-        r2.prob = 1.0f;
-        r2.valueChanges = new List<string> { "P + 1 5" };
-        r2.nextId = 1;
+        ChoiceResult r3 = new ChoiceResult("結果3")
+        {
+            imageUrl = "0_3.png",
+            prob = 1.0f,
+            valueChanges = new List<string> { "P + 1 5" },
+            nextIds = new List<int> { 1 }
+        };
 
-        ChoiceResult r4 = new ChoiceResult();
-        r2.content = "結果4";
-        r2.imageUrl = "0_4.png";
-        r2.prob = 1.0f;
-        r2.valueChanges = new List<string> { "P - 2 5" };
-        r2.nextId = 1;
+        ChoiceResult r4 = new ChoiceResult
+        {
+            imageUrl = "0_4.png",
+            prob = 1.0f,
+            valueChanges = new List<string> { "P - 2 5" },
+            nextIds = new List<int> { 1 }
+        };
 
         q0.leftChoice.AfterChoiceDo(q0_1);
         q0.rightChoice.AfterChoiceDo(r4);

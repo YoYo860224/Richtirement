@@ -9,7 +9,6 @@ namespace Setting
     public class SystemSetting
     {
         public static Localize nowLanguage = Localize.en;
-        public static List<int> story = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     }
 
     public class CharacterSetting
