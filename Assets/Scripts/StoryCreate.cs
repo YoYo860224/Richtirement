@@ -13,7 +13,7 @@ public class StoryCreate : MonoBehaviour {
         Question q0 = new Question("有了一點存款，做點理財嗎？")
         {
             imageUrl = "0.png",
-            hint = "hint test",
+            hint = "",
             leftChoice = new Choice("Yes"),
             rightChoice = new Choice("No")
         };
@@ -65,6 +65,7 @@ public class StoryCreate : MonoBehaviour {
         q0_1.rightChoice.AfterChoiceDo(r3);
 
         StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q0));
+        StoryManager.futureEventsID.Add(0);
 
         // ============================================
 

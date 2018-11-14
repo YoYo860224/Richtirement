@@ -64,7 +64,7 @@ public class RedeployManager : MonoBehaviour {
         longTermCareInsurance.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(7); });
 
 
-        TotalAssets.text = TotalAssetsString(Setting.CharacterSetting.currentAssets.ToString());
+        TotalAssets.text = TotalAssetsString(Setting.CharacterSetting.Money.ToString());
 
 
     }
@@ -145,7 +145,6 @@ public class RedeployManager : MonoBehaviour {
                 break;
         }
 
-        Setting.CharacterSetting.CalcTotalAssets();
-        TotalAssets.text = TotalAssetsString(Setting.CharacterSetting.currentAssets.ToString());
+        TotalAssets.text = TotalAssetsString(Setting.CharacterSetting.Money.ToString());
     }
 }

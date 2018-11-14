@@ -23,6 +23,7 @@ public static class StoryManager
     public static void NextEvent()
     {       
         int randomIndex = RandomUtil.random.Next(0, futureEventsID.Count);
+
         nowEvent = AllSEventList.Find(x => x.id == futureEventsID[randomIndex]);
     }
 
@@ -109,7 +110,7 @@ public class Choice
         this.nextQuestion = q;
     }
 
-    public bool NextEvent()
+    public int NextEvent()
     {
         if (nextQuestion == null)   // 執行結果
         {
@@ -125,13 +126,12 @@ public class Choice
             }
             int index = RandomUtil.random.Next(0, tempList.Count);
             StoryManager.EndNowStory(choiceResults[tempList[index]].nextIds);
-            return true;
+            return tempList[index];
         }
         else
         {
             // 改做 nextQuestion
-
-            return false;
+            return -1;
         }
     }
 }

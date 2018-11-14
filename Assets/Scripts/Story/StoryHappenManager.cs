@@ -18,19 +18,19 @@ public class StoryHappenManager : MonoBehaviour {
     public Transform contentFadeOutPosition;
     public Transform contentFadeInPosition;
 
-    public GameObject trueCardImage;
-    public Transform trueCardImageFadeOutPosition;
-    public Transform trueCardImageFadeInPosition;
+    public GameObject leftCardImage;
+    public Transform leftCardImageFadeOutPosition;
+    public Transform leftCardImageFadeInPosition;
 
-    public GameObject falseCardImage;
-    public Transform falseCardImageFadeOutPosition;
-    public Transform falseCardImageFadeInPosition;
+    public GameObject rightCardImage;
+    public Transform rightCardImageFadeOutPosition;
+    public Transform rightCardImageFadeInPosition;
 
     public Transform bigPosition;
 
-    public Text trueText;
-    public Text falseText;
-
+    public Text leftText;
+    public Text rightText;
+    
     public GameObject helpField;
     public GameObject helpButton;
     public Image helpImage;
@@ -56,6 +56,9 @@ public class StoryHappenManager : MonoBehaviour {
     private int canTouchToNextStory = 0;
 
     public GameObject whitePanel;
+
+    public float tweenTime = 0.4f;
+    private int nextId;
     private void Awake()
     {
         resultBox.SetActive(false);
@@ -71,17 +74,29 @@ public class StoryHappenManager : MonoBehaviour {
     void SetQuestion()
     {
         // TODO: 圖 = nowStory.imageUrl
-        this.content.text = StoryManager.nowChoice.question.content;
-        this.trueText.text = StoryManager.nowChoice.question.leftChoice.content;
-        this.falseText.text = StoryManager.nowChoice.question.rightChoice.content;
-        this.helpText.text = StoryManager.nowChoice.question.hint;
-        this.trueChoice = StoryManager.nowChoice.question.leftChoice;
-        this.falseChoice = StoryManager.nowChoice.question.rightChoice;
+        this.content.text = StoryManager.nowChoice.nextQuestion.content;
+        this.leftText.text = StoryManager.nowChoice.nextQuestion.leftChoice.content;
+        this.rightText.text = StoryManager.nowChoice.nextQuestion.rightChoice.content;
+        this.helpText.text = StoryManager.nowChoice.nextQuestion.hint;
+        this.trueChoice = StoryManager.nowChoice.nextQuestion.leftChoice;
+        this.falseChoice = StoryManager.nowChoice.nextQuestion.rightChoice;
+        if (StoryManager.nowEvent.question.hint == "")
+        {
+            helpButton.SetActive(false);
+        }
+        else
+        {
+            helpButton.SetActive(true);
+        }
     }
 
 
     // Use this for initialization
     void Start () {
+        if (StoryManager.nowEvent.question.hint == "")
+        {
+            helpButton.SetActive(false);
+        }
         // TODO: set money value
         // MoneyFilled.fillAmount = Setting.CharacterSetting.??;
         MentalFilled.fillAmount = Setting.CharacterSetting.Mental / 100.0f;
@@ -91,6 +106,11 @@ public class StoryHappenManager : MonoBehaviour {
 
         canTouch = true;
         helpState = false;
+    }
+
+    public void StartChoice()
+    {
+        StartCoroutine(StartChoiceAnimation());
     }
 	
 	// Update is called once per frame
@@ -132,16 +152,21 @@ public class StoryHappenManager : MonoBehaviour {
             StartCoroutine(TweenIn());
             choiceCard = false;
         }
+        if (canTouchToNextStory == 1)
+        {
+            canTouchToNextStory = 2;
+            StartCoroutine(ShowResultBox());
+        }
     }
 
     public void TouchToNextStory()
     {
-        if (canTouchToNextStory == 1)
+        if (canTouchToNextStory == 2)
         {
-            canTouchToNextStory = 2;
+            canTouchToNextStory = 3;
             StartCoroutine(ShowResultText());
         }
-        if (canTouchToNextStory == 3)
+        if (canTouchToNextStory == 4)
         {
             //// 判斷是不是5年
             SceneManager.LoadScene("Story");
@@ -167,72 +192,87 @@ public class StoryHappenManager : MonoBehaviour {
         }
     }
 
-    IEnumerator TweenOut(bool choice)
+    IEnumerator StartChoiceAnimation()
     {
+        content.transform.localPosition = contentFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
+
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            if (i < 0.8f)
+            {
+                var tempColor = this.GetComponent<Image>().color;
+                tempColor.a = i;
+                this.GetComponent<Image>().color = tempColor;
+            }
+        }
+
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
+        leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
+        rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
+
         var timeStart = Time.time;
-        var timeEnd = timeStart + 0.2f;
+        var timeEnd = timeStart + tweenTime * 2;
         while (Time.time < timeEnd)
         {
             var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-            var v = CubicEaseIn(t);
-            var position = Vector3.LerpUnclamped(content.transform.localPosition, contentFadeOutPosition.localPosition, v);
+            var v = CubicEaseOut(t);
+            var position = Vector3.LerpUnclamped(content.transform.localPosition, contentFadeInPosition.localPosition, v);
             content.transform.localPosition = position;
 
-            var position0 = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, trueCardImageFadeOutPosition.localPosition, v);
-            trueCardImage.transform.localPosition = position0;
+            var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeInPosition.localPosition, v);
+            leftCardImage.transform.localPosition = position0;
 
-            var position1 = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, falseCardImageFadeOutPosition.localPosition, v);
-            falseCardImage.transform.localPosition = position1;
+            var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeInPosition.localPosition, v);
+            rightCardImage.transform.localPosition = position1;
 
-            var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeOutPosition.localPosition, v);
+            var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
             helpButton.transform.localPosition = position2;
 
             yield return null;
         }
 
-        content.transform.localPosition = contentFadeOutPosition.localPosition;
-        falseCardImage.transform.localPosition = falseCardImageFadeOutPosition.localPosition;
-        trueCardImage.transform.localPosition = trueCardImageFadeOutPosition.localPosition;
-        helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
+        content.transform.localPosition = contentFadeInPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeInPosition.localPosition;
+    }
 
-        if (choice)
+    IEnumerator ShowResultBox()
+    {
+        // set result
+        attributeText.text = Setting.CharacterSetting.AttributeChanged(StoryManager.nowChoice.choiceResults[nextId].valueChanges);
+
+        // TODO : Total Assets
+
+        resultText.text = StoryManager.nowChoice.choiceResults[nextId].content;
+
+
+        for (float i = 0; i <= 1; i += Time.deltaTime)
         {
-            trueCardImage.transform.localScale = new Vector3(1.4f, 1.4f, 1);
-        }
-        else
-        {
-            falseCardImage.transform.localScale = new Vector3(1.4f, 1.4f, 1);
-        }
-
-        var timeStart1 = Time.time;
-        var timeEnd1 = timeStart1 + 0.2f;
-        while (Time.time < timeEnd1)
-        {
-            if (choice)
-            {
-                var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
-                var v = CubicEaseOut(t);
-                var position = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, bigPosition.localPosition, v);
-                trueCardImage.transform.localPosition = position;
-            }
-            else
-            {
-
-                var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
-                var v = CubicEaseOut(t);
-                var position = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, bigPosition.localPosition, v);
-                falseCardImage.transform.localPosition = position;
-            }
-
             yield return null;
         }
-        if (choice)
+
+        resultBox.SetActive(true);
+
+        for (float i = 0; i <= 1; i += Time.deltaTime)
         {
-            trueCardImage.transform.localPosition = bigPosition.localPosition;
-        }
-        else
-        {
-            falseCardImage.transform.localPosition = bigPosition.localPosition;
+            var tempColor = resultBox.GetComponent<Image>().color;
+            tempColor.a = i * 0.8f;
+            resultBox.GetComponent<Image>().color = tempColor;
+
+            tempColor = attributeText.color;
+            tempColor.a = i;
+            attributeText.color = tempColor;
+
+            tempColor = totalAssetText.color;
+            tempColor.a = i;
+            totalAssetText.color = tempColor;
+
+            yield return null;
         }
     }
 
@@ -258,34 +298,103 @@ public class StoryHappenManager : MonoBehaviour {
             resultText.color = tempColor;
             yield return null;
         }
-        canTouchToNextStory = 3;
+        canTouchToNextStory = 4;
+    }
+
+    IEnumerator TweenOut(bool choice)
+    {
+        var timeStart = Time.time;
+        var timeEnd = timeStart + tweenTime;
+        while (Time.time < timeEnd)
+        {
+            var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+            var v = CubicEaseIn(t);
+            var position = Vector3.LerpUnclamped(content.transform.localPosition, contentFadeOutPosition.localPosition, v);
+            content.transform.localPosition = position;
+
+            var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeOutPosition.localPosition, v);
+            leftCardImage.transform.localPosition = position0;
+
+            var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeOutPosition.localPosition, v);
+            rightCardImage.transform.localPosition = position1;
+
+            var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeOutPosition.localPosition, v);
+            helpButton.transform.localPosition = position2;
+
+            yield return null;
+        }
+
+        content.transform.localPosition = contentFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
+
+        if (choice)
+        {
+            leftCardImage.transform.localScale = new Vector3(1.4f, 1.4f, 1);
+        }
+        else
+        {
+            rightCardImage.transform.localScale = new Vector3(1.4f, 1.4f, 1);
+        }
+
+        var timeStart1 = Time.time;
+        var timeEnd1 = timeStart1 + tweenTime;
+        while (Time.time < timeEnd1)
+        {
+            if (choice)
+            {
+                var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
+                var v = CubicEaseOut(t);
+                var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, bigPosition.localPosition, v);
+                leftCardImage.transform.localPosition = position;
+            }
+            else
+            {
+
+                var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
+                var v = CubicEaseOut(t);
+                var position = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, bigPosition.localPosition, v);
+                rightCardImage.transform.localPosition = position;
+            }
+
+            yield return null;
+        }
+        if (choice)
+        {
+            leftCardImage.transform.localPosition = bigPosition.localPosition;
+        }
+        else
+        {
+            rightCardImage.transform.localPosition = bigPosition.localPosition;
+        }
     }
 
     IEnumerator TweenIn()
     {
         var timeStart1 = Time.time;
-        var timeEnd1 = timeStart1 + 0.2f;
+        var timeEnd1 = timeStart1 + tweenTime;
         while (Time.time < timeEnd1)
         {
             var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
             var v = CubicEaseIn(t);
-            var position = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, trueCardImageFadeOutPosition.localPosition, v);
-            trueCardImage.transform.localPosition = position;
+            var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeOutPosition.localPosition, v);
+            leftCardImage.transform.localPosition = position;
 
-            var position1 = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, falseCardImageFadeOutPosition.localPosition, v);
-            falseCardImage.transform.localPosition = position1;
+            var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeOutPosition.localPosition, v);
+            rightCardImage.transform.localPosition = position1;
 
             yield return null;
         }
 
-        trueCardImage.transform.localPosition = trueCardImageFadeOutPosition.localPosition;
-        falseCardImage.transform.localPosition = falseCardImageFadeOutPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
 
-        trueCardImage.transform.localScale = new Vector3(1f, 1f, 1);
-        falseCardImage.transform.localScale = new Vector3(1f, 1f, 1);
+        leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
+        rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
 
         var timeStart = Time.time;
-        var timeEnd = timeStart + 0.2f;
+        var timeEnd = timeStart + tweenTime;
         while (Time.time < timeEnd)
         {
             var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
@@ -293,11 +402,11 @@ public class StoryHappenManager : MonoBehaviour {
             var position = Vector3.LerpUnclamped(content.transform.localPosition, contentFadeInPosition.localPosition, v);
             content.transform.localPosition = position;
 
-            var position0 = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, trueCardImageFadeInPosition.localPosition, v);
-            trueCardImage.transform.localPosition = position0;
+            var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeInPosition.localPosition, v);
+            leftCardImage.transform.localPosition = position0;
 
-            var position1 = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, falseCardImageFadeInPosition.localPosition, v);
-            falseCardImage.transform.localPosition = position1;
+            var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeInPosition.localPosition, v);
+            rightCardImage.transform.localPosition = position1;
 
             var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
             helpButton.transform.localPosition = position2;
@@ -306,8 +415,8 @@ public class StoryHappenManager : MonoBehaviour {
         }
 
         content.transform.localPosition = contentFadeInPosition.localPosition;
-        falseCardImage.transform.localPosition = falseCardImageFadeInPosition.localPosition;
-        trueCardImage.transform.localPosition = trueCardImageFadeInPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
         helpButton.transform.localPosition = helpFadeInPosition.localPosition;
     }
 
@@ -315,60 +424,64 @@ public class StoryHappenManager : MonoBehaviour {
     {
         if (choice)
         {
-            StoryManager.nowChoice = StoryManager.nowEvent.leftChoice;
+            StoryManager.nowChoice = StoryManager.nowEvent.question.leftChoice;
         }
         else
         {
-            StoryManager.nowChoice = StoryManager.nowEvent.rightChoice;
+            StoryManager.nowChoice = StoryManager.nowEvent.question.rightChoice;
         }
 
         choiceCard = false;
-        var timeStart = Time.time;
-        var timeEnd = timeStart + 0.3f;
-        while (Time.time < timeEnd)
+
+        // random result and nextId
+        nextId = StoryManager.nowChoice.NextEvent();
+        Debug.Log(nextId);
+
+        // nextQuestion
+        if (nextId == -1)
         {
+            var timeStart = Time.time;
+            var timeEnd = timeStart + 0.3f;
+            while (Time.time < timeEnd)
+            {
+                if (choice)
+                {
+                    var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+                    var v = CubicEaseIn(t);
+                    var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
+                    leftCardImage.transform.localPosition = position;
+                }
+                else
+                {
+                    var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+                    var v = CubicEaseIn(t);
+                    var position = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
+                    rightCardImage.transform.localPosition = position;
+                }
+                yield return null;
+            }
             if (choice)
             {
-                var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-                var v = CubicEaseIn(t);
-                var position = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
-                trueCardImage.transform.localPosition = position;
+                leftCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
             }
             else
             {
-                var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-                var v = CubicEaseIn(t);
-                var position = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
-                falseCardImage.transform.localPosition = position;
+                rightCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
             }
-            yield return null;
-        }
-        if (choice)
-        {
-            trueCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
 
-        }
-        else
-        {
-            falseCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
-        }
 
-        if(StoryManager.nowChoice.question.content != "")
-        {
-            StoryManager.nowEvent.content = StoryManager.nowChoice.question.content;
+            StoryManager.nowEvent.content = StoryManager.nowChoice.nextQuestion.content;
             // TODO: ChangeImg
-            StoryManager.nowEvent.leftChoice = StoryManager.nowChoice.question.leftChoice;
-            StoryManager.nowEvent.rightChoice = StoryManager.nowChoice.question.rightChoice;
-            StoryManager.nowEvent.rightChoice = StoryManager.nowChoice.question.rightChoice;
+            StoryManager.nowEvent.question = StoryManager.nowChoice.nextQuestion;
             SetQuestion();
 
-            trueCardImage.transform.localPosition = trueCardImageFadeOutPosition.localPosition;
-            falseCardImage.transform.localPosition = falseCardImageFadeOutPosition.localPosition;
-            trueCardImage.transform.localScale = new Vector3(1f, 1f, 1);
-            falseCardImage.transform.localScale = new Vector3(1f, 1f, 1);
+            leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+            rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
+            leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
+            rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
 
             timeStart = Time.time;
-            timeEnd = timeStart + 0.2f;
+            timeEnd = timeStart + tweenTime;
             while (Time.time < timeEnd)
             {
                 var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
@@ -376,11 +489,11 @@ public class StoryHappenManager : MonoBehaviour {
                 var position = Vector3.LerpUnclamped(content.transform.localPosition, contentFadeInPosition.localPosition, v);
                 content.transform.localPosition = position;
 
-                var position0 = Vector3.LerpUnclamped(trueCardImage.transform.localPosition, trueCardImageFadeInPosition.localPosition, v);
-                trueCardImage.transform.localPosition = position0;
+                var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeInPosition.localPosition, v);
+                leftCardImage.transform.localPosition = position0;
 
-                var position1 = Vector3.LerpUnclamped(falseCardImage.transform.localPosition, falseCardImageFadeInPosition.localPosition, v);
-                falseCardImage.transform.localPosition = position1;
+                var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeInPosition.localPosition, v);
+                rightCardImage.transform.localPosition = position1;
 
                 var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
                 helpButton.transform.localPosition = position2;
@@ -389,33 +502,41 @@ public class StoryHappenManager : MonoBehaviour {
             }
 
             content.transform.localPosition = contentFadeInPosition.localPosition;
-            falseCardImage.transform.localPosition = falseCardImageFadeInPosition.localPosition;
-            trueCardImage.transform.localPosition = trueCardImageFadeInPosition.localPosition;
+            rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
+            leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
             helpButton.transform.localPosition = helpFadeInPosition.localPosition;
 
             canTouch = true;
             helpState = false;
         }
+        // showResult
         else
         {
-            // 轉場
-
-            //for (float i = 1; i <= 0; i -= Time.deltaTime)
-            //{
-            //    var tempColor = this.GetComponent<Image>().color;
-            //    tempColor.a = i;
-            //    this.GetComponent<Image>().color = tempColor;
-            //    yield return null;
-            //}
             whitePanel.SetActive(true);
 
             for (float i = 0; i <= 1; i += Time.deltaTime)
             {
+                if (choice)
+                {
+                    var tempColor1 = leftCardImage.GetComponent<Image>().color;
+                    tempColor1.a = 1 - i;
+                    leftCardImage.GetComponent<Image>().color = tempColor1;
+                    tempColor1 = leftText.GetComponent<Text>().color;
+                    tempColor1.a = 1 - i;
+                    leftText.GetComponent<Text>().color = tempColor1;
+                }
+                else
+                {
+                    var tempColor1 = rightCardImage.GetComponent<Image>().color;
+                    tempColor1.a = 1 - i;
+                    rightCardImage.GetComponent<Image>().color = tempColor1;
+                    tempColor1 = rightText.GetComponent<Text>().color;
+                    tempColor1.a = 1 - i;
+                    rightText.GetComponent<Text>().color = tempColor1;
+                }
+
                 var tempColor = whitePanel.GetComponent<Image>().color;
                 tempColor.a = i;
-                tempColor.r = i;
-                tempColor.g = i;
-                tempColor.b = i;
                 whitePanel.GetComponent<Image>().color = tempColor;
                 yield return null;
             }
@@ -434,45 +555,8 @@ public class StoryHappenManager : MonoBehaviour {
             }
             whitePanel.SetActive(false);
 
-            // random result and nextId
-            int nextId = StoryManager.nowChoice.NextEvent();
-
-            // set result
-            attributeText.text = Setting.CharacterSetting.AttributeChanged(StoryManager.nowChoice.nextChangeValue[nextId]);
-
-            // TODO : Total Assets
-
-            resultText.text = StoryManager.nowChoice.nextResult[nextId];
-
-            StoryManager.EndNowStory(new EventLog(StoryManager.nowId, choice, nextId));
-
-            for (float i = 0; i <= 1; i += Time.deltaTime)
-            {
-                yield return null;
-            }
-
-            resultBox.SetActive(true);
-
-            for (float i = 0; i <= 1; i += Time.deltaTime)
-            {
-                var tempColor = resultBox.GetComponent<Image>().color;
-                tempColor.a = i * 0.8f;
-                resultBox.GetComponent<Image>().color = tempColor;
-
-                tempColor = attributeText.color;
-                tempColor.a = i;
-                attributeText.color = tempColor;
-
-                tempColor = totalAssetText.color;
-                tempColor.a = i;
-                totalAssetText.color = tempColor;
-
-                yield return null;
-            }
             canTouchToNextStory = 1;
         }
-
-        
     }
 
     IEnumerator HelpFadeImage(Image gameObject, bool fadeAway)

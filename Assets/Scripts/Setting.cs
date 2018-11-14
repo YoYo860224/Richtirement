@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Content;
+using System;
 
 namespace Setting
 {
@@ -30,6 +31,10 @@ namespace Setting
                     + annuity
                     + criticalIllnessInsurance
                     + longTermCareInsurance;
+            }
+            set
+            {
+                deposit = Money;
             }
         }
         public static int Mental = 50;
@@ -68,7 +73,7 @@ namespace Setting
                 // words[1]: Sign
                 // words[2]: Value
                 // words[3]: Value if random
-                string[] words = changed[i].Split(' ');
+                string[] words = changed[i].Split(new Char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                 // 得到 value
                 int value = 0;
@@ -77,12 +82,11 @@ namespace Setting
                     // example: "P + 50"
                     value = int.Parse(words[2]); 
                 }
-                else if(words.Length == 3)
+                else if(words.Length == 4)
                 {
                     // example: "P - 3 5"
                     value = RandomUtil.random.Next(int.Parse(words[2]), int.Parse(words[3]));
                 }
-
                 // 判斷+-
                 if(words[1] == "+")
                 {

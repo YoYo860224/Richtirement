@@ -48,7 +48,7 @@ public class InitSettingManager : MonoBehaviour {
         {
             Setting.CharacterSetting.kidAmount = kidDropdown.value + 1;
         }
-        Setting.CharacterSetting.currentAssets = (int)(currentAssets.value);
+        Setting.CharacterSetting.Money = (int)(currentAssets.value);
 
         SceneManager.LoadScene("Story");
     }
