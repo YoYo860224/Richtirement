@@ -9,14 +9,19 @@ namespace Setting
     // 系統設定
     public class SystemSetting
     {
-        public static Localize nowLanguage = Localize.en;
+        public static Localize nowLanguage = Localize.zh_tw;
+
+        public static int AnnuityMax = 50;      // 年金每年最多增加多少
+        public static int MedicineInsuranceMax = 50; // 醫療保險每年最多增加多少
     }
 
     public class CharacterSetting
     {
         // 基本人設
         public static string name;
+        public static int age = 55;
         public static int kidAmount;
+        public static bool spouse;
 
         // 四大基本數值
         public static int Money
@@ -25,31 +30,25 @@ namespace Setting
             {
                 return deposit
                     + stock
-                    + foreignCurrency
-                    + estateAndRent
-                    + dividend
-                    + annuity
-                    + criticalIllnessInsurance
-                    + longTermCareInsurance;
+                    + fund;
             }
             set
             {
                 deposit = Money;
             }
         }
-        public static int Mental = 50;
-        public static int Hearth = 50;
-        public static int Social = 50;
+        public static int Mental = 75;
+        public static int Hearth = 75;
+        public static int Social = 75;
 
         // Money 細項
         public static int deposit = 1200;
-        public static int stock = 1450;
-        public static int foreignCurrency = 400;
-        public static int estateAndRent = 50;
-        public static int dividend = 600;
-        public static int annuity = 30;
-        public static int criticalIllnessInsurance = 500;
-        public static int longTermCareInsurance = 1500;
+        public static int stock = 0;
+        public static int fund = 0;
+        public static int annuity = 0;
+        public static int medicineInsurance = 0;
+
+
 
         /*
          * P心理

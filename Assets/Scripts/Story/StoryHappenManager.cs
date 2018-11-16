@@ -169,7 +169,14 @@ public class StoryHappenManager : MonoBehaviour {
         if (canTouchToNextStory == 4)
         {
             //// 判斷是不是5年
-            SceneManager.LoadScene("Story");
+            if(Setting.CharacterSetting.age != 55 && Setting.CharacterSetting.age % 5 == 0)
+            {
+                SceneManager.LoadScene("Redeploy");
+            }
+            else
+            {
+                SceneManager.LoadScene("Story");
+            }
         }
     }
 

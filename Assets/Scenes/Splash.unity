@@ -682,7 +682,7 @@ MonoBehaviour:
   buttonText:
   - {fileID: 2055459765}
   - {fileID: 2098945869}
-  fadeSpeed: 0.4
+  fadeSpeed: 0.6
 --- !u!1 &798288296
 GameObject:
   m_ObjectHideFlags: 0

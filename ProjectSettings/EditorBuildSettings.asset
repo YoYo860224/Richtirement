@@ -15,12 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Story.unity
     guid: 63628cf008588dd419b5f26bb5705ba3
   - enabled: 1
-    path: Assets/Scenes/Redeploy.unity
-    guid: 7b083af2720bbc74da00c7d04e5d53e8
-  - enabled: 1
     path: Assets/Scenes/SystemSetting.unity
     guid: 8cf26eb8fc5877a45ad99a08048680fb
   - enabled: 1
     path: Assets/Scenes/AnalysisReport.unity
     guid: 887045ace15849b48b2b5fa23854fd5b
+  - enabled: 1
+    path: Assets/Scenes/Redeploy.unity
+    guid: 7b083af2720bbc74da00c7d04e5d53e8
   m_configObjects: {}

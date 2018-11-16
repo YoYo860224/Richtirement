@@ -183,7 +183,7 @@ namespace Content
                     case Localize.en:
                         return "Total of asset : ";
                     case Localize.zh_tw:
-                        return "";
+                        return "總資產 : ";
                 }
                 return "Not Found.";
             }
