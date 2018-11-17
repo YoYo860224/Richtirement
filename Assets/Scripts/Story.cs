@@ -52,12 +52,7 @@ public class StoryEvent
         this.id = id;
         this.imageUrl = imageUrl;
         this.content = content;
-
-        this.question = new Question();
-        this.question.content = q.content;
-        this.question.hint = q.hint;
-        this.question.leftChoice = q.leftChoice;
-        this.question.rightChoice = q.rightChoice;
+        this.question = q;
     }
 }
 
@@ -68,7 +63,7 @@ public class Question
     public string hint;
     public Choice leftChoice;
     public Choice rightChoice;
-    // public Choice absoluteChoice;
+    public Choice absoluteChoice;
 
     public Question()
     {

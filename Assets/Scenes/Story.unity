@@ -1204,7 +1204,6 @@ GameObject:
   - component: {fileID: 714616815}
   - component: {fileID: 714616814}
   - component: {fileID: 714616817}
-  - component: {fileID: 714616818}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1272,17 +1271,6 @@ MonoBehaviour:
   storyContentImage: {fileID: 974939981}
   storyContentText: {fileID: 1547254467}
   storyChoice: {fileID: 419383195}
---- !u!114 &714616818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 714616813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44504a432e0130340aa06b85b548b030, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &721783776
 GameObject:
   m_ObjectHideFlags: 0

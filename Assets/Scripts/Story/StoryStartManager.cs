@@ -36,7 +36,10 @@ public class StoryStartManager : MonoBehaviour {
         
     void SetChoice()
     {
-        storyChoice.GetComponent<QuestionManager>().SetQuestion(StoryManager.nowEvent.question);
+        if (StoryManager.nowEvent.question.absoluteChoice == null)
+        {
+            storyChoice.GetComponent<QuestionManager>().SetQuestion(StoryManager.nowEvent.question);
+        }
     }
 
     public void ClickContent()
@@ -68,6 +71,8 @@ public class StoryStartManager : MonoBehaviour {
     // 淡出文字開始選擇
     IEnumerator StartChoice()
     {
+        storyContentImage.gameObject.GetComponent<Button>().enabled = false;
+
         for (float i = 1f; i >= 0; i -= Time.deltaTime)
         {
             var tempColor = storyContentText.color;
@@ -85,6 +90,8 @@ public class StoryStartManager : MonoBehaviour {
 
         storyChoice.SetActive(true);
         storyChoice.GetComponent<QuestionManager>().StartChoice();
+
+        storyContentImage.gameObject.GetComponent<Button>().enabled = true;
     }
 
     //IEnumerator StoryStart()

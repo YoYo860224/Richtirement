@@ -51,6 +51,13 @@ public class QuestionManager : MonoBehaviour {
     private bool helpState = false;             // Help 是開是關
 
     private int canTouchToNextStory = 0;
+    /* 
+     * 0 : 正常情況，卡片確認退回用
+     * 1 : 故事有結果了，顯示結果用
+     * 2 : 
+     * 3 : 
+     */
+
     public float tweenTime = 0.4f;
     private int nextId;
 
@@ -102,7 +109,14 @@ public class QuestionManager : MonoBehaviour {
 
     public void StartChoice()
     {
-        StartCoroutine(StartChoiceAnimation());
+        if (StoryManager.nowEvent.question.absoluteChoice == null)
+        {
+            StartCoroutine(StartChoiceAnimation());
+        }
+        else
+        {
+            StartCoroutine(AbsoluteResult());
+        }
     }
 
     public void choiceYes()
@@ -184,6 +198,12 @@ public class QuestionManager : MonoBehaviour {
 
     IEnumerator StartChoiceAnimation()
     {
+        leftCardImage.SetActive(true);
+        rightCardImage.SetActive(true);
+        leftCardImage.GetComponent<Button>().enabled = false;
+        rightCardImage.GetComponent<Button>().enabled = false;
+        questionImage.GetComponent<Button>().enabled = false;
+
         // fade in all need
         questionContent.transform.localPosition = contentFadeOutPosition.localPosition;
         helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
@@ -223,6 +243,10 @@ public class QuestionManager : MonoBehaviour {
         rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
         leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
         helpButton.transform.localPosition = helpFadeInPosition.localPosition;
+
+        leftCardImage.GetComponent<Button>().enabled = true;
+        rightCardImage.GetComponent<Button>().enabled = true;
+        questionImage.GetComponent<Button>().enabled = true;
     }
 
     IEnumerator TweenOut(bool choice)
@@ -362,6 +386,9 @@ public class QuestionManager : MonoBehaviour {
 
     IEnumerator DoubleChoiceCard(bool choice)
     {
+        leftCardImage.GetComponent<Button>().enabled = false;
+        rightCardImage.GetComponent<Button>().enabled = false;
+
         if (choice)
         {
             StoryManager.nowChoice = StoryManager.nowEvent.question.leftChoice;
@@ -409,9 +436,6 @@ public class QuestionManager : MonoBehaviour {
                 rightCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
             }
 
-
-            StoryManager.nowEvent.content = StoryManager.nowChoice.nextQuestion.content;
-            // TODO: ChangeImg
             StoryManager.nowEvent.question = StoryManager.nowChoice.nextQuestion;
             SetQuestion(StoryManager.nowEvent.question);
 
@@ -446,6 +470,8 @@ public class QuestionManager : MonoBehaviour {
             leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
             helpButton.transform.localPosition = helpFadeInPosition.localPosition;
 
+            leftCardImage.GetComponent<Button>().enabled = true;
+            rightCardImage.GetComponent<Button>().enabled = true;
             helpState = false;
         }
         // showResult
@@ -493,9 +519,55 @@ public class QuestionManager : MonoBehaviour {
                 yield return null;
             }
             whitePanel.SetActive(false);
+            leftCardImage.SetActive(false);
+            rightCardImage.SetActive(false);
 
             canTouchToNextStory = 1;
         }
+    }
+
+    IEnumerator AbsoluteResult()
+    {
+        questionContent.transform.localPosition = contentFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
+
+        leftCardImage.SetActive(false);
+        rightCardImage.SetActive(false);
+        whitePanel.SetActive(true);
+
+        StoryManager.nowChoice = StoryManager.nowEvent.question.absoluteChoice;
+
+        choiceCard = false;
+
+        // random result and nextId
+        nextId = StoryManager.nowChoice.NextEvent();
+        Debug.Log(nextId);
+
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            var tempColor = whitePanel.GetComponent<Image>().color;
+            tempColor.a = i;
+            whitePanel.GetComponent<Image>().color = tempColor;
+            yield return null;
+        }
+
+        this.GetComponent<Image>().sprite = null;
+        var thisColor = this.GetComponent<Image>().color;
+        thisColor.a = 0;
+        this.GetComponent<Image>().color = thisColor;
+
+        for (float i = 1; i >= 0; i -= Time.deltaTime)
+        {
+            var tempColor = whitePanel.GetComponent<Image>().color;
+            tempColor.a = i;
+            whitePanel.GetComponent<Image>().color = tempColor;
+            yield return null;
+        }
+        whitePanel.SetActive(false);
+
+        canTouchToNextStory = 1;
     }
 
     IEnumerator ShowResultBox()
