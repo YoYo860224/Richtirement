@@ -453,7 +453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 225699811}
   m_Layer: 5
-  m_Name: StoryTextFadeOutPos
+  m_Name: QuestionTextFadeOutPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -711,7 +711,7 @@ GameObject:
   - component: {fileID: 419383197}
   - component: {fileID: 419383196}
   m_Layer: 5
-  m_Name: BackGroundImage
+  m_Name: QuestionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -729,30 +729,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2954b6358f809c74aad2a7d3bd8e28d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storyImage: {fileID: 235494043}
   MoneyFilled: {fileID: 1275967333}
   MentalFilled: {fileID: 60299222}
   PhysicalHearthFilled: {fileID: 1486280634}
   SocialHearthFilled: {fileID: 177381191}
-  content: {fileID: 1004952398}
+  questionImage: {fileID: 1911086405}
+  questionContent: {fileID: 1004952398}
   contentFadeOutPosition: {fileID: 225699811}
   contentFadeInPosition: {fileID: 1146141029}
+  leftText: {fileID: 1394423672}
   leftCardImage: {fileID: 1527221915}
   leftCardImageFadeOutPosition: {fileID: 1299435697}
   leftCardImageFadeInPosition: {fileID: 2020694034}
+  rightText: {fileID: 809109370}
   rightCardImage: {fileID: 464016315}
   rightCardImageFadeOutPosition: {fileID: 1330046367}
   rightCardImageFadeInPosition: {fileID: 1663028935}
-  bigPosition: {fileID: 1838455547}
-  leftText: {fileID: 1394423672}
-  rightText: {fileID: 809109370}
+  bigCardPosition: {fileID: 1838455547}
+  DoubleChoiceCardPosition: {fileID: 512822720}
   helpField: {fileID: 1377517886}
   helpButton: {fileID: 2147321872}
   helpImage: {fileID: 1306372597}
   helpText: {fileID: 199498671}
   helpFadeOutPosition: {fileID: 1499456500}
   helpFadeInPosition: {fileID: 1306166998}
-  DoubleChoiceCardPosition: {fileID: 512822720}
   resultBox: {fileID: 1514708562}
   resultText: {fileID: 253781369}
   attributeText: {fileID: 1109255728}
@@ -772,7 +772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.4392157}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1204,6 +1204,7 @@ GameObject:
   - component: {fileID: 714616815}
   - component: {fileID: 714616814}
   - component: {fileID: 714616817}
+  - component: {fileID: 714616818}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1271,6 +1272,17 @@ MonoBehaviour:
   storyContentImage: {fileID: 974939981}
   storyContentText: {fileID: 1547254467}
   storyChoice: {fileID: 419383195}
+--- !u!114 &714616818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 714616813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44504a432e0130340aa06b85b548b030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &721783776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,7 +1744,7 @@ GameObject:
   - component: {fileID: 1004952399}
   - component: {fileID: 1004952398}
   m_Layer: 5
-  m_Name: StoryText
+  m_Name: QuestionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1961,7 +1973,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1146141029}
   m_Layer: 5
-  m_Name: StoryTextFadeInPos
+  m_Name: QuestionTextFadeInPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2825,8 +2837,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.882353, g: 0.87843144, b: 0.87843144, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -3199,7 +3211,7 @@ GameObject:
   - component: {fileID: 1911086406}
   - component: {fileID: 1911086405}
   m_Layer: 5
-  m_Name: BackGroundTocuh
+  m_Name: BackGroundTouch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

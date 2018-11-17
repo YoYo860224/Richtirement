@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class StoryStartManager : MonoBehaviour {
-    public Image storyImage;
 
+public class StoryStartManager : MonoBehaviour {
+
+    public Image storyImage;
     public Image storyContentImage;
     public Text storyContentText;
-
     public GameObject storyChoice;
+
     //private float scale = 0.71f;
     private float scaleTime = 3.0f;
+
     private void Awake()
     {
         StoryManager.NextEvent();   // 選出此事件
@@ -34,13 +36,7 @@ public class StoryStartManager : MonoBehaviour {
         
     void SetChoice()
     {
-        // TODO: 圖 = nowStory.imageUrl
-        storyChoice.GetComponent<StoryHappenManager>().content.text = StoryManager.nowEvent.question.content;
-        storyChoice.GetComponent<StoryHappenManager>().leftText.text = StoryManager.nowEvent.question.leftChoice.content;
-        storyChoice.GetComponent<StoryHappenManager>().rightText.text = StoryManager.nowEvent.question.rightChoice.content;
-        storyChoice.GetComponent<StoryHappenManager>().helpText.text = StoryManager.nowEvent.question.hint;
-        storyChoice.GetComponent<StoryHappenManager>().trueChoice = StoryManager.nowEvent.question.leftChoice;
-        storyChoice.GetComponent<StoryHappenManager>().falseChoice = StoryManager.nowEvent.question.rightChoice;
+        storyChoice.GetComponent<QuestionManager>().SetQuestion(StoryManager.nowEvent.question);
     }
 
     public void ClickContent()
@@ -48,6 +44,7 @@ public class StoryStartManager : MonoBehaviour {
         StartCoroutine(StartChoice());
     }
 
+    // 淡入文字
     IEnumerator StoryContentStart()
     {
         storyContentText.text = StoryManager.nowEvent.content;
@@ -68,6 +65,7 @@ public class StoryStartManager : MonoBehaviour {
         }
     }
 
+    // 淡出文字開始選擇
     IEnumerator StartChoice()
     {
         for (float i = 1f; i >= 0; i -= Time.deltaTime)
@@ -86,7 +84,7 @@ public class StoryStartManager : MonoBehaviour {
         }
 
         storyChoice.SetActive(true);
-        storyChoice.GetComponent<StoryHappenManager>().StartChoice();
+        storyChoice.GetComponent<QuestionManager>().StartChoice();
     }
 
     //IEnumerator StoryStart()

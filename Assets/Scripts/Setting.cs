@@ -11,8 +11,8 @@ namespace Setting
     {
         public static Localize nowLanguage = Localize.zh_tw;
 
-        public static int AnnuityMax = 50;      // 年金每年最多增加多少
-        public static int MedicineInsuranceMax = 50; // 醫療保險每年最多增加多少
+        public static int AnnuityMax = 50;              // 年金每年最多增加多少
+        public static int MedicineInsuranceMax = 50;    // 醫療保險每年最多增加多少
     }
 
     public class CharacterSetting
@@ -47,8 +47,6 @@ namespace Setting
         public static int fund = 0;
         public static int annuity = 0;
         public static int medicineInsurance = 0;
-
-
 
         /*
          * P心理

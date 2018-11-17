@@ -7,7 +7,7 @@ public class StoryCreate : MonoBehaviour {
     private void Awake()
     {
         int id = 0;
-        string imageUrl = "0.png";                                            // 圖的url
+        string imageUrl = "0.png";                                             // 圖的url
         string content = "轉眼間也到了在十年就要退休的年紀呢！";                  // 開頭簡介
 
         Question q0 = new Question("有了一點存款，做點理財嗎？")
@@ -66,7 +66,6 @@ public class StoryCreate : MonoBehaviour {
 
         StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q0));
         StoryManager.futureEventsID.Add(0);
-
         // ============================================
 
         //id = 1;
