@@ -162,6 +162,8 @@ public class QuestionManager : MonoBehaviour {
 
     public void TouchToNextStory()
     {
+        Setting.CharacterSetting.age += StoryManager.nowEvent.year;
+
         if (canTouchToNextStory == 2)
         {
             canTouchToNextStory = 3;

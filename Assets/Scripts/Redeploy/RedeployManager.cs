@@ -82,6 +82,13 @@ public class RedeployManager : MonoBehaviour {
 
     public void RedeployButtom()
     {
+        Setting.CharacterSetting.deposit = tempDeposity;
+        Setting.CharacterSetting.stock = tempStock;
+        Setting.CharacterSetting.fund = tempFund;
+        Setting.CharacterSetting.annuity += tempAnnuity;
+        Setting.CharacterSetting.medicineInsurance += tempMedicineInsurance;
+
+
         Debug.Log("click redeploy button");
         SceneManager.LoadScene("Story");
 
@@ -139,71 +146,5 @@ public class RedeployManager : MonoBehaviour {
         deposity.percentsText.text = deposity.slider.value.ToString("0.00") + "%";
         TotalAssets.text = TotalAssetsString(Setting.CharacterSetting.Money.ToString());
     }
-
-    //public void AssetsValueChangeCheck(int id)
-    //{
-    //    bool conversionSuccessful = false;
-
-    //    switch (id)
-    //    {
-    //        case 0:
-    //            conversionSuccessful = int.TryParse(deposity.text, out Setting.CharacterSetting.deposit);
-    //            if (!conversionSuccessful)
-    //            {
-    //                Setting.CharacterSetting.deposit = 0;
-    //            }
-    //            break;
-    //        case 1:
-    //            conversionSuccessful = int.TryParse(stock.text, out Setting.CharacterSetting.stock);
-    //            if (!conversionSuccessful)
-    //            {
-    //                Setting.CharacterSetting.stock = 0;
-    //            }
-    //            break;
-    //        case 2:
-    //            conversionSuccessful = int.TryParse(foreign.text, out Setting.CharacterSetting.foreignCurrency);
-    //            if (!conversionSuccessful)
-    //            {
-    //                Setting.CharacterSetting.foreignCurrency = 0;
-    //            }
-    //            break;
-    //        case 3:
-    //            conversionSuccessful = int.TryParse(rent.text, out Setting.CharacterSetting.estateAndRent);
-    //            if (!conversionSuccessful)
-    //            {
-    //                Setting.CharacterSetting.estateAndRent = 0;
-    //            }
-    //            break;
-    //        case 4:
-    //            conversionSuccessful = int.TryParse(dividend.text, out Setting.CharacterSetting.dividend);
-    //            if (!conversionSuccessful)
-    //            {
-    //                Setting.CharacterSetting.dividend = 0;
-    //            }
-    //            break;
-    //        case 5:
-    //            conversionSuccessful = int.TryParse(annuity.text, out Setting.CharacterSetting.annuity);
-    //            if (!conversionSuccessful)
-    //            {
-    //                Setting.CharacterSetting.annuity = 0;
-    //            }
-    //            break;
-    //        case 6:
-    //            conversionSuccessful = int.TryParse(illinessInsurance.text, out Setting.CharacterSetting.criticalIllnessInsurance);
-    //            if (!conversionSuccessful)
-    //            {
-    //                Setting.CharacterSetting.criticalIllnessInsurance = 0;
-    //            }
-    //            break;
-    //        case 7:
-    //            conversionSuccessful = int.TryParse(longTermCareInsurance.text, out Setting.CharacterSetting.longTermCareInsurance);
-    //            if (!conversionSuccessful)
-    //            {
-    //                Setting.CharacterSetting.longTermCareInsurance = 0;
-    //            }
-    //            break;
-    //    }
-
-    //    TotalAssets.text = TotalAssetsString(Setting.CharacterSetting.Money.ToString());
-    //}
+    
 }

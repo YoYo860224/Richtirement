@@ -46,13 +46,15 @@ public class StoryEvent
     public string content;                       // 內容
     public string imageUrl;                      // 圖的url
     public Question question;                    // 問題
+    public int year;
 
-    public StoryEvent(int id, string imageUrl, string content, Question q)
+    public StoryEvent(int id, string imageUrl, string content, Question q, int year)
     {
         this.id = id;
         this.imageUrl = imageUrl;
         this.content = content;
         this.question = q;
+        this.year = year;
     }
 }
 
