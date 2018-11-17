@@ -56,7 +56,7 @@ public class StoryCreate : MonoBehaviour {
                 imageUrl = "0_4.png",
                 prob = 1.0f,
                 valueChanges = new List<string> { "P - 2 5" },
-                nextIds = new List<int> { 777 }
+                nextIds = new List<int> { 1 }
             };
 
             q0.leftChoice.AfterChoiceDo(q0_1);
@@ -158,7 +158,7 @@ public class StoryCreate : MonoBehaviour {
                 imageUrl = "1_5.png",
                 prob = 1.0f,
                 valueChanges = new List<string> { "P - 3 8", "S - 2 5" },
-                nextIds = new List<int> { 777 }
+                nextIds = new List<int> { 3 }
             };
 
             ChoiceResult r2_2 = new ChoiceResult("結果2")
@@ -166,7 +166,7 @@ public class StoryCreate : MonoBehaviour {
                 imageUrl = "1_6.png",
                 prob = 1.0f,
                 valueChanges = new List<string> { "P - 3 8", "H - 1 3" },
-                nextIds = new List<int> { 777 }
+                nextIds = new List<int> { 3 }
             };
 
             q2.leftChoice.AfterChoiceDo(r2_1);
@@ -176,28 +176,308 @@ public class StoryCreate : MonoBehaviour {
         }
         // ============================================
         {
-            int id = 777;
+            int id = 3;
+            string imageUrl = "3.png";
+            string content = "恭喜你退休了！準備好過想過的人生嗎：）";
+
+            Question q = new Question("小孩要創業跟你借200萬")
+            {
+                imageUrl = "",
+                hint = "",
+                leftChoice = new Choice("借"),
+                rightChoice = new Choice("不借")
+            };
+
+            Question q_1 = new Question("小孩生意失敗，要跟他要錢嗎？")
+            {
+                imageUrl = "",
+                hint = "",
+                leftChoice = new Choice("要"),
+                rightChoice = new Choice("不要")
+            };
+
+            ChoiceResult r_1 = new ChoiceResult("結果")
+            {
+                imageUrl = "1_5.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "S - 2 5" },
+                nextIds = new List<int> { 4 }
+            };
+
+            ChoiceResult r_2 = new ChoiceResult("結果")
+            {
+                imageUrl = "1_6.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "H - 1 3" },
+                nextIds = new List<int> { 4 }
+            };
+
+            ChoiceResult r_3 = new ChoiceResult("結果")
+            {
+                imageUrl = "1_6.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "H - 1 3" },
+                nextIds = new List<int> { 4 }
+            };
+
+            q.leftChoice.AfterChoiceDo(q_1);
+            q.rightChoice.AfterChoiceDo(r_3);
+            q_1.leftChoice.AfterChoiceDo(r_1);
+            q_1.rightChoice.AfterChoiceDo(r_2);
+
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q));
+        }
+        // ============================================
+        {
+            int id = 4;
+            string imageUrl = "3.png";
+            string content = "退休也五年了，時間真的不等人呢．．．";
+
+            Question q = new Question("培養個興趣吧？")
+            {
+                imageUrl = "",
+                hint = "",
+                leftChoice = new Choice("好，多出去走走"),
+                rightChoice = new Choice("不了，很花錢的")
+            };
+
+            ChoiceResult r_1 = new ChoiceResult("結果")
+            {
+                imageUrl = "1_5.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "S - 2 5" },
+                nextIds = new List<int> { 5 }
+            };
+
+            ChoiceResult r_2 = new ChoiceResult("結果")
+            {
+                imageUrl = "1_6.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "H - 1 3" },
+                nextIds = new List<int> { 5 }
+            };
+
+            q.leftChoice.AfterChoiceDo(r_1);
+            q.rightChoice.AfterChoiceDo(r_2);
+
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q));
+        }
+        // ============================================
+        {
+            int id = 5;
+            string imageUrl = "3.png";
+            string content = "";
+
+            Question q = new Question("跟老朋友聚聚嗎？")
+            {
+                imageUrl = "",
+                hint = "",
+                leftChoice = new Choice("好！"),
+                rightChoice = new Choice("不了。")
+            };
+
+            ChoiceResult r_1 = new ChoiceResult("結果")
+            {
+                imageUrl = "1_5.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "S - 2 5" },
+                nextIds = new List<int> { 6 }
+            };
+
+            ChoiceResult r_2 = new ChoiceResult("結果")
+            {
+                imageUrl = "1_6.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "H - 1 3" },
+                nextIds = new List<int> { 6 }
+            };
+
+            q.leftChoice.AfterChoiceDo(r_1);
+            q.rightChoice.AfterChoiceDo(r_2);
+
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q));
+        }
+        // ============================================
+        {
+            int id = 6;
+            string imageUrl = "0.png";                                             
+            string content = "恭喜你退休了！準備好過想過的人生嗎：）";               
+
+            Question q0 = new Question("朋友找你投資150萬創業，你會？")
+            {
+                imageUrl = "",
+                hint = "hint test",
+                leftChoice = new Choice("投資"),
+                rightChoice = new Choice("不投資")
+            };
+
+            Question q0_1 = new Question("面對生意的經營，你會？")
+            {
+                imageUrl = "",
+                hint = "",
+                leftChoice = new Choice("隨時到場監督"),
+                rightChoice = new Choice("每月查看報表")
+            };
+
+            ChoiceResult r0_1 = new ChoiceResult("結果")
+            {
+                imageUrl = "0_1.png",
+                prob = 0.5f,
+                valueChanges = new List<string> { "P + 5 8" },
+                nextIds = new List<int> { 7 }
+            };
+
+            ChoiceResult r0_2 = new ChoiceResult("結果")
+            {
+                imageUrl = "0_2.png",
+                prob = 0.5f,
+                valueChanges = new List<string> { "P - 5 8" },
+                nextIds = new List<int> { 7 }
+            };
+
+            ChoiceResult r0_3 = new ChoiceResult("結果")
+            {
+                imageUrl = "0_3.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P + 1 5" },
+                nextIds = new List<int> { 7 }
+            };
+
+            ChoiceResult r0_4 = new ChoiceResult("結果")
+            {
+                imageUrl = "0_4.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 2 5" },
+                nextIds = new List<int> { 7 }
+            };
+
+            q0.leftChoice.AfterChoiceDo(q0_1);
+            q0.rightChoice.AfterChoiceDo(r0_4);
+            q0_1.leftChoice.AfterChoiceDo(r0_1);
+            q0_1.leftChoice.AfterChoiceDo(r0_2);
+            q0_1.rightChoice.AfterChoiceDo(r0_3);
+
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q0));
+        }
+        // ============================================
+        {
+            int id = 7;
             string imageUrl = "777.png";
             string content = "原本以為可以健健康康過完這一生，竟然在80歲這年...";
 
-            Question q777 = new Question("123")
+            Question q = new Question("123")
             {
                 imageUrl = "",
                 hint = "hint test",
                 absoluteChoice = new Choice("Absolute")
             };
 
-            ChoiceResult r777 = new ChoiceResult("結果")
+            ChoiceResult r = new ChoiceResult("結果")
             {
                 imageUrl = "1_5.png",
                 prob = 1.0f,
                 valueChanges = new List<string> { "P - 3 8", "H - 15" },
-                nextIds = new List<int> { -1 }
+                nextIds = new List<int> { 8 }
             };
 
-            q777.absoluteChoice.AfterChoiceDo(r777);
+            q.absoluteChoice.AfterChoiceDo(r);
 
-            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q777));
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q));
+        }
+        // ============================================
+        {
+            int id = 8;
+            string imageUrl = "3.png";
+            string content = "";
+
+            Question q = new Question("大病一場痊癒後，做點什麼？")
+            {
+                imageUrl = "",
+                hint = "",
+                leftChoice = new Choice("好，多出去走走"),
+                rightChoice = new Choice("不了，很花錢的")
+            };
+
+            ChoiceResult r_1 = new ChoiceResult("培養運動習慣")
+            {
+                imageUrl = "1_5.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "S - 2 5" },
+                nextIds = new List<int> { 9 }
+            };
+
+            ChoiceResult r_2 = new ChoiceResult("行動不便，待在家")
+            {
+                imageUrl = "1_6.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "H - 1 3" },
+                nextIds = new List<int> { }
+            };
+
+            q.leftChoice.AfterChoiceDo(r_1);
+            q.rightChoice.AfterChoiceDo(r_2);
+
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q));
+        }
+        // ============================================
+        {
+            int id = 9;
+            string imageUrl = "777.png";
+            string content = "85歲，是個含飴弄孫的年紀呢！等等，老伴！老伴？老伴...";
+
+            Question q = new Question("123")
+            {
+                imageUrl = "",
+                hint = "hint test",
+                absoluteChoice = new Choice("Absolute")
+            };
+
+            ChoiceResult r = new ChoiceResult("結果")
+            {
+                imageUrl = "1_5.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "H - 15" },
+                nextIds = new List<int> { 10 }
+            };
+
+            q.absoluteChoice.AfterChoiceDo(r);
+
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q));
+        }
+        // ============================================
+        {
+            int id = 8;
+            string imageUrl = "3.png";
+            string content = "";
+
+            Question q = new Question("走出傷痛吧，做點什麼？")
+            {
+                imageUrl = "",
+                hint = "",
+                leftChoice = new Choice("好，多出去走走"),
+                rightChoice = new Choice("不了，很花錢的")
+            };
+
+            ChoiceResult r_1 = new ChoiceResult("活到老學到老")
+            {
+                imageUrl = "1_5.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "S - 2 5" },
+                nextIds = new List<int> { }
+            };
+
+            ChoiceResult r_2 = new ChoiceResult("花點時間陪家人")
+            {
+                imageUrl = "1_6.png",
+                prob = 1.0f,
+                valueChanges = new List<string> { "P - 3 8", "H - 1 3" },
+                nextIds = new List<int> { }
+            };
+
+            q.leftChoice.AfterChoiceDo(r_1);
+            q.rightChoice.AfterChoiceDo(r_2);
+
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q));
         }
     }
 }
