@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class StoryStartManager : MonoBehaviour {
 
     public Image storyImage;
+    public Image questionImage;
     public Image storyContentImage;
     public Text storyContentText;
     public GameObject storyChoice;
@@ -26,6 +27,9 @@ public class StoryStartManager : MonoBehaviour {
 
         SetChoice();
         storyChoice.SetActive(false);
+
+        questionImage.color = new Color(255, 255, 255, 0);
+        storyImage.sprite = Resources.Load<Sprite>(StoryManager.nowEvent.imageUrl);
 
         //storyImage.transform.localScale = new Vector3(scale, scale, 0);
     }
