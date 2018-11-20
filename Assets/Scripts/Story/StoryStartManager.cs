@@ -30,13 +30,14 @@ public class StoryStartManager : MonoBehaviour {
 
         questionImage.color = new Color(255, 255, 255, 0);
         storyImage.sprite = Resources.Load<Sprite>(StoryManager.nowEvent.imageUrl);
-
-        //storyImage.transform.localScale = new Vector3(scale, scale, 0);
     }
 
     // Use this for initialization
     void Start () {
-        StartCoroutine(StoryContentStart());
+        if(StoryManager.nowEvent.content != "")
+        {
+            StartCoroutine(StoryContentStart());
+        }
     }
 
     // Update is called once per frame
@@ -81,23 +82,25 @@ public class StoryStartManager : MonoBehaviour {
     // 淡出文字開始選擇
     IEnumerator StartChoice()
     {
-        storyContentImage.gameObject.GetComponent<Button>().enabled = false;
-
-        for (float i = 1f; i >= 0; i -= Time.deltaTime)
+        if (StoryManager.nowEvent.content != "")
         {
-            var tempColor = storyContentText.color;
-            tempColor.a = i;
-            storyContentText.color = tempColor;
+            storyContentImage.gameObject.GetComponent<Button>().enabled = false;
 
-            if (i < 0.8f)
+            for (float i = 1f; i >= 0; i -= Time.deltaTime)
             {
-                tempColor = storyContentImage.color;
+                var tempColor = storyContentText.color;
                 tempColor.a = i;
-                storyContentImage.color = tempColor;
-            }
-            yield return null;
-        }
+                storyContentText.color = tempColor;
 
+                if (i < 0.8f)
+                {
+                    tempColor = storyContentImage.color;
+                    tempColor.a = i;
+                    storyContentImage.color = tempColor;
+                }
+                yield return null;
+            }
+        }
         storyChoice.SetActive(true);
         storyChoice.GetComponent<QuestionManager>().StartChoice();
 
