@@ -90,7 +90,7 @@ public class QuestionManager : MonoBehaviour {
 
     public void SetQuestion(Question q)
     {
-        // this.questionImage = Resources.Load<Image>(q.imageUrl);
+        this.transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(q.imageUrl);
         this.questionContent.text = q.content;
         this.leftText.text = q.leftChoice.content;
         this.rightText.text = q.rightChoice.content;
@@ -222,6 +222,10 @@ public class QuestionManager : MonoBehaviour {
             var tempColor = this.GetComponent<Image>().color;
             tempColor.a = Time.time / timeEnd * 0.8f;
             this.GetComponent<Image>().color = tempColor;
+            tempColor = transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().color;
+            tempColor.a = Time.time / timeEnd;
+            transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().color = tempColor;
+
 
             // set 4 fade in pos
             var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
@@ -508,6 +512,7 @@ public class QuestionManager : MonoBehaviour {
                 yield return null;
             }
 
+            transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
             this.GetComponent<Image>().sprite = null;
             var thisColor = this.GetComponent<Image>().color;
             thisColor.a = 0;
@@ -555,6 +560,7 @@ public class QuestionManager : MonoBehaviour {
             yield return null;
         }
 
+        transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
         this.GetComponent<Image>().sprite = null;
         var thisColor = this.GetComponent<Image>().color;
         thisColor.a = 0;
@@ -576,7 +582,7 @@ public class QuestionManager : MonoBehaviour {
     {
         // set result
         attributeText.text = Setting.CharacterSetting.AttributeChanged(StoryManager.nowChoice.choiceResults[nextId].valueChanges);
-
+        
         // TODO : Total Assets
 
         resultText.text = StoryManager.nowChoice.choiceResults[nextId].content;

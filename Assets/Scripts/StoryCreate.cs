@@ -8,12 +8,12 @@ public class StoryCreate : MonoBehaviour {
     {
         {
             int id = 0;
-            string imageUrl = "0.png";                                             // 圖的url
+            string imageUrl = "Story/01";                                          // 圖的url
             string content = "轉眼間也到了在十年就要退休的年紀呢！";                  // 開頭簡介
 
             Question q0 = new Question("有了一點存款，做點理財嗎？")
             {
-                imageUrl = "",
+                imageUrl = "Story/02",
                 hint = "hint test",
                 leftChoice = new Choice("Yes"),
                 rightChoice = new Choice("No")
@@ -21,7 +21,7 @@ public class StoryCreate : MonoBehaviour {
 
             Question q0_1 = new Question("做點什麼？")
             {
-                imageUrl = "",
+                imageUrl = "Story/03",
                 hint = "",
                 leftChoice = new Choice("買股票"),
                 rightChoice = new Choice("買儲蓄險")
@@ -29,7 +29,7 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r0_1 = new ChoiceResult("結果")
             {
-                imageUrl = "0_1.png",
+                imageUrl = "Story/03",
                 prob = 0.3f,
                 valueChanges = new List<string> { "P + 5 8" },
                 nextIds = new List<int> { 1 }
@@ -37,7 +37,7 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r0_2 = new ChoiceResult("結果")
             {
-                imageUrl = "0_2.png",
+                imageUrl = "Story/03",
                 prob = 0.7f,
                 valueChanges = new List<string> { "P - 5 8" },
                 nextIds = new List<int> { 1 }
@@ -45,7 +45,7 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r0_3 = new ChoiceResult("結果")
             {
-                imageUrl = "0_3.png",
+                imageUrl = "Story/03",
                 prob = 1.0f,
                 valueChanges = new List<string> { "P + 1 5" },
                 nextIds = new List<int> { 1 }
@@ -53,7 +53,7 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r0_4 = new ChoiceResult("結果")
             {
-                imageUrl = "0_4.png",
+                imageUrl = "Story/03",
                 prob = 1.0f,
                 valueChanges = new List<string> { "P - 2 5" },
                 nextIds = new List<int> { 1 }
@@ -300,7 +300,7 @@ public class StoryCreate : MonoBehaviour {
         // ============================================
         {
             int id = 6;
-            string imageUrl = "0.png";                                             
+            string imageUrl = "./Story/01.png";                                             
             string content = "恭喜你退休了！準備好過想過的人生嗎：）";               
 
             Question q0 = new Question("朋友找你投資150萬創業，你會？")
