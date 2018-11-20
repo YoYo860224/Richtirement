@@ -560,6 +560,7 @@ public class QuestionManager : MonoBehaviour {
             yield return null;
         }
 
+        transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().color = new Color(255, 255, 255, 255);
         transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
         this.GetComponent<Image>().sprite = null;
         var thisColor = this.GetComponent<Image>().color;
