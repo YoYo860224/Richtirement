@@ -29,7 +29,7 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r0_1 = new ChoiceResult("結果")
             {
-                imageUrl = "Story/0_1",
+                imageUrl = "Story/0_2",
                 prob = 0.3f,
                 valueChanges = new List<string> { "P + 5 8" },
                 nextIds = new List<int> { 1 }
@@ -37,7 +37,7 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r0_2 = new ChoiceResult("結果")
             {
-                imageUrl = "Story/0_2",
+                imageUrl = "Story/0_1",
                 prob = 0.7f,
                 valueChanges = new List<string> { "P - 5 8" },
                 nextIds = new List<int> { 1 }
