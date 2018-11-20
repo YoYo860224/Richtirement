@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StoryStartManager : MonoBehaviour {
@@ -15,8 +16,13 @@ public class StoryStartManager : MonoBehaviour {
 
     private void Awake()
     {
-        StoryManager.NextEvent();   // 選出此事件
+        bool nextExist = StoryManager.NextEvent();   // 選出此事件
+        if(nextExist == false)
+        {
+            SceneManager.LoadScene("AnalysisReport");
+        }
         Debug.Log("new Story, now ID = " + StoryManager.nowEvent.id);
+        Debug.Log("new age = " + Setting.CharacterSetting.age.ToString());
 
         SetChoice();
         storyChoice.SetActive(false);

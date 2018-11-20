@@ -7,11 +7,17 @@ using Content;
 using UnityEngine.SceneManagement;
 
 public class RedeployManager : MonoBehaviour {
-    public RedeployField deposity;
-    public RedeployField stock;
-    public RedeployField fund;
-    public RedeployField annuity;
-    public RedeployField medicineInsurance;
+    public GameObject deposityGameObject;
+    public GameObject stockGameObject;
+    public GameObject fundGameObject;
+    public GameObject annuityGameObject;
+    public GameObject medicineInsuranceGameObject;
+
+    private RedeployField deposity;
+    private RedeployField stock;
+    private RedeployField fund;
+    private RedeployField annuity;
+    private RedeployField medicineInsurance;
 
     public Text title;
     public Text redeployText;
@@ -29,6 +35,21 @@ public class RedeployManager : MonoBehaviour {
     string TotalAssetsString(string assets)
     {
         return Content.Redeploy.TotalAssets1 + assets + Content.Redeploy.TotalAssets2;
+    }
+
+    private void Awake()
+    {
+        deposity = deposityGameObject.GetComponent<RedeployField>();
+        stock = stockGameObject.GetComponent<RedeployField>();
+        fund = fundGameObject.GetComponent<RedeployField>();
+        annuity = annuityGameObject.GetComponent<RedeployField>();
+        medicineInsurance = medicineInsuranceGameObject.GetComponent<RedeployField>();
+
+        if (Setting.CharacterSetting.age > 65)
+        {
+            annuityGameObject.SetActive(false);
+            medicineInsuranceGameObject.SetActive(false);
+        }
     }
 
     // Use this for initialization
@@ -61,12 +82,12 @@ public class RedeployManager : MonoBehaviour {
 
         annuity.moneyText.text = "0萬";
         annuity.slider.value = 0;
-        annuity.percentsText.text = "0%";
+        annuity.percentsText.text = "0.00%";
         annuity.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(3); });
 
         medicineInsurance.moneyText.text = "0萬";
         medicineInsurance.slider.value = 0;
-        medicineInsurance.percentsText.text = "0%";
+        medicineInsurance.percentsText.text = "0.00%";
         medicineInsurance.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(4); });
 
 

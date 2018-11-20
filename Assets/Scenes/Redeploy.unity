@@ -1695,11 +1695,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a09eee0fe342874ca76614ef96c9f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deposity: {fileID: 528584006}
-  stock: {fileID: 1961255721}
-  fund: {fileID: 208094436}
-  annuity: {fileID: 1741243354}
-  medicineInsurance: {fileID: 605235590}
+  deposityGameObject: {fileID: 528584004}
+  stockGameObject: {fileID: 1961255719}
+  fundGameObject: {fileID: 208094434}
+  annuityGameObject: {fileID: 1741243352}
+  medicineInsuranceGameObject: {fileID: 605235588}
   title: {fileID: 1945382488}
   redeployText: {fileID: 1781002508}
   redeploy: {fileID: 1619813552}

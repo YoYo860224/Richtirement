@@ -34,7 +34,7 @@ namespace Setting
             }
             set
             {
-                deposit = Money;
+                deposit = value;
             }
         }
         public static int Mental = 75;

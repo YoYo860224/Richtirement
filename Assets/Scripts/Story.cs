@@ -20,11 +20,16 @@ public static class StoryManager
     }
 
     // 產生下一個事件
-    public static void NextEvent()
-    {       
-        int randomIndex = RandomUtil.random.Next(0, futureEventsID.Count);
+    public static bool NextEvent()
+    {
+        if (futureEventsID.Count > 0)
+        {
 
-        nowEvent = AllSEventList.Find(x => x.id == futureEventsID[randomIndex]);
+            int randomIndex = RandomUtil.random.Next(0, futureEventsID.Count);
+            nowEvent = AllSEventList.Find(x => x.id == futureEventsID[randomIndex]);
+            return true;
+        }
+        return false;
     }
 
     // 選擇完根據 log 刪除現在的 story, 增加 nextId 進 list

@@ -137,7 +137,7 @@ public class StoryCreate : MonoBehaviour {
             q1_2.leftChoice.AfterChoiceDo(r1_3);
             q1_2.rightChoice.AfterChoiceDo(r1_4);
 
-            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q1, 5));
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q1, 4));
         }
         // ============================================
         {
@@ -172,7 +172,7 @@ public class StoryCreate : MonoBehaviour {
             q2.leftChoice.AfterChoiceDo(r2_1);
             q2.rightChoice.AfterChoiceDo(r2_2);
 
-            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q2, 5));
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q2, 1));
         }
         // ============================================
         {
@@ -260,7 +260,7 @@ public class StoryCreate : MonoBehaviour {
             q.leftChoice.AfterChoiceDo(r_1);
             q.rightChoice.AfterChoiceDo(r_2);
 
-            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q, 5));
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q, 4));
         }
         // ============================================
         {
@@ -295,7 +295,7 @@ public class StoryCreate : MonoBehaviour {
             q.leftChoice.AfterChoiceDo(r_1);
             q.rightChoice.AfterChoiceDo(r_2);
 
-            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q, 5));
+            StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q, 1));
         }
         // ============================================
         {

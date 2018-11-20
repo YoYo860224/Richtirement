@@ -162,7 +162,6 @@ public class QuestionManager : MonoBehaviour {
 
     public void TouchToNextStory()
     {
-        Setting.CharacterSetting.age += StoryManager.nowEvent.year;
 
         if (canTouchToNextStory == 2)
         {
@@ -171,8 +170,9 @@ public class QuestionManager : MonoBehaviour {
         }
         if (canTouchToNextStory == 4)
         {
+            Setting.CharacterSetting.age += StoryManager.nowEvent.year;
             //// 判斷是不是5年
-            if(Setting.CharacterSetting.age != 55 && Setting.CharacterSetting.age % 5 == 0)
+            if (Setting.CharacterSetting.age != 55 && Setting.CharacterSetting.age != 90 && Setting.CharacterSetting.age % 5 == 0)
             {
                 SceneManager.LoadScene("Redeploy");
             }
