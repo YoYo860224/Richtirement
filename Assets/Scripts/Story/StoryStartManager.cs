@@ -103,6 +103,10 @@ public class StoryStartManager : MonoBehaviour {
         }
         storyChoice.SetActive(true);
         storyChoice.GetComponent<QuestionManager>().StartChoice();
+        if (StoryManager.nowEvent.question.absoluteChoice != null) {
+            storyChoice.GetComponent<Image>().color = new Color(255, 255, 255, 0);
+        }
+
 
         storyContentImage.gameObject.GetComponent<Button>().enabled = true;
     }
