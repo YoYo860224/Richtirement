@@ -12,6 +12,11 @@ public class QuestionManager : MonoBehaviour {
     public Image PhysicalHearthFilled;
     public Image SocialHearthFilled;
 
+    private Color moneyColor;
+    private Color mentalColor;
+    private Color physicalHearthColor;
+    private Color socialHearthColor;
+
     public Image questionImage;
     public Text questionContent;
     public Transform contentFadeOutPosition;
@@ -62,6 +67,11 @@ public class QuestionManager : MonoBehaviour {
 
     private void Awake()
     {
+        moneyColor = MoneyFilled.color;
+        mentalColor = MentalFilled.color;
+        physicalHearthColor = PhysicalHearthFilled.color;
+        socialHearthColor = SocialHearthFilled.color;
+
         resultBox.SetActive(false);
         var tempColor = resultText.color;
         tempColor.a = 0;
@@ -156,6 +166,7 @@ public class QuestionManager : MonoBehaviour {
         {
             canTouchToNextStory = 2;
             StartCoroutine(ShowResultBox());
+            StartCoroutine(AttributeChangedAnimation());
         }
     }
 
@@ -209,16 +220,13 @@ public class QuestionManager : MonoBehaviour {
 
         var timeStart = Time.time;
         var timeEnd = timeStart + tweenTime * 2;
-        Debug.Log(timeStart);
-        Debug.Log(timeEnd);
 
         while (Time.time < timeEnd)
         {
 
             // Set Background Color
-            SetImageColor(this.GetComponent<Image>(), Time.time / timeEnd * 0.8f);
-            SetImageColor(transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>(), Time.time / timeEnd);
-
+            SetImageAlpha(this.GetComponent<Image>(), Time.time / timeEnd * 0.8f);
+            SetImageAlpha(transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>(), Time.time / timeEnd);
 
             UIFadeInTween(timeStart, timeEnd);
             yield return null;
@@ -414,16 +422,16 @@ public class QuestionManager : MonoBehaviour {
             {
                 if (choice)
                 {
-                    SetImageColor(leftCardImage.GetComponent<Image>(), 1 - i);
-                    SetTextColor(leftText.GetComponent<Text>(), 1 - i);
+                    SetImageAlpha(leftCardImage.GetComponent<Image>(), 1 - i);
+                    SetTextAlpha(leftText.GetComponent<Text>(), 1 - i);
                 }
                 else
                 {
-                    SetImageColor(rightCardImage.GetComponent<Image>(), 1 - i);
-                    SetTextColor(rightText.GetComponent<Text>(), 1 - i);
+                    SetImageAlpha(rightCardImage.GetComponent<Image>(), 1 - i);
+                    SetTextAlpha(rightText.GetComponent<Text>(), 1 - i);
                 }
 
-                SetImageColor(whitePanel.GetComponent<Image>(), i);
+                SetImageAlpha(whitePanel.GetComponent<Image>(), i);
 
                 yield return null;
             }
@@ -431,11 +439,11 @@ public class QuestionManager : MonoBehaviour {
             transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
             this.GetComponent<Image>().sprite = null;
 
-            SetImageColor(this.GetComponent<Image>(), 0);
+            SetImageAlpha(this.GetComponent<Image>(), 0);
 
             for (float i = 1; i >= 0; i -= Time.deltaTime)
             {
-                SetImageColor(whitePanel.GetComponent<Image>(), i);
+                SetImageAlpha(whitePanel.GetComponent<Image>(), i);
                 yield return null;
             }
 
@@ -465,7 +473,7 @@ public class QuestionManager : MonoBehaviour {
 
         for (float i = 0; i <= 1; i += Time.deltaTime)
         {
-            SetImageColor(whitePanel.GetComponent<Image>(), i);
+            SetImageAlpha(whitePanel.GetComponent<Image>(), i);
             yield return null;
         }
 
@@ -478,7 +486,7 @@ public class QuestionManager : MonoBehaviour {
 
         for (float i = 1; i >= 0; i -= Time.deltaTime)
         {
-            SetImageColor(whitePanel.GetComponent<Image>(), i);
+            SetImageAlpha(whitePanel.GetComponent<Image>(), i);
             yield return null;
         }
         whitePanel.SetActive(false);
@@ -495,23 +503,17 @@ public class QuestionManager : MonoBehaviour {
 
         resultText.text = StoryManager.nowChoice.choiceResults[nextId].content;
 
-
-        //for (float i = 0; i <= 1; i += Time.deltaTime)
-        //{
-        //    yield return null;
-        //}
-
         resultBox.SetActive(true);
 
         for (float i = 0; i <= 1; i += Time.deltaTime)
         {
             if (i < 0.8f)
             {
-                SetImageColor(resultBox.GetComponent<Image>(), i);
+                SetImageAlpha(resultBox.GetComponent<Image>(), i);
             }
 
-            SetTextColor(attributeText, i);
-            SetTextColor(totalAssetText, i);
+            SetTextAlpha(attributeText, i);
+            SetTextAlpha(totalAssetText, i);
 
             yield return null;
         }
@@ -521,13 +523,13 @@ public class QuestionManager : MonoBehaviour {
     {
         for (float i = 1; i >= 0; i -= Time.deltaTime)
         {
-            SetTextColor(attributeText, i);
-            SetTextColor(totalAssetText, i);
+            SetTextAlpha(attributeText, i);
+            SetTextAlpha(totalAssetText, i);
             yield return null;
         }
         for (float i = 0; i <= 1; i += Time.deltaTime)
         {
-            SetTextColor(resultText, i);
+            SetTextAlpha(resultText, i);
             yield return null;
         }
         canTouchToNextStory = 4;
@@ -542,9 +544,9 @@ public class QuestionManager : MonoBehaviour {
             {
                 if (i < 0.8f)
                 {
-                    SetImageColor(helpImage, i);
+                    SetImageAlpha(helpImage, i);
                 }
-                SetTextColor(helpText, i);
+                SetTextAlpha(helpText, i);
                 yield return null;
             }
             helpField.SetActive(false);
@@ -556,13 +558,73 @@ public class QuestionManager : MonoBehaviour {
             {
                 if(i< 0.8f)
                 {
-                    SetImageColor(helpImage, i);
+                    SetImageAlpha(helpImage, i);
                 }
-                SetTextColor(helpText, i);
+                SetTextAlpha(helpText, i);
                 yield return null;
             }
         }
         helpButton.transform.GetChild(0).GetComponent<Button>().enabled = true;
+    }
+
+    IEnumerator AttributeChangedAnimation()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            Debug.Log(i);
+            if (i % 2 == 0)
+            {
+                for (float j = 1; j >= 0; j -= Time.deltaTime)
+                {
+                    if (Setting.CharacterSetting.moneyHasChanged != 0)
+                    {
+                        SetImageAlpha(MoneyFilled, j);
+                    }
+                    if (Setting.CharacterSetting.mentalHasChanged != 0)
+                    {
+                        SetImageAlpha(MentalFilled, j);
+                    }
+                    if (Setting.CharacterSetting.socialHasChanged != 0)
+                    {
+                        SetImageAlpha(SocialHearthFilled, j);
+                    }
+                    if (Setting.CharacterSetting.hearthHasChanged != 0)
+                    {
+                        SetImageAlpha(PhysicalHearthFilled, j);
+                    }
+                    yield return null;
+                }
+            }
+            else
+            {
+                for (float j = 0; j < 1; j += Time.deltaTime)
+                {
+                    if (Setting.CharacterSetting.moneyHasChanged != 0)
+                    {
+                        SetImageAlpha(MoneyFilled, j);
+                    }
+                    if (Setting.CharacterSetting.mentalHasChanged != 0)
+                    {
+                        SetImageAlpha(MentalFilled, j);
+                    }
+                    if (Setting.CharacterSetting.socialHasChanged != 0)
+                    {
+                        SetImageAlpha(SocialHearthFilled, j);
+                    }
+                    if (Setting.CharacterSetting.hearthHasChanged != 0)
+                    {
+                        SetImageAlpha(PhysicalHearthFilled, j);
+                    }
+                    yield return null;
+                }
+            }
+            yield return null;
+        }
+        SetImageAlpha(MoneyFilled, 1);
+        SetImageAlpha(MentalFilled, 1);
+        SetImageAlpha(SocialHearthFilled, 1);
+        SetImageAlpha(PhysicalHearthFilled, 1);
+
     }
 
     void UIFadeInTween(float timeStart, float timeEnd)
@@ -615,14 +677,14 @@ public class QuestionManager : MonoBehaviour {
         helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
     }
 
-    void SetImageColor(Image image, float value)
+    void SetImageAlpha(Image image, float value)
     {
         var tempColor = image.color;
         tempColor.a = value;
         image.color = tempColor;
     }
 
-    void SetTextColor(Text text, float value)
+    void SetTextAlpha(Text text, float value)
     {
         var tempColor = text.color;
         tempColor.a = value;

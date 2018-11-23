@@ -41,6 +41,15 @@ namespace Setting
         public static int Hearth = 75;
         public static int Social = 75;
 
+        // add 1
+        // no changed 0
+        // minus -1
+        public static int moneyHasChanged = 0;
+        public static int mentalHasChanged = 0;
+        public static int hearthHasChanged = 0;
+        public static int socialHasChanged = 0;
+
+
         // Money 細項
         public static int deposit = 1200;
         public static int stock = 0;
@@ -57,9 +66,14 @@ namespace Setting
          */
         public static string AttributeChanged(List<string> changed)
         {
+            moneyHasChanged = 0;
+            mentalHasChanged = 0;
+            hearthHasChanged = 0;
+            socialHasChanged = 0;
+
             string mentalResult = "";
-            string physiologicResult = "";
-            string SocialResult = "";
+            string hearthResult = "";
+            string socialResult = "";
 
             for(int i = 0; i < changed.Count; i++)
             {
@@ -91,15 +105,18 @@ namespace Setting
                     switch (words[0])
                     {
                         case "P":
+                            mentalHasChanged = 1;
                             mentalResult = "Mental Index + " + value.ToString() + "\n";
                             Mental += value;
                             break;
                         case "S":
-                            SocialResult = "Social Index + " + value.ToString() + "\n";
+                            socialHasChanged = 1;
+                            socialResult = "Social Index + " + value.ToString() + "\n";
                             Social += value;
                             break;
                         case "H":
-                            physiologicResult = "Physiologic Index + " + value.ToString() + "\n";
+                            hearthHasChanged = 1;
+                            hearthResult = "Physiologic Index + " + value.ToString() + "\n";
                             Hearth += value;
                             break;
                     }
@@ -109,22 +126,25 @@ namespace Setting
                     switch (words[0])
                     {
                         case "P":
+                            mentalHasChanged = -1;
                             mentalResult = "Mental Index - " + value.ToString() + "\n";
                             Mental -= value;
                             break;
                         case "S":
-                            SocialResult = "Social Index - " + value.ToString() + "\n";
+                            socialHasChanged = -1;
+                            socialResult = "Social Index - " + value.ToString() + "\n";
                             Social -= value;
                             break;
                         case "H":
-                            physiologicResult = "Physiologic Index - " + value.ToString() + "\n";
+                            hearthHasChanged = -1;
+                            hearthResult = "Physiologic Index - " + value.ToString() + "\n";
                             Hearth -= value;
                             break;
                     }
                 }
             }
 
-            return mentalResult + physiologicResult + SocialResult;
+            return mentalResult + hearthResult + socialResult;
         }
     }
 
