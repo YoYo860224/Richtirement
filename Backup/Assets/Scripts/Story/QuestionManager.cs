@@ -57,6 +57,7 @@ public class QuestionManager : MonoBehaviour {
      * 2 : 
      * 3 : 
      */
+
     public float tweenTime = 0.4f;
     private int nextId;
 
@@ -186,11 +187,13 @@ public class QuestionManager : MonoBehaviour {
     {
         if (helpState)
         {
-            StartCoroutine(HelpFade(helpState));
+            StartCoroutine(HelpFadeImage(helpImage, helpState));
+            StartCoroutine(HelpFadeText(helpText, helpState));
         }
         else
         {
-            StartCoroutine(HelpFade(helpState));
+            StartCoroutine(HelpFadeImage(helpImage, helpState));
+            StartCoroutine(HelpFadeText(helpText, helpState));
         }
         helpState = !helpState;
     }
@@ -203,28 +206,49 @@ public class QuestionManager : MonoBehaviour {
         rightCardImage.GetComponent<Button>().enabled = false;
         questionImage.GetComponent<Button>().enabled = false;
 
-        SetUIToFadeOutLoc();
+        // fade in all need
+        questionContent.transform.localPosition = contentFadeOutPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
         leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
         rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
 
         var timeStart = Time.time;
         var timeEnd = timeStart + tweenTime * 2;
-        Debug.Log(timeStart);
-        Debug.Log(timeEnd);
-
         while (Time.time < timeEnd)
         {
-
             // Set Background Color
-            SetImageColor(this.GetComponent<Image>(), Time.time / timeEnd * 0.8f);
-            SetImageColor(transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>(), Time.time / timeEnd);
+            var tempColor = this.GetComponent<Image>().color;
+            tempColor.a = Time.time / timeEnd * 0.8f;
+            this.GetComponent<Image>().color = tempColor;
+            tempColor = transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().color;
+            tempColor.a = Time.time / timeEnd;
+            transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().color = tempColor;
 
 
-            UIFadeInTween(timeStart, timeEnd);
+            // set 4 fade in pos
+            var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+            var v = CubicEaseOut(t);
+            var position = Vector3.LerpUnclamped(questionContent.transform.localPosition, contentFadeInPosition.localPosition, v);
+            questionContent.transform.localPosition = position;
+
+            var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeInPosition.localPosition, v);
+            leftCardImage.transform.localPosition = position0;
+
+            var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeInPosition.localPosition, v);
+            rightCardImage.transform.localPosition = position1;
+
+            var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
+            helpButton.transform.localPosition = position2;
+
             yield return null;
         }
 
-        SetUIToFadeInLoc();
+        questionContent.transform.localPosition = contentFadeInPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeInPosition.localPosition;
 
         leftCardImage.GetComponent<Button>().enabled = true;
         rightCardImage.GetComponent<Button>().enabled = true;
@@ -241,11 +265,27 @@ public class QuestionManager : MonoBehaviour {
         var timeEnd = timeStart + tweenTime;
         while (Time.time < timeEnd)
         {
-            UIFadeOutTween(timeStart, timeEnd);
+            var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+            var v = CubicEaseIn(t);
+            var position = Vector3.LerpUnclamped(questionContent.transform.localPosition, contentFadeOutPosition.localPosition, v);
+            questionContent.transform.localPosition = position;
+
+            var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeOutPosition.localPosition, v);
+            leftCardImage.transform.localPosition = position0;
+
+            var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeOutPosition.localPosition, v);
+            rightCardImage.transform.localPosition = position1;
+
+            var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeOutPosition.localPosition, v);
+            helpButton.transform.localPosition = position2;
+
             yield return null;
         }
 
-        SetUIToFadeOutLoc();
+        questionContent.transform.localPosition = contentFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
 
         if (choice)
         {
@@ -263,14 +303,15 @@ public class QuestionManager : MonoBehaviour {
             if (choice)
             {
                 var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
-                var v = LinearEase(t);
+                var v = CubicEaseOut(t);
                 var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, bigCardPosition.localPosition, v);
                 leftCardImage.transform.localPosition = position;
             }
             else
             {
+
                 var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
-                var v = LinearEase(t);
+                var v = CubicEaseOut(t);
                 var position = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, bigCardPosition.localPosition, v);
                 rightCardImage.transform.localPosition = position;
             }
@@ -302,7 +343,7 @@ public class QuestionManager : MonoBehaviour {
         while (Time.time < timeEnd1)
         {
             var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
-            var v = LinearEase(t);
+            var v = CubicEaseIn(t);
             var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeOutPosition.localPosition, v);
             leftCardImage.transform.localPosition = position;
 
@@ -312,7 +353,8 @@ public class QuestionManager : MonoBehaviour {
             yield return null;
         }
 
-        SetUIToFadeOutLoc();
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
 
         leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
         rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
@@ -321,11 +363,27 @@ public class QuestionManager : MonoBehaviour {
         var timeEnd = timeStart + tweenTime;
         while (Time.time < timeEnd)
         {
-            UIFadeInTween(timeStart, timeEnd);
+            var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+            var v = CubicEaseOut(t);
+            var position = Vector3.LerpUnclamped(questionContent.transform.localPosition, contentFadeInPosition.localPosition, v);
+            questionContent.transform.localPosition = position;
+
+            var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeInPosition.localPosition, v);
+            leftCardImage.transform.localPosition = position0;
+
+            var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeInPosition.localPosition, v);
+            rightCardImage.transform.localPosition = position1;
+
+            var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
+            helpButton.transform.localPosition = position2;
+
             yield return null;
         }
 
-        SetUIToFadeInLoc();
+        questionContent.transform.localPosition = contentFadeInPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeInPosition.localPosition;
 
         leftCardImage.GetComponent<Button>().enabled = true;
         rightCardImage.GetComponent<Button>().enabled = true;
@@ -362,14 +420,14 @@ public class QuestionManager : MonoBehaviour {
                 if (choice)
                 {
                     var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-                    var v = LinearEase(t);
+                    var v = CubicEaseIn(t);
                     var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
                     leftCardImage.transform.localPosition = position;
                 }
                 else
                 {
                     var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-                    var v = LinearEase(t);
+                    var v = CubicEaseIn(t);
                     var position = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
                     rightCardImage.transform.localPosition = position;
                 }
@@ -387,7 +445,8 @@ public class QuestionManager : MonoBehaviour {
             StoryManager.nowEvent.question = StoryManager.nowChoice.nextQuestion;
             SetQuestion(StoryManager.nowEvent.question);
 
-            SetUIToFadeOutLoc();
+            leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+            rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
             leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
             rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
 
@@ -395,11 +454,27 @@ public class QuestionManager : MonoBehaviour {
             timeEnd = timeStart + tweenTime;
             while (Time.time < timeEnd)
             {
-                UIFadeInTween(timeStart, timeEnd);
+                var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+                var v = CubicEaseOut(t);
+                var position = Vector3.LerpUnclamped(questionContent.transform.localPosition, contentFadeInPosition.localPosition, v);
+                questionContent.transform.localPosition = position;
+
+                var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeInPosition.localPosition, v);
+                leftCardImage.transform.localPosition = position0;
+
+                var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeInPosition.localPosition, v);
+                rightCardImage.transform.localPosition = position1;
+
+                var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
+                helpButton.transform.localPosition = position2;
+
                 yield return null;
             }
 
-            SetUIToFadeInLoc();
+            questionContent.transform.localPosition = contentFadeInPosition.localPosition;
+            rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
+            leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
+            helpButton.transform.localPosition = helpFadeInPosition.localPosition;
 
             leftCardImage.GetComponent<Button>().enabled = true;
             rightCardImage.GetComponent<Button>().enabled = true;
@@ -414,31 +489,42 @@ public class QuestionManager : MonoBehaviour {
             {
                 if (choice)
                 {
-                    SetImageColor(leftCardImage.GetComponent<Image>(), 1 - i);
-                    SetTextColor(leftText.GetComponent<Text>(), 1 - i);
+                    var tempColor1 = leftCardImage.GetComponent<Image>().color;
+                    tempColor1.a = 1 - i;
+                    leftCardImage.GetComponent<Image>().color = tempColor1;
+                    tempColor1 = leftText.GetComponent<Text>().color;
+                    tempColor1.a = 1 - i;
+                    leftText.GetComponent<Text>().color = tempColor1;
                 }
                 else
                 {
-                    SetImageColor(rightCardImage.GetComponent<Image>(), 1 - i);
-                    SetTextColor(rightText.GetComponent<Text>(), 1 - i);
+                    var tempColor1 = rightCardImage.GetComponent<Image>().color;
+                    tempColor1.a = 1 - i;
+                    rightCardImage.GetComponent<Image>().color = tempColor1;
+                    tempColor1 = rightText.GetComponent<Text>().color;
+                    tempColor1.a = 1 - i;
+                    rightText.GetComponent<Text>().color = tempColor1;
                 }
 
-                SetImageColor(whitePanel.GetComponent<Image>(), i);
-
+                var tempColor = whitePanel.GetComponent<Image>().color;
+                tempColor.a = i;
+                whitePanel.GetComponent<Image>().color = tempColor;
                 yield return null;
             }
 
             transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
             this.GetComponent<Image>().sprite = null;
-
-            SetImageColor(this.GetComponent<Image>(), 0);
+            var thisColor = this.GetComponent<Image>().color;
+            thisColor.a = 0;
+            this.GetComponent<Image>().color = thisColor;
 
             for (float i = 1; i >= 0; i -= Time.deltaTime)
             {
-                SetImageColor(whitePanel.GetComponent<Image>(), i);
+                var tempColor = whitePanel.GetComponent<Image>().color;
+                tempColor.a = i;
+                whitePanel.GetComponent<Image>().color = tempColor;
                 yield return null;
             }
-
             whitePanel.SetActive(false);
             leftCardImage.SetActive(false);
             rightCardImage.SetActive(false);
@@ -449,7 +535,10 @@ public class QuestionManager : MonoBehaviour {
 
     IEnumerator AbsoluteResult()
     {
-        SetUIToFadeOutLoc();
+        questionContent.transform.localPosition = contentFadeOutPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
+        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
+        helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
 
         leftCardImage.SetActive(false);
         rightCardImage.SetActive(false);
@@ -465,7 +554,9 @@ public class QuestionManager : MonoBehaviour {
 
         for (float i = 0; i <= 1; i += Time.deltaTime)
         {
-            SetImageColor(whitePanel.GetComponent<Image>(), i);
+            var tempColor = whitePanel.GetComponent<Image>().color;
+            tempColor.a = i;
+            whitePanel.GetComponent<Image>().color = tempColor;
             yield return null;
         }
 
@@ -478,7 +569,9 @@ public class QuestionManager : MonoBehaviour {
 
         for (float i = 1; i >= 0; i -= Time.deltaTime)
         {
-            SetImageColor(whitePanel.GetComponent<Image>(), i);
+            var tempColor = whitePanel.GetComponent<Image>().color;
+            tempColor.a = i;
+            whitePanel.GetComponent<Image>().color = tempColor;
             yield return null;
         }
         whitePanel.SetActive(false);
@@ -496,22 +589,26 @@ public class QuestionManager : MonoBehaviour {
         resultText.text = StoryManager.nowChoice.choiceResults[nextId].content;
 
 
-        //for (float i = 0; i <= 1; i += Time.deltaTime)
-        //{
-        //    yield return null;
-        //}
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            yield return null;
+        }
 
         resultBox.SetActive(true);
 
         for (float i = 0; i <= 1; i += Time.deltaTime)
         {
-            if (i < 0.8f)
-            {
-                SetImageColor(resultBox.GetComponent<Image>(), i);
-            }
+            var tempColor = resultBox.GetComponent<Image>().color;
+            tempColor.a = i * 0.8f;
+            resultBox.GetComponent<Image>().color = tempColor;
 
-            SetTextColor(attributeText, i);
-            SetTextColor(totalAssetText, i);
+            tempColor = attributeText.color;
+            tempColor.a = i;
+            attributeText.color = tempColor;
+
+            tempColor = totalAssetText.color;
+            tempColor.a = i;
+            totalAssetText.color = tempColor;
 
             yield return null;
         }
@@ -521,119 +618,93 @@ public class QuestionManager : MonoBehaviour {
     {
         for (float i = 1; i >= 0; i -= Time.deltaTime)
         {
-            SetTextColor(attributeText, i);
-            SetTextColor(totalAssetText, i);
+            // set color with i as alpha
+            var tempColor = attributeText.color;
+            tempColor.a = i;
+            attributeText.color = tempColor;
+
+            tempColor = totalAssetText.color;
+            tempColor.a = i;
+            totalAssetText.color = tempColor;
             yield return null;
         }
         for (float i = 0; i <= 1; i += Time.deltaTime)
         {
-            SetTextColor(resultText, i);
+            // set color with i as alpha
+            var tempColor = resultText.color;
+            tempColor.a = i;
+            resultText.color = tempColor;
             yield return null;
         }
         canTouchToNextStory = 4;
     }
 
-    IEnumerator HelpFade(bool fadeIn)
+    IEnumerator HelpFadeImage(Image gameObject, bool fadeAway)
     {
         helpButton.transform.GetChild(0).GetComponent<Button>().enabled = false;
-        if (fadeIn)
+        // fade from opaque to transparent
+        if (fadeAway)
         {
+            // loop over 1 second backwards
             for (float i = 1; i >= 0; i -= Time.deltaTime)
             {
-                if (i < 0.8f)
-                {
-                    SetImageColor(helpImage, i);
-                }
-                SetTextColor(helpText, i);
+                // set color with i as alpha
+                var tempColor = gameObject.color;
+                tempColor.a = i;
+                gameObject.color = tempColor;
                 yield return null;
             }
             helpField.SetActive(false);
         }
+        // fade from transparent to opaque
         else
         {
             helpField.SetActive(true);
+            // loop over 1 second
             for (float i = 0; i <= 1; i += Time.deltaTime)
             {
-                if(i< 0.8f)
-                {
-                    SetImageColor(helpImage, i);
-                }
-                SetTextColor(helpText, i);
+                // set color with i as alpha
+                var tempColor = gameObject.color;
+                tempColor.a = i;
+                gameObject.color = tempColor;
                 yield return null;
             }
         }
         helpButton.transform.GetChild(0).GetComponent<Button>().enabled = true;
     }
 
-    void UIFadeInTween(float timeStart, float timeEnd)
+    IEnumerator HelpFadeText(Text gameObject, bool fadeAway)
     {
-        var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-        var v = LinearEase(t);
-        var position = Vector3.LerpUnclamped(questionContent.transform.localPosition, contentFadeInPosition.localPosition, v);
-        questionContent.transform.localPosition = position;
-
-        var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeInPosition.localPosition, v);
-        leftCardImage.transform.localPosition = position0;
-
-        var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeInPosition.localPosition, v);
-        rightCardImage.transform.localPosition = position1;
-
-        var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
-        helpButton.transform.localPosition = position2;
+        helpButton.transform.GetChild(0).GetComponent<Button>().enabled = false;
+        // fade from opaque to transparent
+        if (fadeAway)
+        {
+            // loop over 1 second backwards
+            for (float i = 1; i >= 0; i -= Time.deltaTime)
+            {
+                // set color with i as alpha
+                var tempColor = gameObject.color;
+                tempColor.a = i;
+                gameObject.color = tempColor;
+                yield return null;
+            }
+        }
+        // fade from transparent to opaque
+        else
+        {
+            // loop over 1 second
+            for (float i = 0; i <= 1; i += Time.deltaTime)
+            {
+                // set color with i as alpha
+                var tempColor = gameObject.color;
+                tempColor.a = i;
+                gameObject.color = tempColor;
+                yield return null;
+            }
+        }
+        helpButton.transform.GetChild(0).GetComponent<Button>().enabled = true;
     }
 
-    void UIFadeOutTween(float timeStart, float timeEnd)
-    {
-        var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-        var v = LinearEase(t);
-        var position = Vector3.LerpUnclamped(questionContent.transform.localPosition, contentFadeOutPosition.localPosition, v);
-        questionContent.transform.localPosition = position;
-
-        var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeOutPosition.localPosition, v);
-        leftCardImage.transform.localPosition = position0;
-
-        var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeOutPosition.localPosition, v);
-        rightCardImage.transform.localPosition = position1;
-
-        var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeOutPosition.localPosition, v);
-        helpButton.transform.localPosition = position2;
-    }
-
-    void SetUIToFadeInLoc()
-    {
-        questionContent.transform.localPosition = contentFadeInPosition.localPosition;
-        rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
-        leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
-        helpButton.transform.localPosition = helpFadeInPosition.localPosition;
-    }
-
-    void SetUIToFadeOutLoc()
-    {
-        questionContent.transform.localPosition = contentFadeOutPosition.localPosition;
-        rightCardImage.transform.localPosition = rightCardImageFadeOutPosition.localPosition;
-        leftCardImage.transform.localPosition = leftCardImageFadeOutPosition.localPosition;
-        helpButton.transform.localPosition = helpFadeOutPosition.localPosition;
-    }
-
-    void SetImageColor(Image image, float value)
-    {
-        var tempColor = image.color;
-        tempColor.a = value;
-        image.color = tempColor;
-    }
-
-    void SetTextColor(Text text, float value)
-    {
-        var tempColor = text.color;
-        tempColor.a = value;
-        text.color = tempColor;
-    }
-
-    // Linear
-    float LinearEase(float t)
-    {
-        return t;
-    }
     // first first
     float CubicEaseOut(float t)
     {

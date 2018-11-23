@@ -374,7 +374,7 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r = new ChoiceResult("結果")
             {
-                imageUrl = "Story/5",
+                imageUrl = "Story/5_1",
                 prob = 1.0f,
                 valueChanges = new List<string> { "P - 3 8", "H - 15" },
                 nextIds = new List<int> { 8 }
@@ -434,7 +434,7 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r = new ChoiceResult("結果")
             {
-                imageUrl = "Story/6",
+                imageUrl = "Story/6_1",
                 prob = 1.0f,
                 valueChanges = new List<string> { "P - 15", "H - 2 4" },
                 nextIds = new List<int> { 10 }
