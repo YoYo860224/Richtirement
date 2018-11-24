@@ -9,21 +9,19 @@ using UnityEngine.SceneManagement;
 public class InitSettingManager : MonoBehaviour {
     public Text titleText;
     public Text nameText;
-    public Text spouseText;
     public Text kidText;
     public Text assetsText;
 
     public InputField nameInputField;
     public Text nameInputPlaceHold;
-    public Toggle spouseYes;
-    public Toggle spouseNo;
+    public Toggle kidZero;
+    public Toggle kidNonzero;
     public Dropdown kidDropdown;
     public Slider currentAssets;
     // Use this for initialization
     void Start () {
         titleText.text = Content.InitSetting.Title;
         nameText.text = Content.InitSetting.Name;
-        // TODO : spouseText
         kidText.text = Content.InitSetting.Kids;
         assetsText.text = Content.InitSetting.CurrentAssets;
         nameInputPlaceHold.text = Content.InitSetting.NamePlaceHold;
@@ -42,13 +40,15 @@ public class InitSettingManager : MonoBehaviour {
             nameInputPlaceHold.color = Color.red;
             return;
         }
-        Setting.CharacterSetting.hasSpouse = spouseYes.isOn;
-        Setting.CharacterSetting.kidAmount = kidDropdown.value;
+        if (kidZero.isOn)
+        {
+            Setting.CharacterSetting.kidAmount = 0;
+        }
+        else
+        {
+            Setting.CharacterSetting.kidAmount = kidDropdown.value + 1;
+        }
         Setting.CharacterSetting.Money = (int)(currentAssets.value);
-        Debug.Log(Setting.CharacterSetting.name);
-        Debug.Log(Setting.CharacterSetting.hasSpouse);
-        Debug.Log(Setting.CharacterSetting.kidAmount);
-        Debug.Log(Setting.CharacterSetting.Money);
 
         SceneManager.LoadScene("Story");
     }

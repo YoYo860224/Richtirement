@@ -569,12 +569,12 @@ public class QuestionManager : MonoBehaviour {
 
     IEnumerator AttributeChangedAnimation()
     {
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 6; i++)
         {
             Debug.Log(i);
             if (i % 2 == 0)
             {
-                for (float j = 1; j >= 0; j -= Time.deltaTime * 5)
+                for (float j = 1; j >= 0; j -= Time.deltaTime)
                 {
                     if (Setting.CharacterSetting.moneyHasChanged != 0)
                     {
@@ -597,7 +597,7 @@ public class QuestionManager : MonoBehaviour {
             }
             else
             {
-                for (float j = 0; j < 1; j += Time.deltaTime * 5)
+                for (float j = 0; j < 1; j += Time.deltaTime)
                 {
                     if (Setting.CharacterSetting.moneyHasChanged != 0)
                     {

@@ -20,7 +20,6 @@ namespace Setting
         // 基本人設
         public static string name;
         public static int age = 55;
-        public static bool hasSpouse;
         public static int kidAmount;
         public static bool spouse;
 
