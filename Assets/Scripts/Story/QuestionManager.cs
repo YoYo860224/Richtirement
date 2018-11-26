@@ -223,7 +223,6 @@ public class QuestionManager : MonoBehaviour {
 
         while (Time.time < timeEnd)
         {
-
             // Set Background Color
             SetImageAlpha(this.GetComponent<Image>(), Time.time / timeEnd * 0.8f);
             SetImageAlpha(transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>(), Time.time / timeEnd);
