@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class QuestionManager : MonoBehaviour {
+    public float fadeSpeed = 0.01f;
+
+
     public Image MoneyFilled;
     public Image MentalFilled;
     public Image PhysicalHearthFilled;
@@ -228,7 +231,7 @@ public class QuestionManager : MonoBehaviour {
             SetImageAlpha(this.GetComponent<Image>(), Time.time / timeEnd * 0.8f);
             SetImageAlpha(transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>(), Time.time / timeEnd);
 
-            UIFadeInTween(timeStart, timeEnd);
+            UIFadeInTween(timeStart, timeEnd, Time.time);
             yield return null;
         }
 
@@ -305,31 +308,45 @@ public class QuestionManager : MonoBehaviour {
         rightCardImage.GetComponent<Button>().enabled = false;
         questionImage.GetComponent<Button>().enabled = false;
 
-        var timeStart1 = Time.time;
+        var timeStart1 = 0f;
         var timeEnd1 = timeStart1 + tweenTime;
-        while (Time.time < timeEnd1)
+        var timeNow1 = 0f;
+        Debug.Log(timeEnd1);
+        while (timeNow1 < timeEnd1)
         {
-            var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
+            timeNow1 += fadeSpeed;
+            Debug.Log(timeNow1);
+           
+
+            var t = Mathf.InverseLerp(timeStart1, timeEnd1, timeNow1);
             var v = LinearEase(t);
             var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeOutPosition.localPosition, v);
             leftCardImage.transform.localPosition = position;
 
             var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeOutPosition.localPosition, v);
             rightCardImage.transform.localPosition = position1;
+            Debug.Log("GG");
 
             yield return null;
         }
+        Debug.Log("GG");
 
         SetUIToFadeOutLoc();
 
         leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
         rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
 
-        var timeStart = Time.time;
+        var timeStart = 0f;
         var timeEnd = timeStart + tweenTime;
-        while (Time.time < timeEnd)
+        var timeNow = 0f;
+        Debug.Log(timeNow);
+
+        while (timeNow < timeEnd)
         {
-            UIFadeInTween(timeStart, timeEnd);
+            Debug.Log(timeNow);
+
+            timeNow += fadeSpeed;
+            UIFadeInTween(timeStart, timeEnd, timeNow);
             yield return null;
         }
 
@@ -403,7 +420,7 @@ public class QuestionManager : MonoBehaviour {
             timeEnd = timeStart + tweenTime;
             while (Time.time < timeEnd)
             {
-                UIFadeInTween(timeStart, timeEnd);
+                UIFadeInTween(timeStart, timeEnd, Time.time);
                 yield return null;
             }
 
@@ -627,9 +644,9 @@ public class QuestionManager : MonoBehaviour {
 
     }
 
-    void UIFadeInTween(float timeStart, float timeEnd)
+    void UIFadeInTween(float timeStart, float timeEnd, float timeNow)
     {
-        var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
+        var t = Mathf.InverseLerp(timeStart, timeEnd, timeNow);
         var v = LinearEase(t);
         var position = Vector3.LerpUnclamped(questionContent.transform.localPosition, contentFadeInPosition.localPosition, v);
         questionContent.transform.localPosition = position;
