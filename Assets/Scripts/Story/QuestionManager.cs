@@ -182,7 +182,7 @@ public class QuestionManager : MonoBehaviour {
         {
             Setting.CharacterSetting.age += StoryManager.nowEvent.year;
             //// 判斷是不是5年
-            if (Setting.CharacterSetting.age != 55 && Setting.CharacterSetting.age != 90 && Setting.CharacterSetting.age % 5 == 0)
+            if (StoryManager.futureEventsID.Count > 0 && Setting.CharacterSetting.age % 5 == 0)
             {
                 SceneManager.LoadScene("Redeploy");
             }
@@ -568,12 +568,26 @@ public class QuestionManager : MonoBehaviour {
 
     IEnumerator AttributeChangedAnimation()
     {
-        for (int i = 0; i < 30; i++)
+        int brightTime = 30;
+        float MoneyDiff = ((float)Setting.CharacterSetting.Money - (float)MoneyFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
+        float MentalDiff = ((float)Setting.CharacterSetting.Mental - (float)MentalFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
+        float SocialDiff = ((float)Setting.CharacterSetting.Social - (float)SocialHearthFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
+        float HearthDiff = ((float)Setting.CharacterSetting.Hearth - (float)PhysicalHearthFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
+        Debug.Log(MoneyDiff);
+        Debug.Log(MentalDiff);
+        Debug.Log(SocialDiff);
+        Debug.Log(HearthDiff);
+        for (int i = 0; i < brightTime; i++)
         {
-            Debug.Log(i);
+            MoneyFilled.fillAmount += MoneyDiff;
+            MentalFilled.fillAmount += MentalDiff;
+            SocialHearthFilled.fillAmount += SocialDiff;
+            PhysicalHearthFilled.fillAmount += HearthDiff;
+
+
             if (i % 2 == 0)
             {
-                for (float j = 1; j >= 0; j -= Time.deltaTime * 5)
+                for (float j = 1; j >= 0; j -= Time.deltaTime * 6)
                 {
                     if (Setting.CharacterSetting.moneyHasChanged != 0)
                     {
@@ -596,7 +610,7 @@ public class QuestionManager : MonoBehaviour {
             }
             else
             {
-                for (float j = 0; j < 1; j += Time.deltaTime * 5)
+                for (float j = 0; j < 1; j += Time.deltaTime * 6)
                 {
                     if (Setting.CharacterSetting.moneyHasChanged != 0)
                     {
