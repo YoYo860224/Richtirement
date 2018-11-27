@@ -147,6 +147,44 @@ namespace Setting
 
             return mentalResult + hearthResult + socialResult;
         }
+
+        public static void nYearsLater(int n) {
+            age += n;
+            for (int i = 0; i < n; i++)
+            {
+                oneYearLater();
+            }
+        }
+
+        public static void oneYearLater() {
+            // 股票漲跌
+            var stockRatio = RandomUtil.normal() * 0.3 + 1.0;
+            if (stockRatio > 2)
+                stockRatio = 2;
+            if (stockRatio < 0)
+                stockRatio = 0;
+            stock = (int)(stock * stockRatio);
+
+            // 基金漲跌
+            var fundRatio = RandomUtil.normal() * 0.15 + 1.0;
+            if (fundRatio > 2)
+                fundRatio = 2;
+            if (fundRatio < 0)
+                fundRatio = 0;
+            fund = (int)(fund * fundRatio);
+
+            // 消費
+            var depositRatio = RandomUtil.normal() * 0.003 + 0.96;
+            if (depositRatio > 0.97)
+                depositRatio = 0.97;
+            if (depositRatio < 0.95)
+                depositRatio = 0.95;
+            deposit = (int)(deposit * depositRatio);
+            // 基金配息
+            deposit += (int)(fund * 0.05);
+            // 年金
+            annuity = (int)(annuity * 0.05);
+        }
     }
 
     public enum Localize

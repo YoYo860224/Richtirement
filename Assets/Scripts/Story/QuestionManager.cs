@@ -180,7 +180,8 @@ public class QuestionManager : MonoBehaviour {
         }
         if (canTouchToNextStory == 4)
         {
-            Setting.CharacterSetting.age += StoryManager.nowEvent.year;
+            CharacterSetting.nYearsLater(StoryManager.nowEvent.year);
+
             //// 判斷是不是5年
             if (StoryManager.futureEventsID.Count > 0 && Setting.CharacterSetting.age % 5 == 0)
             {
