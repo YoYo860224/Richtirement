@@ -68,26 +68,26 @@ public class RedeployManager : MonoBehaviour {
         
         deposity.moneyText.text = Setting.CharacterSetting.deposit.ToString() + "萬";
         deposity.slider.value = ((float)Setting.CharacterSetting.deposit / (float)Setting.CharacterSetting.Money * 100.0f);
-        deposity.percentsText.text = deposity.slider.value.ToString("0.00") + "%";
+        deposity.percentsText.text = deposity.slider.value.ToString("0.") + "%";
 
         stock.moneyText.text = Setting.CharacterSetting.stock.ToString() + "萬";
         stock.slider.value = ((float)Setting.CharacterSetting.stock / (float)Setting.CharacterSetting.Money * 100.0f);
-        stock.percentsText.text = stock.slider.value.ToString("0.00") + "%";
+        stock.percentsText.text = stock.slider.value.ToString("0.") + "%";
         stock.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(1); });
 
         fund.moneyText.text = Setting.CharacterSetting.fund.ToString() + "萬";
         fund.slider.value = ((float)Setting.CharacterSetting.fund / (float)Setting.CharacterSetting.Money * 100.0f);
-        fund.percentsText.text = fund.slider.value.ToString("0.00") + "%";
+        fund.percentsText.text = fund.slider.value.ToString("0.") + "%";
         fund.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(2); });
 
         annuity.moneyText.text = "0萬";
         annuity.slider.value = 0;
-        annuity.percentsText.text = "0.00%";
+        annuity.percentsText.text = "0.%";
         annuity.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(3); });
 
         medicineInsurance.moneyText.text = "0萬";
         medicineInsurance.slider.value = 0;
-        medicineInsurance.percentsText.text = "0.00%";
+        medicineInsurance.percentsText.text = "0.%";
         medicineInsurance.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(4); });
 
 
@@ -122,8 +122,10 @@ public class RedeployManager : MonoBehaviour {
             case 1:
                 if ((float)(stock.slider.value / 100.0f * (float)totalAssets) - tempStock <= tempDeposity)
                 {
-                    tempStock = (int)(stock.slider.value * (float)totalAssets / 100.0f);
+                    tempStock = (int)((float)stock.slider.value / 100.0f * (float)totalAssets);
                     stock.moneyText.text = tempStock.ToString() + "萬";
+
+                    Debug.Log("tempStock0 " + tempStock.ToString());
                 }
                 break;
             case 2:
@@ -149,22 +151,26 @@ public class RedeployManager : MonoBehaviour {
                 break;
         }
 
-        stock.slider.value = (int)((float)tempStock / (float)totalAssets * 100.0f);
-        stock.percentsText.text = stock.slider.value.ToString("0.00") + "%";
+        stock.slider.value = ((float)tempStock / (float)totalAssets * 100.0f);
+        stock.percentsText.text = stock.slider.value.ToString("0.") + "%";
 
-        fund.slider.value = (int)((float)tempFund / (float)totalAssets * 100.0f);
-        fund.percentsText.text = fund.slider.value.ToString("0.00") + "%";
+        Debug.Log("tempStock1 " + tempStock.ToString());
+        Debug.Log("Money " + ((int)(float)tempStock / (float)totalAssets * 100.0f).ToString());
+        Debug.Log("TotalAssets " + totalAssets.ToString());
 
-        annuity.slider.value = (int)((float)tempAnnuity / (float)Setting.SystemSetting.AnnuityMax * 100.0f);
-        annuity.percentsText.text = annuity.slider.value.ToString("0.00") + "%";
+        fund.slider.value = ((float)tempFund / (float)totalAssets * 100.0f);
+        fund.percentsText.text = fund.slider.value.ToString("0.") + "%";
+
+        annuity.slider.value = ((float)tempAnnuity / (float)Setting.SystemSetting.AnnuityMax * 100.0f);
+        annuity.percentsText.text = annuity.slider.value.ToString("0.") + "%";
 
         medicineInsurance.slider.value = (int)((float)tempMedicineInsurance / (float)Setting.SystemSetting.AnnuityMax * 100.0f);
-        medicineInsurance.percentsText.text = medicineInsurance.slider.value.ToString("0.00") + "%";
+        medicineInsurance.percentsText.text = medicineInsurance.slider.value.ToString("0.") + "%";
 
         tempDeposity = totalAssets - tempFund - tempStock - tempMedicineInsurance - tempAnnuity;
         deposity.moneyText.text = tempDeposity.ToString() + "萬";
-        deposity.slider.value = (int)((float)tempDeposity / (float)totalAssets * 100.0f);
-        deposity.percentsText.text = deposity.slider.value.ToString("0.00") + "%";
+        deposity.slider.value = ((float)tempDeposity / (float)totalAssets * 100.0f);
+        deposity.percentsText.text = deposity.slider.value.ToString("0.") + "%";
         TotalAssets.text = TotalAssetsString(Setting.CharacterSetting.Money.ToString());
     }
     
