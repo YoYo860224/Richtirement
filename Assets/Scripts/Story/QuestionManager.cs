@@ -97,6 +97,11 @@ public class QuestionManager : MonoBehaviour {
 		
 	}
 
+    bool IsGameOver()
+    {
+        return Setting.CharacterSetting.Hearth <= 0 || Setting.CharacterSetting.Money <= 0 || Setting.CharacterSetting.Mental <= 0 || Setting.CharacterSetting.Social <= 0;
+    }
+
     public void SetQuestion(Question q)
     {
         this.transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(q.imageUrl);
@@ -181,9 +186,18 @@ public class QuestionManager : MonoBehaviour {
         if (canTouchToNextStory == 4)
         {
             CharacterSetting.nYearsLater(StoryManager.nowEvent.year);
+            Debug.Log("Money " + Setting.CharacterSetting.Money);
+            Debug.Log("Mental " + Setting.CharacterSetting.Mental);
+            Debug.Log("Social " + Setting.CharacterSetting.Social);
+            Debug.Log("Hearth " + Setting.CharacterSetting.Hearth);
+            Debug.Log("IsGameOver " + IsGameOver().ToString());
 
+            if (IsGameOver())
+            {
+                SceneManager.LoadScene("FinalResult");
+            }
             //// 判斷是不是5年
-            if (StoryManager.futureEventsID.Count > 0 && Setting.CharacterSetting.age % 5 == 0)
+            else if (StoryManager.futureEventsID.Count > 0 && Setting.CharacterSetting.age % 5 == 0)
             {
                 SceneManager.LoadScene("Redeploy");
             }
@@ -497,10 +511,8 @@ public class QuestionManager : MonoBehaviour {
     IEnumerator ShowResultBox()
     {
         // set result
-        attributeText.text = Setting.CharacterSetting.AttributeChanged(StoryManager.nowChoice.choiceResults[nextId].valueChanges);
+        attributeText.text = AttributeChanged(StoryManager.nowChoice.choiceResults[nextId].valueChanges);
         
-        // TODO : Total Assets
-
         resultText.text = StoryManager.nowChoice.choiceResults[nextId].content;
 
         resultBox.SetActive(true);
@@ -574,10 +586,7 @@ public class QuestionManager : MonoBehaviour {
         float MentalDiff = ((float)Setting.CharacterSetting.Mental - (float)MentalFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
         float SocialDiff = ((float)Setting.CharacterSetting.Social - (float)SocialHearthFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
         float HearthDiff = ((float)Setting.CharacterSetting.Hearth - (float)PhysicalHearthFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
-        Debug.Log(MoneyDiff);
-        Debug.Log(MentalDiff);
-        Debug.Log(SocialDiff);
-        Debug.Log(HearthDiff);
+
         for (int i = 0; i < brightTime; i++)
         {
             MoneyFilled.fillAmount += MoneyDiff;
@@ -639,6 +648,107 @@ public class QuestionManager : MonoBehaviour {
         SetImageAlpha(SocialHearthFilled, 1);
         SetImageAlpha(PhysicalHearthFilled, 1);
 
+    }
+
+    /*
+    * P心理Mental
+    * S社交Social
+    * H健康Hearth
+    * $(萬)
+    * example: "P + 50", "P - 3 5"
+    */
+    public string AttributeChanged(List<string> changed)
+    {
+        totalAssetText.text = "";
+        Setting.CharacterSetting.moneyHasChanged = 0;
+        Setting.CharacterSetting.mentalHasChanged = 0;
+        Setting.CharacterSetting.hearthHasChanged = 0;
+        Setting.CharacterSetting.socialHasChanged = 0;
+
+        string mentalResult = "";
+        string hearthResult = "";
+        string socialResult = "";
+
+        for (int i = 0; i < changed.Count; i++)
+        {
+            Debug.Log(changed[i]);
+
+            // 解析字串
+            // words[0]: Attribute
+            // words[1]: Sign
+            // words[2]: Value
+            // words[3]: Value if random
+            string[] words = changed[i].Split(new Char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // 得到 value
+            int value = 0;
+            if (words.Length == 3)
+            {
+                // example: "P + 50"
+                value = int.Parse(words[2]);
+            }
+            else if (words.Length == 4)
+            {
+                // example: "P - 3 5"
+                value = RandomUtil.random.Next(int.Parse(words[2]), int.Parse(words[3]));
+            }
+            // 判斷+-
+            if (words[1] == "+")
+            {
+                // 判斷 Attribute
+                switch (words[0])
+                {
+                    case "$":
+                        Setting.CharacterSetting.moneyHasChanged = 1;
+                        Setting.CharacterSetting.Money += value;
+                        totalAssetText.text = "Total Assets +" + value.ToString();
+                        break;
+                    case "P":
+                        Setting.CharacterSetting.mentalHasChanged = 1;
+                        mentalResult = "Mental Index + " + value.ToString() + "\n";
+                        Setting.CharacterSetting.Mental += value;
+                        break;
+                    case "S":
+                        Setting.CharacterSetting.socialHasChanged = 1;
+                        socialResult = "Social Index + " + value.ToString() + "\n";
+                        Setting.CharacterSetting.Social += value;
+                        break;
+                    case "H":
+                        Setting.CharacterSetting.hearthHasChanged = 1;
+                        hearthResult = "Physiologic Index + " + value.ToString() + "\n";
+                        Setting.CharacterSetting.Hearth += value;
+                        break;
+                }
+            }
+            else if (words[1] == "-")
+            {
+                switch (words[0])
+                {
+                    case "$":
+                        Setting.CharacterSetting.moneyHasChanged = -1;
+                        Setting.CharacterSetting.Money -= value;
+                        totalAssetText.text = "Total Assets -" + value.ToString();
+                        break;
+                    case "P":
+                        Setting.CharacterSetting.mentalHasChanged = -1;
+                        mentalResult = "Mental Index - " + value.ToString() + "\n";
+                        Setting.CharacterSetting.Mental -= value;
+                        break;
+                    case "S":
+                        Setting.CharacterSetting.socialHasChanged = -1;
+                        socialResult = "Social Index - " + value.ToString() + "\n";
+                        Setting.CharacterSetting.Social -= value;
+                        break;
+                    case "H":
+                        Setting.CharacterSetting.hearthHasChanged = -1;
+                        hearthResult = "Physiologic Index - " + value.ToString() + "\n";
+                        Setting.CharacterSetting.Hearth -= value;
+                        break;
+                }
+            }
+        }
+
+        return mentalResult + hearthResult + socialResult;
     }
 
     void UIFadeInTween(float timeStart, float timeEnd)

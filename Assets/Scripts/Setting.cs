@@ -52,101 +52,11 @@ namespace Setting
 
 
         // Money 細項
-        public static int deposit = 2378;
+        public static int deposit = 30;
         public static int stock = 0;
         public static int fund = 0;
         public static int annuity = 0;
         public static int medicineInsurance = 0;
-
-        /*
-         * P心理
-         * S社交
-         * H健康
-         * $(萬)
-         * example: "P + 50", "P - 3 5"
-         */
-        public static string AttributeChanged(List<string> changed)
-        {
-            moneyHasChanged = 0;
-            mentalHasChanged = 0;
-            hearthHasChanged = 0;
-            socialHasChanged = 0;
-
-            string mentalResult = "";
-            string hearthResult = "";
-            string socialResult = "";
-
-            for(int i = 0; i < changed.Count; i++)
-            {
-                Debug.Log(changed[i]);
-
-                // 解析字串
-                // words[0]: Attribute
-                // words[1]: Sign
-                // words[2]: Value
-                // words[3]: Value if random
-                string[] words = changed[i].Split(new Char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                // 得到 value
-                int value = 0;
-                if(words.Length == 3)
-                {
-                    // example: "P + 50"
-                    value = int.Parse(words[2]); 
-                }
-                else if(words.Length == 4)
-                {
-                    // example: "P - 3 5"
-                    value = RandomUtil.random.Next(int.Parse(words[2]), int.Parse(words[3]));
-                }
-                // 判斷+-
-                if(words[1] == "+")
-                {
-                    // 判斷 Attribute
-                    switch (words[0])
-                    {
-                        case "P":
-                            mentalHasChanged = 1;
-                            mentalResult = "Mental Index + " + value.ToString() + "\n";
-                            Mental += value;
-                            break;
-                        case "S":
-                            socialHasChanged = 1;
-                            socialResult = "Social Index + " + value.ToString() + "\n";
-                            Social += value;
-                            break;
-                        case "H":
-                            hearthHasChanged = 1;
-                            hearthResult = "Physiologic Index + " + value.ToString() + "\n";
-                            Hearth += value;
-                            break;
-                    }
-                }
-                else if (words[1] == "-")
-                {
-                    switch (words[0])
-                    {
-                        case "P":
-                            mentalHasChanged = -1;
-                            mentalResult = "Mental Index - " + value.ToString() + "\n";
-                            Mental -= value;
-                            break;
-                        case "S":
-                            socialHasChanged = -1;
-                            socialResult = "Social Index - " + value.ToString() + "\n";
-                            Social -= value;
-                            break;
-                        case "H":
-                            hearthHasChanged = -1;
-                            hearthResult = "Physiologic Index - " + value.ToString() + "\n";
-                            Hearth -= value;
-                            break;
-                    }
-                }
-            }
-
-            return mentalResult + hearthResult + socialResult;
-        }
 
         public static void nYearsLater(int n) {
             age += n;

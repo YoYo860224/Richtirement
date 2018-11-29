@@ -20,7 +20,7 @@ public class StoryStartManager : MonoBehaviour {
         bool nextExist = StoryManager.NextEvent();   // 選出此事件
         if(nextExist == false)
         {
-            SceneManager.LoadScene("AnalysisReport");
+            SceneManager.LoadScene("FinalResult");
         }
         Debug.Log("new Story, now ID = " + StoryManager.nowEvent.id);
         Debug.Log("new age = " + Setting.CharacterSetting.age.ToString());
