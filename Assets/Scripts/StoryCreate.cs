@@ -268,7 +268,7 @@ public class StoryCreate : MonoBehaviour {
             string imageUrl = "Story/livingroom";
             string content = "";
 
-            Question q = new Question("還是，跟一些老朋友聚聚聊聊嗎？")
+            Question q = new Question("還是跟一些老朋友聚聚聊聊嗎？")
             {
                 imageUrl = "Story/livingroom",
                 hint = "",
