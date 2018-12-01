@@ -52,7 +52,7 @@ namespace Setting
 
 
         // Money 細項
-        public static int deposit = 30;
+        public static int deposit = 0;
         public static int stock = 0;
         public static int fund = 0;
         public static int annuity = 0;
