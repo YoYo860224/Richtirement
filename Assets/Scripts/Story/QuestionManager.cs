@@ -701,21 +701,24 @@ public class QuestionManager : MonoBehaviour {
                     case "$":
                         Setting.CharacterSetting.moneyHasChanged = 1;
                         Setting.CharacterSetting.Money += value;
-                        totalAssetText.text = "Total Assets +" + value.ToString();
+                        totalAssetText.text = "總財產 +" + value.ToString() + " 萬";
                         break;
                     case "P":
                         Setting.CharacterSetting.mentalHasChanged = 1;
-                        mentalResult = "Mental Index + " + value.ToString() + "\n";
+                        //mentalResult = "心理指數 ++" + value.ToString() + "\n";
+                        mentalResult = "心理指數 ++ \n";
                         Setting.CharacterSetting.Mental += value;
                         break;
                     case "S":
                         Setting.CharacterSetting.socialHasChanged = 1;
-                        socialResult = "Social Index + " + value.ToString() + "\n";
+                        //socialResult = "Social Index + " + value.ToString() + "\n";
+                        socialResult = "社交指數 ++ \n";
                         Setting.CharacterSetting.Social += value;
                         break;
                     case "H":
                         Setting.CharacterSetting.hearthHasChanged = 1;
-                        hearthResult = "Physiologic Index + " + value.ToString() + "\n";
+                        //hearthResult = "Physiologic Index + " + value.ToString() + "\n";
+                        hearthResult = "健康指數 ++ \n";
                         Setting.CharacterSetting.Hearth += value;
                         break;
                 }
@@ -727,21 +730,24 @@ public class QuestionManager : MonoBehaviour {
                     case "$":
                         Setting.CharacterSetting.moneyHasChanged = -1;
                         Setting.CharacterSetting.Money -= value;
-                        totalAssetText.text = "Total Assets -" + value.ToString();
+                        totalAssetText.text = "總財產 -" + value.ToString() + " 萬";
                         break;
                     case "P":
                         Setting.CharacterSetting.mentalHasChanged = -1;
-                        mentalResult = "Mental Index - " + value.ToString() + "\n";
+                        //mentalResult = "Mental Index - " + value.ToString() + "\n";
+                        mentalResult = "心理指數 -- \n";
                         Setting.CharacterSetting.Mental -= value;
                         break;
                     case "S":
                         Setting.CharacterSetting.socialHasChanged = -1;
-                        socialResult = "Social Index - " + value.ToString() + "\n";
+                        //socialResult = "Social Index - " + value.ToString() + "\n";
+                        socialResult = "社交指數 -- \n";
                         Setting.CharacterSetting.Social -= value;
                         break;
                     case "H":
                         Setting.CharacterSetting.hearthHasChanged = -1;
                         hearthResult = "Physiologic Index - " + value.ToString() + "\n";
+                        hearthResult = "健康指數 -- \n";
                         Setting.CharacterSetting.Hearth -= value;
                         break;
                 }

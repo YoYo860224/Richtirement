@@ -15,8 +15,8 @@ public class StoryCreate : MonoBehaviour {
             {
                 imageUrl = "Story/0",
                 hint = "hint test",
-                leftChoice = new Choice("Yes"),
-                rightChoice = new Choice("No")
+                leftChoice = new Choice("好啊"),
+                rightChoice = new Choice("不了")
             };
 
             Question q0_1 = new Question("想要做什麼理財呢？")
@@ -35,7 +35,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 1 }
             };
 
-            ChoiceResult r0_2 = new ChoiceResult("啊真不巧，遭遇股市大跌！財富損失，心情受影響")
+            ChoiceResult r0_2 = new ChoiceResult("啊！真不巧，遭遇股市大跌！財富損失，心情受影響")
             {
                 imageUrl = "Story/0_1",
                 prob = 0.7f,
@@ -78,7 +78,7 @@ public class StoryCreate : MonoBehaviour {
             {
                 imageUrl = "Story/1",
                 hint = "",
-                leftChoice = new Choice("加到底"),
+                leftChoice = new Choice("加班加到底"),
                 rightChoice = new Choice("花時間陪陪家人")
             };
 
