@@ -978,7 +978,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 419383196}
-        m_MethodName: choiceNo
+        m_MethodName: choiceRight
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2909,7 +2909,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 419383196}
-        m_MethodName: choiceYes
+        m_MethodName: choiceLeft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -133,12 +133,12 @@ public class QuestionManager : MonoBehaviour {
         }
     }
 
-    public void choiceYes()
+    public void choiceLeft()
     {
         if (!choiceCard)
         {
             choiceCard = true;
-            StartCoroutine(TweenOut(true));
+            StartCoroutine(ChoiceCard(true));
         }
         else
         {
@@ -146,13 +146,12 @@ public class QuestionManager : MonoBehaviour {
         }
     }
 
-    public void choiceNo()
+    public void choiceRight()
     {
         if (!choiceCard)
         {
             choiceCard = true;
-            StartCoroutine(TweenOut(false));
-
+            StartCoroutine(ChoiceCard(false));
         }
         else
         {
@@ -164,7 +163,7 @@ public class QuestionManager : MonoBehaviour {
     {
         if(choiceCard)
         {
-            StartCoroutine(TweenIn());
+            StartCoroutine(CancelChoiceCard());
             choiceCard = false;
         }
         if (canTouchToNextStory == 1)
@@ -253,39 +252,37 @@ public class QuestionManager : MonoBehaviour {
         questionImage.GetComponent<Button>().enabled = true;
     }
 
-    IEnumerator TweenOut(bool choice)
+    IEnumerator ChoiceCard(bool choice)
     {
         leftCardImage.GetComponent<Button>().enabled = false;
         rightCardImage.GetComponent<Button>().enabled = false;
         questionImage.GetComponent<Button>().enabled = false;
 
-        var timeStart = Time.time;
-        var timeEnd = timeStart + tweenTime;
-        while (Time.time < timeEnd)
-        {
-            UIFadeOutTween(timeStart, timeEnd);
-            yield return null;
-        }
-
-        SetUIToFadeOutLoc();
+        var timeStart1 = Time.time;
+        var timeEnd1 = timeStart1 + tweenTime;
 
         if (choice)
         {
-            leftCardImage.transform.localScale = new Vector3(1.4f, 1.4f, 1);
+            SetImageAlpha(leftCardImage.GetComponent<Image>(), 1f);
+            rightCardImage.SetActive(false);
         }
         else
         {
-            rightCardImage.transform.localScale = new Vector3(1.4f, 1.4f, 1);
+            SetImageAlpha(rightCardImage.GetComponent<Image>(), 1f);
+            leftCardImage.SetActive(false);
         }
 
-        var timeStart1 = Time.time;
-        var timeEnd1 = timeStart1 + tweenTime;
+
         while (Time.time < timeEnd1)
         {
             if (choice)
             {
                 var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
                 var v = LinearEase(t);
+                if (leftCardImage.transform.localScale.x < 1.4f)
+                {
+                    leftCardImage.transform.localScale = new Vector3(1 + v, 1 + v, 1);
+                }
                 var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, bigCardPosition.localPosition, v);
                 leftCardImage.transform.localPosition = position;
             }
@@ -293,6 +290,10 @@ public class QuestionManager : MonoBehaviour {
             {
                 var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
                 var v = LinearEase(t);
+                if (rightCardImage.transform.localScale.x < 1.4f)
+                {
+                    rightCardImage.transform.localScale = new Vector3(1 + v, 1 + v, 1);
+                }
                 var position = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, bigCardPosition.localPosition, v);
                 rightCardImage.transform.localPosition = position;
             }
@@ -302,22 +303,72 @@ public class QuestionManager : MonoBehaviour {
         if (choice)
         {
             leftCardImage.transform.localPosition = bigCardPosition.localPosition;
+            leftCardImage.GetComponent<Button>().enabled = true;
         }
         else
         {
             rightCardImage.transform.localPosition = bigCardPosition.localPosition;
+            rightCardImage.GetComponent<Button>().enabled = true;
         }
 
-        leftCardImage.GetComponent<Button>().enabled = true;
+        questionImage.GetComponent<Button>().enabled = true;
+    }
+
+    IEnumerator CancelChoiceCard()
+    {
+        rightCardImage.SetActive(true);
+        leftCardImage.SetActive(true);
+        leftCardImage.GetComponent<Button>().enabled = false;
+        rightCardImage.GetComponent<Button>().enabled = false;
+        questionImage.GetComponent<Button>().enabled = false;
+
+        var timeStart1 = Time.time;
+        var timeEnd1 = timeStart1 + tweenTime;
+
+        SetImageAlpha(leftCardImage.GetComponent<Image>(), 0.8f);
+        SetImageAlpha(rightCardImage.GetComponent<Image>(), 0.8f);
+        leftCardImage.transform.SetParent(this.transform);
+
+
+        while (Time.time < timeEnd1)
+        {
+            var t = Mathf.InverseLerp(timeStart1, timeEnd1, Time.time);
+            var v = LinearEase(t);
+            if (leftCardImage.transform.localScale.x > 1.0f)
+            {
+                leftCardImage.transform.localScale = new Vector3(1.4f - v, 1.4f - v, 1);
+            }
+            var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeInPosition.localPosition, v);
+            leftCardImage.transform.localPosition = position;
+
+
+            if (rightCardImage.transform.localScale.x > 1.0f)
+            {
+                rightCardImage.transform.localScale = new Vector3(1.4f - v, 1.4f - v, 1);
+            }
+            position = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeInPosition.localPosition, v);
+            rightCardImage.transform.localPosition = position;
+
+            yield return null;
+        }
+        leftCardImage.transform.localPosition = leftCardImageFadeInPosition.localPosition;
+        rightCardImage.transform.localPosition = rightCardImageFadeInPosition.localPosition;
+
         rightCardImage.GetComponent<Button>().enabled = true;
+        leftCardImage.GetComponent<Button>().enabled = true;
         questionImage.GetComponent<Button>().enabled = true;
     }
 
     IEnumerator TweenIn()
     {
+        rightCardImage.SetActive(true);
+        leftCardImage.SetActive(true);
         leftCardImage.GetComponent<Button>().enabled = false;
         rightCardImage.GetComponent<Button>().enabled = false;
         questionImage.GetComponent<Button>().enabled = false;
+
+        leftCardImage.transform.SetParent(this.transform);
+        rightCardImage.transform.SetParent(this.transform);
 
         var timeStart1 = Time.time;
         var timeEnd1 = timeStart1 + tweenTime;
@@ -338,6 +389,8 @@ public class QuestionManager : MonoBehaviour {
 
         leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
         rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
+        SetImageAlpha(leftCardImage.GetComponent<Image>(), 0.8f);
+        SetImageAlpha(rightCardImage.GetComponent<Image>(), 0.8f);
 
         var timeStart = Time.time;
         var timeEnd = timeStart + tweenTime;
@@ -372,7 +425,6 @@ public class QuestionManager : MonoBehaviour {
 
         // random result and nextId
         nextId = StoryManager.nowChoice.NextEvent();
-        Debug.Log(nextId);
 
         // nextQuestion
         if (nextId == -1)
@@ -410,6 +462,9 @@ public class QuestionManager : MonoBehaviour {
             SetQuestion(StoryManager.nowEvent.question);
 
             SetUIToFadeOutLoc();
+
+            rightCardImage.SetActive(true);
+            leftCardImage.SetActive(true);
             leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
             rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
 
@@ -423,8 +478,10 @@ public class QuestionManager : MonoBehaviour {
 
             SetUIToFadeInLoc();
 
+
             leftCardImage.GetComponent<Button>().enabled = true;
             rightCardImage.GetComponent<Button>().enabled = true;
+
             helpState = false;
         }
         // showResult
@@ -450,6 +507,10 @@ public class QuestionManager : MonoBehaviour {
                 yield return null;
             }
 
+            leftCardImage.SetActive(false);
+            rightCardImage.SetActive(false);
+            questionContent.text = "";
+
             transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
             this.GetComponent<Image>().sprite = null;
 
@@ -462,11 +523,10 @@ public class QuestionManager : MonoBehaviour {
             }
 
             whitePanel.SetActive(false);
-            leftCardImage.SetActive(false);
-            rightCardImage.SetActive(false);
 
             canTouchToNextStory = 1;
         }
+
     }
 
     IEnumerator AbsoluteResult()
@@ -771,23 +831,6 @@ public class QuestionManager : MonoBehaviour {
         rightCardImage.transform.localPosition = position1;
 
         var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeInPosition.localPosition, v);
-        helpButton.transform.localPosition = position2;
-    }
-
-    void UIFadeOutTween(float timeStart, float timeEnd)
-    {
-        var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-        var v = LinearEase(t);
-        var position = Vector3.LerpUnclamped(questionContent.transform.localPosition, contentFadeOutPosition.localPosition, v);
-        questionContent.transform.localPosition = position;
-
-        var position0 = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, leftCardImageFadeOutPosition.localPosition, v);
-        leftCardImage.transform.localPosition = position0;
-
-        var position1 = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, rightCardImageFadeOutPosition.localPosition, v);
-        rightCardImage.transform.localPosition = position1;
-
-        var position2 = Vector3.LerpUnclamped(helpButton.transform.localPosition, helpFadeOutPosition.localPosition, v);
         helpButton.transform.localPosition = position2;
     }
 
