@@ -9,7 +9,7 @@ public class StoryCreate : MonoBehaviour {
         {
             int id = 0;
             string imageUrl = "Story/0";                                          // 圖的url
-            string content = "轉眼間也到了在十年就要退休的年紀呢！";                  // 開頭簡介
+            string content = "轉眼間也到了再十年就要退休的年紀呢！";                  // 開頭簡介
 
             Question q0 = new Question("工作好一段時間了，有了一些存款，做點理財嗎？")
             {
@@ -72,7 +72,7 @@ public class StoryCreate : MonoBehaviour {
         {
             int id = 1;
             string imageUrl = "Story/1";
-            string content = "60歲了，小孩也都長大了，再五年就可以享受退休生活了，在努力一下吧！";
+            string content = "60歲了，小孩也都長大了，再五年就可以享受退休生活了，再努力一下吧！";
 
             Question q1 = new Question("老闆請你平日加班假日上班，你會如何選擇？")
             {
@@ -98,7 +98,7 @@ public class StoryCreate : MonoBehaviour {
                 rightChoice = new Choice("看電影")
             };
 
-            ChoiceResult r1_1 = new ChoiceResult("經常與廠商應酬傷害身心裡健康")
+            ChoiceResult r1_1 = new ChoiceResult("經常與廠商應酬傷害身心理健康")
             {
                 imageUrl = "Story/1_1",
                 prob = 1.0f,
