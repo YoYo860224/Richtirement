@@ -84,13 +84,13 @@ public class RedeployManager : MonoBehaviour {
 
         annuity.slider.maxValue = Setting.SystemSetting.AnnuityMax;
         annuity.slider.value = 0;
-        annuity.moneyText.text = "萬";
+        annuity.moneyText.text = "0萬";
         annuity.percentsText.text = "0.%";
         annuity.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(3); });
 
         medicineInsurance.slider.maxValue = Setting.SystemSetting.MedicineInsuranceMax;
         medicineInsurance.slider.value = 0;
-        medicineInsurance.moneyText.text = "萬";
+        medicineInsurance.moneyText.text = "0萬";
         medicineInsurance.percentsText.text = "0.%";
         medicineInsurance.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(4); });
 
