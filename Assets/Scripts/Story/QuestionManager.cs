@@ -12,6 +12,11 @@ public class QuestionManager : MonoBehaviour {
     public Image PhysicalHearthFilled;
     public Image SocialHearthFilled;
 
+    public Text MoneyText;
+    public Text MentalText;
+    public Text PhysicalHearthText;
+    public Text SocialHearthText;
+
     private Color moneyColor;
     private Color mentalColor;
     private Color physicalHearthColor;
@@ -44,8 +49,6 @@ public class QuestionManager : MonoBehaviour {
 
     public GameObject resultBox;
     public Text resultText;
-    public Text attributeText;
-    public Text totalAssetText;
 
     public GameObject whitePanel;
 
@@ -79,6 +82,12 @@ public class QuestionManager : MonoBehaviour {
 
         whitePanel.SetActive(false);
         helpField.SetActive(false);
+
+        MoneyText.text = "";
+        MentalText.text = "";
+        PhysicalHearthText.text = "";
+        SocialHearthText.text = "";
+
     }
 
     // Use this for initialization
@@ -177,12 +186,7 @@ public class QuestionManager : MonoBehaviour {
     public void TouchToNextStory()
     {
 
-        if (canTouchToNextStory == 2)
-        {
-            canTouchToNextStory = 3;
-            StartCoroutine(ShowResultText());
-        }
-        if (canTouchToNextStory == 4)
+        if (canTouchToNextStory == 3)
         {
             CharacterSetting.nYearsLater(StoryManager.nowEvent.year);
             Debug.Log("Money " + Setting.CharacterSetting.Money);
@@ -571,10 +575,10 @@ public class QuestionManager : MonoBehaviour {
     IEnumerator ShowResultBox()
     {
         // set result
-        attributeText.text = AttributeChanged(StoryManager.nowChoice.choiceResults[nextId].valueChanges);
-        
+        AttributeChanged(StoryManager.nowChoice.choiceResults[nextId].valueChanges);
         resultText.text = StoryManager.nowChoice.choiceResults[nextId].content;
 
+        SetImageAlpha(resultBox.GetComponent<Image>(), 0);
         resultBox.SetActive(true);
 
         for (float i = 0; i <= 1; i += Time.deltaTime)
@@ -583,28 +587,11 @@ public class QuestionManager : MonoBehaviour {
             {
                 SetImageAlpha(resultBox.GetComponent<Image>(), i);
             }
-
-            SetTextAlpha(attributeText, i);
-            SetTextAlpha(totalAssetText, i);
-
-            yield return null;
-        }
-    }
-
-    IEnumerator ShowResultText()
-    {
-        for (float i = 1; i >= 0; i -= Time.deltaTime)
-        {
-            SetTextAlpha(attributeText, i);
-            SetTextAlpha(totalAssetText, i);
-            yield return null;
-        }
-        for (float i = 0; i <= 1; i += Time.deltaTime)
-        {
             SetTextAlpha(resultText, i);
             yield return null;
         }
-        canTouchToNextStory = 4;
+        canTouchToNextStory = 3;
+
     }
 
     IEnumerator HelpFade(bool fadeIn)
@@ -641,6 +628,8 @@ public class QuestionManager : MonoBehaviour {
 
     IEnumerator AttributeChangedAnimation()
     {
+        
+
         int brightTime = 10;
         float MoneyDiff = ((float)Setting.CharacterSetting.Money - (float)MoneyFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
         float MentalDiff = ((float)Setting.CharacterSetting.Mental - (float)MentalFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
@@ -685,18 +674,34 @@ public class QuestionManager : MonoBehaviour {
                     if (Setting.CharacterSetting.moneyHasChanged != 0)
                     {
                         SetImageAlpha(MoneyFilled, j);
+                        if (i == 1)
+                        {
+                            SetTextAlpha(MoneyText, j);
+                        }
                     }
                     if (Setting.CharacterSetting.mentalHasChanged != 0)
                     {
                         SetImageAlpha(MentalFilled, j);
+                        if (i == 1)
+                        {
+                            SetTextAlpha(MentalText, j);
+                        }
                     }
                     if (Setting.CharacterSetting.socialHasChanged != 0)
                     {
                         SetImageAlpha(SocialHearthFilled, j);
+                        if (i == 1)
+                        {
+                            SetTextAlpha(SocialHearthText, j);
+                        }
                     }
                     if (Setting.CharacterSetting.hearthHasChanged != 0)
                     {
                         SetImageAlpha(PhysicalHearthFilled, j);
+                        if (i == 1)
+                        {
+                            SetTextAlpha(PhysicalHearthText, j);
+                        }
                     }
                     yield return null;
                 }
@@ -708,6 +713,27 @@ public class QuestionManager : MonoBehaviour {
         SetImageAlpha(SocialHearthFilled, 1);
         SetImageAlpha(PhysicalHearthFilled, 1);
 
+        for (float j = 1; j >= 0; j -= Time.deltaTime * 0.5f)
+        {
+            if (Setting.CharacterSetting.moneyHasChanged != 0)
+            {
+                SetTextAlpha(MoneyText, j);
+            }
+            if (Setting.CharacterSetting.mentalHasChanged != 0)
+            {
+                SetTextAlpha(MentalText, j);
+            }
+            if (Setting.CharacterSetting.socialHasChanged != 0)
+            {
+                SetTextAlpha(SocialHearthText, j);
+            }
+            if (Setting.CharacterSetting.hearthHasChanged != 0)
+            {
+                SetTextAlpha(PhysicalHearthText, j);
+            }
+            yield return null;
+        }
+
     }
 
     /*
@@ -717,17 +743,18 @@ public class QuestionManager : MonoBehaviour {
     * $(萬)
     * example: "P + 50", "P - 3 5"
     */
-    public string AttributeChanged(List<string> changed)
+    public void AttributeChanged(List<string> changed)
     {
-        totalAssetText.text = "";
         Setting.CharacterSetting.moneyHasChanged = 0;
         Setting.CharacterSetting.mentalHasChanged = 0;
         Setting.CharacterSetting.hearthHasChanged = 0;
         Setting.CharacterSetting.socialHasChanged = 0;
 
-        string mentalResult = "";
-        string hearthResult = "";
-        string socialResult = "";
+        SetTextAlpha(MoneyText, 0);
+        SetTextAlpha(MentalText, 0);
+        SetTextAlpha(SocialHearthText, 0);
+        SetTextAlpha(PhysicalHearthText, 0);
+
 
         for (int i = 0; i < changed.Count; i++)
         {
@@ -761,24 +788,25 @@ public class QuestionManager : MonoBehaviour {
                     case "$":
                         Setting.CharacterSetting.moneyHasChanged = 1;
                         Setting.CharacterSetting.Money += value;
-                        totalAssetText.text = "總財產 +" + value.ToString() + " 萬";
+                        SetTextAlpha(MoneyText, 0);
+                        MoneyText.text = "+" + value.ToString();
                         break;
                     case "P":
                         Setting.CharacterSetting.mentalHasChanged = 1;
                         //mentalResult = "心理指數 ++" + value.ToString() + "\n";
-                        mentalResult = "心理指數 ++ \n";
+                        MentalText.text = "+" + value.ToString();
                         Setting.CharacterSetting.Mental += value;
                         break;
                     case "S":
                         Setting.CharacterSetting.socialHasChanged = 1;
                         //socialResult = "Social Index + " + value.ToString() + "\n";
-                        socialResult = "社交指數 ++ \n";
+                        SocialHearthText.text = "+" + value.ToString();
                         Setting.CharacterSetting.Social += value;
                         break;
                     case "H":
                         Setting.CharacterSetting.hearthHasChanged = 1;
                         //hearthResult = "Physiologic Index + " + value.ToString() + "\n";
-                        hearthResult = "健康指數 ++ \n";
+                        PhysicalHearthText.text = "+" + value.ToString();
                         Setting.CharacterSetting.Hearth += value;
                         break;
                 }
@@ -790,31 +818,28 @@ public class QuestionManager : MonoBehaviour {
                     case "$":
                         Setting.CharacterSetting.moneyHasChanged = -1;
                         Setting.CharacterSetting.Money -= value;
-                        totalAssetText.text = "總財產 -" + value.ToString() + " 萬";
+                        MoneyText.text = "-" + value.ToString();
                         break;
                     case "P":
                         Setting.CharacterSetting.mentalHasChanged = -1;
                         //mentalResult = "Mental Index - " + value.ToString() + "\n";
-                        mentalResult = "心理指數 -- \n";
+                        MentalText.text = "-" + value.ToString();
                         Setting.CharacterSetting.Mental -= value;
                         break;
                     case "S":
                         Setting.CharacterSetting.socialHasChanged = -1;
                         //socialResult = "Social Index - " + value.ToString() + "\n";
-                        socialResult = "社交指數 -- \n";
+                        SocialHearthText.text = "-" + value.ToString();
                         Setting.CharacterSetting.Social -= value;
                         break;
                     case "H":
                         Setting.CharacterSetting.hearthHasChanged = -1;
-                        hearthResult = "Physiologic Index - " + value.ToString() + "\n";
-                        hearthResult = "健康指數 -- \n";
+                        PhysicalHearthText.text = "-" + value.ToString();
                         Setting.CharacterSetting.Hearth -= value;
                         break;
                 }
             }
         }
-
-        return mentalResult + hearthResult + socialResult;
     }
 
     void UIFadeInTween(float timeStart, float timeEnd)
