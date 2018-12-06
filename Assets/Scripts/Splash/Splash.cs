@@ -43,26 +43,26 @@ public class Splash : MonoBehaviour {
                 tempColor.a = tempColor.a + fadeSpeed * Time.deltaTime;
                 startText[i].GetComponent<Text>().color = tempColor;
                 if (tempColor.a > 1f)
-                    showFlag = 1;
-            }
-        }
-        else if(showFlag == 1)  // logo and detail fade out
-        {  
-            for(int i = 0; i < startImage.Count; i++)
-            {
-                var tempColor = startImage[i].GetComponent<Image>().color;
-                tempColor.a = tempColor.a - fadeSpeed * Time.deltaTime;
-                startImage[i].GetComponent<Image>().color = tempColor;
-            }
-            for (int i = 0; i < startText.Count; i++)
-            {
-                var tempColor = startText[i].GetComponent<Text>().color;
-                tempColor.a = tempColor.a - fadeSpeed * Time.deltaTime;
-                startText[i].GetComponent<Text>().color = tempColor;
-                if (tempColor.a < 0f)
                     showFlag = 2;
             }
         }
+        //else if(showFlag == 1)  // logo and detail fade out
+        //{  
+        //    for(int i = 0; i < startImage.Count; i++)
+        //    {
+        //        var tempColor = startImage[i].GetComponent<Image>().color;
+        //        tempColor.a = tempColor.a - fadeSpeed * Time.deltaTime;
+        //        startImage[i].GetComponent<Image>().color = tempColor;
+        //    }
+        //    for (int i = 0; i < startText.Count; i++)
+        //    {
+        //        var tempColor = startText[i].GetComponent<Text>().color;
+        //        tempColor.a = tempColor.a - fadeSpeed * Time.deltaTime;
+        //        startText[i].GetComponent<Text>().color = tempColor;
+        //        if (tempColor.a < 0f)
+        //            showFlag = 2;
+        //    }
+        //}
         else if(showFlag == 2)
         {
             for (int i = 0; i < button.Count; i++)

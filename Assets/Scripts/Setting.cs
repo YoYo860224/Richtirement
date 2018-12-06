@@ -9,7 +9,7 @@ namespace Setting
     // 系統設定
     public class SystemSetting
     {
-        public static Localize nowLanguage = Localize.zh_tw;
+        public static Localize nowLanguage = Localize.en;
 
         public static int AnnuityMax = 50;              // 年金每年最多增加多少
         public static int MedicineInsuranceMax = 50;    // 醫療保險每年最多增加多少
@@ -52,7 +52,7 @@ namespace Setting
 
 
         // Money 細項
-        public static int deposit = 0;
+        public static int deposit = 1500;
         public static int stock = 0;
         public static int fund = 0;
         public static int annuity = 0;

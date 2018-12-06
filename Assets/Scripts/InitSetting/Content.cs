@@ -7,20 +7,20 @@ namespace Content
 {
     public class InitSetting
     {
-        public static string Title
-        {
-            get
-            {
-                switch (Setting.SystemSetting.nowLanguage)
-                {
-                    case Localize.en:
-                        return "Enter your name and other setting";
-                    case Localize.zh_tw:
-                        return "請輸入名稱和其他設定";
-                }
-                return "Not Found.";
-            }
-        }
+        //public static string Title
+        //{
+        //    get
+        //    {
+        //        switch (Setting.SystemSetting.nowLanguage)
+        //        {
+        //            case Localize.en:
+        //                return "Enter your name and other setting";
+        //            case Localize.zh_tw:
+        //                return "請輸入名稱和其他設定";
+        //        }
+        //        return "Not Found.";
+        //    }
+        //}
 
         public static string Name
         {

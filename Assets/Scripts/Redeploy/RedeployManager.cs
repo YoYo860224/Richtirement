@@ -19,7 +19,7 @@ public class RedeployManager : MonoBehaviour {
     private RedeployField annuity;
     private RedeployField medicineInsurance;
 
-    public Text title;
+    //public Text title;
     public Text redeployText;
     public Button redeploy;
     public Text TotalAssets;
@@ -61,37 +61,37 @@ public class RedeployManager : MonoBehaviour {
         tempAnnuity = 0;
         tempMedicineInsurance = 0;
 
-        title.text = Content.Redeploy.Title;
+        //title.text = Content.Redeploy.Title;
         redeployText.text = Content.Redeploy.redeploy;
 
 
         deposity.slider.maxValue = totalAssets;
         deposity.slider.value = tempDeposity;
-        deposity.moneyText.text = tempDeposity.ToString() + "萬";
-        deposity.percentsText.text = (deposity.slider.normalizedValue * 100.0f).ToString("0.") + "%";
+        deposity.moneyText.text = tempDeposity.ToString() + " M";
+        deposity.percentsText.text = (deposity.slider.normalizedValue * 100.0f).ToString("0.") + " %";
 
         stock.slider.maxValue = totalAssets;
         stock.slider.value = tempStock;
-        stock.moneyText.text = tempStock.ToString() + "萬";
-        stock.percentsText.text = (stock.slider.normalizedValue * 100.0f).ToString("0.") + "%";
+        stock.moneyText.text = tempStock.ToString() + " M";
+        stock.percentsText.text = (stock.slider.normalizedValue * 100.0f).ToString("0.") + " %";
         stock.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(1); });
 
         fund.slider.maxValue = totalAssets;
         fund.slider.value = tempFund;
-        fund.moneyText.text = tempFund.ToString() + "萬";
-        fund.percentsText.text = (fund.slider.normalizedValue * 100.0f).ToString("0.") + "%";
+        fund.moneyText.text = tempFund.ToString() + " M";
+        fund.percentsText.text = (fund.slider.normalizedValue * 100.0f).ToString("0.") + " %";
         fund.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(2); });
 
         annuity.slider.maxValue = Setting.SystemSetting.AnnuityMax;
         annuity.slider.value = 0;
-        annuity.moneyText.text = "0萬";
-        annuity.percentsText.text = "0.%";
+        annuity.moneyText.text = "0 M";
+        annuity.percentsText.text = "0 %";
         annuity.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(3); });
 
         medicineInsurance.slider.maxValue = Setting.SystemSetting.MedicineInsuranceMax;
         medicineInsurance.slider.value = 0;
-        medicineInsurance.moneyText.text = "0萬";
-        medicineInsurance.percentsText.text = "0.%";
+        medicineInsurance.moneyText.text = "0 M";
+        medicineInsurance.percentsText.text = "0 %";
         medicineInsurance.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(4); });
 
         TotalAssets.text = TotalAssetsString(totalAssets.ToString());
@@ -165,26 +165,26 @@ public class RedeployManager : MonoBehaviour {
 
         deposity.slider.maxValue = totalAssets;
         deposity.slider.value = tempDeposity;
-        deposity.moneyText.text = tempDeposity.ToString() + "萬";
-        deposity.percentsText.text = (deposity.slider.normalizedValue * 100.0f).ToString("0.") + "%";
+        deposity.moneyText.text = tempDeposity.ToString() + " M";
+        deposity.percentsText.text = (deposity.slider.normalizedValue * 100.0f).ToString("0.") + " %";
 
         stock.slider.maxValue = totalAssets;
         stock.slider.value = tempStock;
-        stock.moneyText.text = tempStock.ToString() + "萬";
-        stock.percentsText.text = (stock.slider.normalizedValue * 100.0f).ToString("0.") + "%";
+        stock.moneyText.text = tempStock.ToString() + " M";
+        stock.percentsText.text = (stock.slider.normalizedValue * 100.0f).ToString("0.") + " %";
 
         fund.slider.maxValue = totalAssets;
         fund.slider.value = tempFund;
-        fund.moneyText.text = tempFund.ToString() + "萬";
-        fund.percentsText.text = (fund.slider.normalizedValue * 100.0f).ToString("0.") + "%";
+        fund.moneyText.text = tempFund.ToString() + " M";
+        fund.percentsText.text = (fund.slider.normalizedValue * 100.0f).ToString("0.") + " %";
 
         annuity.slider.value = tempAnnuity;
-        annuity.moneyText.text = tempAnnuity.ToString() + "萬";
-        annuity.percentsText.text = (annuity.slider.normalizedValue * 100.0f).ToString("0.") + "%";
+        annuity.moneyText.text = tempAnnuity.ToString() + " M";
+        annuity.percentsText.text = (annuity.slider.normalizedValue * 100.0f).ToString("0.") + " %";
 
         medicineInsurance.slider.value = tempMedicineInsurance;
-        medicineInsurance.moneyText.text = tempMedicineInsurance.ToString() + "萬";
-        medicineInsurance.percentsText.text = (medicineInsurance.slider.normalizedValue * 100.0f).ToString("0.") + "%";
+        medicineInsurance.moneyText.text = tempMedicineInsurance.ToString() + " M";
+        medicineInsurance.percentsText.text = (medicineInsurance.slider.normalizedValue * 100.0f).ToString("0.") + " %";
 
         TotalAssets.text = TotalAssetsString(totalAssets.ToString());
     }

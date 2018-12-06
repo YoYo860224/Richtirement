@@ -7,7 +7,7 @@ using Setting;
 using UnityEngine.SceneManagement;
 
 public class InitSettingManager : MonoBehaviour {
-    public Text titleText;
+    //public Text titleText;
     public Text nameText;
     public Text spouseText;
     public Text kidText;
@@ -21,7 +21,7 @@ public class InitSettingManager : MonoBehaviour {
     public Slider currentAssets;
     // Use this for initialization
     void Start () {
-        titleText.text = Content.InitSetting.Title;
+        //titleText.text = Content.InitSetting.Title;
         nameText.text = Content.InitSetting.Name;
         // TODO : spouseText
         kidText.text = Content.InitSetting.Kids;
