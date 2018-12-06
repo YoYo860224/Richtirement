@@ -641,7 +641,7 @@ public class QuestionManager : MonoBehaviour {
 
     IEnumerator AttributeChangedAnimation()
     {
-        int brightTime = 30;
+        int brightTime = 10;
         float MoneyDiff = ((float)Setting.CharacterSetting.Money - (float)MoneyFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
         float MentalDiff = ((float)Setting.CharacterSetting.Mental - (float)MentalFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;
         float SocialDiff = ((float)Setting.CharacterSetting.Social - (float)SocialHearthFilled.fillAmount * 100.0f) / (float)brightTime / 100.0f;

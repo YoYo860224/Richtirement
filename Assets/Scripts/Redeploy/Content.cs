@@ -30,7 +30,7 @@ namespace Content
                 switch (Setting.SystemSetting.nowLanguage)
                 {
                     case Localize.en:
-                        return "redeploy";
+                        return "Edit";
                     case Localize.zh_tw:
                         return "配置";
                 }
@@ -181,7 +181,7 @@ namespace Content
                 switch (Setting.SystemSetting.nowLanguage)
                 {
                     case Localize.en:
-                        return "Total of asset : ";
+                        return "Total assets  ";
                     case Localize.zh_tw:
                         return "總資產 : ";
                 }
@@ -196,7 +196,7 @@ namespace Content
                 switch (Setting.SystemSetting.nowLanguage)
                 {
                     case Localize.en:
-                        return " million";
+                        return "  million";
                     case Localize.zh_tw:
                         return " 萬";
                 }
