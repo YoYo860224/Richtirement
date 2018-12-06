@@ -9,9 +9,9 @@ public class StoryCreate : MonoBehaviour {
         {
             int id = 0;
             string imageUrl = "Story/0";                                          // 圖的url
-            string content = "You will be retired in 10 years.";                  // 開頭簡介
+            string content = "You would be retired in 10 years.";                  // 開頭簡介
 
-            Question q0 = new Question("Work a lot of time and have a bit of money, Do you want to do some money management？")
+            Question q0 = new Question("You have worked for several years and have some assets, do you want to do some money management?？")
             {
                 imageUrl = "Story/0",
                 hint = "",
@@ -74,7 +74,7 @@ public class StoryCreate : MonoBehaviour {
             string imageUrl = "Story/1";
             string content = "You are 60 years old now. Your kids have grown up.You can enjoy your retirement after 5 years. Work harder!";
 
-            Question q1 = new Question("The boss tell you that you have to work overtime on weekdays and work on weekends. What choice will you make？")
+            Question q1 = new Question("The boss asked you to work overtime and work on weekend. How would you do?")
             {
                 imageUrl = "Story/1",
                 hint = "",
@@ -95,7 +95,7 @@ public class StoryCreate : MonoBehaviour {
                 imageUrl = "Story/1",
                 hint = "",
                 leftChoice = new Choice("Go hiking"),
-                rightChoice = new Choice("看電影")
+                rightChoice = new Choice("Watch the movie")
             };
 
             ChoiceResult r1_1 = new ChoiceResult("經常與廠商應酬傷害身心理健康")
@@ -114,7 +114,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 2 }
             };
 
-            ChoiceResult r1_3 = new ChoiceResult("Sometime hanging out with your family can make you more healthier and become closer with them.")
+            ChoiceResult r1_3 = new ChoiceResult("Someitmes hanging out with your family could make you more healthier and become closer with them.")
             {
                 imageUrl = "Story/1_3",
                 prob = 1.0f,
@@ -149,8 +149,8 @@ public class StoryCreate : MonoBehaviour {
             {
                 imageUrl = "Story/company",
                 hint = "",
-                leftChoice = new Choice("take early retirement."),
-                rightChoice = new Choice("找新工作")
+                leftChoice = new Choice("Take early retirement."),
+                rightChoice = new Choice("Find new job")
             };
 
             ChoiceResult r2_1 = new ChoiceResult("Planning well with the life of retirement.")
@@ -394,8 +394,8 @@ public class StoryCreate : MonoBehaviour {
             {
                 imageUrl = "Story/livingroom",
                 hint = "",
-                leftChoice = new Choice("develop the habit of exercising"),
-                rightChoice = new Choice("行動不便，待在家")
+                leftChoice = new Choice("Develop the habit of exercising"),
+                rightChoice = new Choice("Being disabled, keep staying home.")
             };
 
             ChoiceResult r_1 = new ChoiceResult("Exercise more and go outside. Get your strength back and make new friends.")
