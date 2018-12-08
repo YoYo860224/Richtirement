@@ -79,7 +79,7 @@ public class StoryCreate : MonoBehaviour {
                 imageUrl = "Story/1",
                 hint = "",
                 leftChoice = new Choice("Yes"),
-                rightChoice = new Choice("No, you want to spend time with family.")
+                rightChoice = new Choice("No, I want to spend time with family.")
             };
 
             Question q1_1 = new Question("這個時候，老闆叫你代替他去應酬，你會如何選擇？")

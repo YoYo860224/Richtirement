@@ -7,6 +7,9 @@ using Content;
 using UnityEngine.SceneManagement;
 
 public class RedeployManager : MonoBehaviour {
+    public GameObject PropertyBar;
+    public GameObject InvestmentBar;
+
     public GameObject deposityGameObject;
     public GameObject stockGameObject;
     public GameObject fundGameObject;
@@ -95,6 +98,10 @@ public class RedeployManager : MonoBehaviour {
         medicineInsurance.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(4); });
 
         TotalAssets.text = TotalAssetsString(totalAssets.ToString());
+
+        PropertyBar.GetComponent<RectTransform>().anchorMax = new Vector2((float)tempDeposity / (float)(Setting.CharacterSetting.Money + Setting.CharacterSetting.annuity + Setting.CharacterSetting.medicineInsurance + tempAnnuity + tempMedicineInsurance), 0.7f);
+
+        InvestmentBar.GetComponent<RectTransform>().anchorMax = new Vector2((float)((tempDeposity) + tempStock + tempFund) / (float)(Setting.CharacterSetting.Money + Setting.CharacterSetting.annuity + Setting.CharacterSetting.medicineInsurance + tempAnnuity + tempMedicineInsurance), 0.7f);
     }
 
     // Update is called once per frame
@@ -187,5 +194,9 @@ public class RedeployManager : MonoBehaviour {
         medicineInsurance.percentsText.text = (medicineInsurance.slider.normalizedValue * 100.0f).ToString("0.") + " %";
 
         TotalAssets.text = TotalAssetsString(totalAssets.ToString());
+
+        PropertyBar.GetComponent<RectTransform>().anchorMax = new Vector2((float)tempDeposity / (float)(Setting.CharacterSetting.Money + Setting.CharacterSetting.annuity + Setting.CharacterSetting.medicineInsurance + tempAnnuity + tempMedicineInsurance), 0.7f);
+
+        InvestmentBar.GetComponent<RectTransform>().anchorMax = new Vector2((float)((tempDeposity) + tempStock + tempFund) / (float)(Setting.CharacterSetting.Money + Setting.CharacterSetting.annuity + Setting.CharacterSetting.medicineInsurance + tempAnnuity + tempMedicineInsurance), 0.7f);
     }
 }
