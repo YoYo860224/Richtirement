@@ -23,9 +23,24 @@ public class RedeployManager : MonoBehaviour {
     private RedeployField medicineInsurance;
 
     //public Text title;
-    public Text redeployText;
+    public Text TitleText;
     public Button redeploy;
     public Text TotalAssets;
+    public Transform TotalAssetsUpTransform;
+
+    public GameObject ScrollView1;
+    public Transform ScrollView1OutTransform;
+    public GameObject ScrollView2;
+    public Transform ScrollView2InTransform;
+
+    public Text DepositValue;
+    public Text MedicalValue;
+    public Text AnnuityValue;
+    public Text StocksValue;
+    public Text FundsValue;
+
+    public Image[] ScrollView1Images;
+    public Text[] ScrollView1Texts;
 
     private int totalAssets;
     private int tempDeposity;
@@ -35,9 +50,13 @@ public class RedeployManager : MonoBehaviour {
     private int tempMedicineInsurance;
 
 
-    string TotalAssetsString(string assets)
+    string TotalAssetsString(int assets)
     {
-        return Content.Redeploy.TotalAssets1 + assets + Content.Redeploy.TotalAssets2;
+        if(Setting.SystemSetting.nowLanguage == Setting.Localize.en)
+        {
+            return Content.Redeploy.TotalAssets1 + ((float)assets / 100.0).ToString() + Content.Redeploy.TotalAssets2;
+        }
+        return Content.Redeploy.TotalAssets1 + assets.ToString() + Content.Redeploy.TotalAssets2;
     }
 
     private void Awake()
@@ -53,6 +72,7 @@ public class RedeployManager : MonoBehaviour {
             annuityGameObject.SetActive(false);
             medicineInsuranceGameObject.SetActive(false);
         }
+
     }
 
     // Use this for initialization
@@ -65,7 +85,7 @@ public class RedeployManager : MonoBehaviour {
         tempMedicineInsurance = 0;
 
         //title.text = Content.Redeploy.Title;
-        redeployText.text = Content.Redeploy.redeploy;
+        TitleText.text = Content.Redeploy.redeploy;
 
 
         deposity.slider.maxValue = totalAssets;
@@ -97,7 +117,7 @@ public class RedeployManager : MonoBehaviour {
         medicineInsurance.percentsText.text = "0 %";
         medicineInsurance.slider.onValueChanged.AddListener(delegate { AssetsValueChangeCheck(4); });
 
-        TotalAssets.text = TotalAssetsString(totalAssets.ToString());
+        TotalAssets.text = TotalAssetsString(totalAssets);
 
         PropertyBar.GetComponent<RectTransform>().anchorMax = new Vector2((float)tempDeposity / (float)(Setting.CharacterSetting.Money + Setting.CharacterSetting.annuity + Setting.CharacterSetting.medicineInsurance + tempAnnuity + tempMedicineInsurance), 0.7f);
 
@@ -117,8 +137,70 @@ public class RedeployManager : MonoBehaviour {
         Setting.CharacterSetting.annuity += (int)annuity.slider.value;
         Setting.CharacterSetting.medicineInsurance += (int)medicineInsurance.slider.value;
 
+        DepositValue.text = Setting.CharacterSetting.deposit.ToString() + " M";
+        MedicalValue.text = Setting.CharacterSetting.medicineInsurance.ToString() + " M";
+        AnnuityValue.text = Setting.CharacterSetting.annuity.ToString() + " M";
+        StocksValue.text = Setting.CharacterSetting.stock.ToString() + " M";
+        FundsValue.text = Setting.CharacterSetting.fund.ToString() + " M";
+
         Debug.Log("click redeploy button");
+        StartCoroutine(FadeOutEditInterface());
+ 
+    }
+
+    public void BackToStory()
+    {
         SceneManager.LoadScene("Story");
+    }
+
+    IEnumerator FadeOutEditInterface()
+    {
+        Vector3 ScrollView1PerMove = (ScrollView1OutTransform.position-ScrollView1.transform.position) * Time.deltaTime;
+
+        Vector3 ScrollView2PerMove = (ScrollView2InTransform.position - ScrollView2.transform.position) * Time.deltaTime;
+
+        Vector3 TotalAssetsPerMove = (TotalAssetsUpTransform.position - TotalAssets.transform.position) * Time.deltaTime;
+
+        Debug.Log(ScrollView1PerMove);
+        for(float i = 1; i >= 0; i -= Time.deltaTime)
+        {
+            for (int j = 0; j < ScrollView1Images.Length; j++)
+            {
+                SetImageAlpha(ScrollView1Images[j], i );
+            }
+            for (int j = 0; j < ScrollView1Texts.Length; j++)
+            {
+                SetTextAlpha(ScrollView1Texts[j], i);
+                SetTextAlpha(TitleText, i);
+            }
+            ScrollView1.transform.position += ScrollView1PerMove;
+            ScrollView2.transform.position += ScrollView2PerMove;
+            TotalAssets.transform.position += TotalAssetsPerMove;
+
+            if(ScrollView1.transform.position.x+ ScrollView1PerMove.x < ScrollView1OutTransform.position.x)
+            {
+                ScrollView1.transform.position = ScrollView1OutTransform.position;
+            }
+            if (ScrollView2.transform.position.x + ScrollView2PerMove.x < ScrollView2InTransform.position.x)
+            {
+                ScrollView2.transform.position = ScrollView2InTransform.position;
+            }
+            if(TotalAssets.transform.position.y + TotalAssetsPerMove.y > TotalAssetsUpTransform.position.y)
+            {
+                TotalAssets.transform.position = TotalAssetsUpTransform.position;
+            }
+            yield return null;
+        }
+        ScrollView1.transform.position = ScrollView1OutTransform.position;
+        ScrollView2.transform.position = ScrollView2InTransform.position;
+        TotalAssets.transform.position = TotalAssetsUpTransform.position;
+        TitleText.text = "Allocation";
+
+        for (float i = 0; i < 1; i += Time.deltaTime)
+        {
+            SetTextAlpha(TitleText, i);
+            yield return null;
+        }
     }
 
     public void AssetsValueChangeCheck(int id)
@@ -193,10 +275,24 @@ public class RedeployManager : MonoBehaviour {
         medicineInsurance.moneyText.text = tempMedicineInsurance.ToString() + " M";
         medicineInsurance.percentsText.text = (medicineInsurance.slider.normalizedValue * 100.0f).ToString("0.") + " %";
 
-        TotalAssets.text = TotalAssetsString(totalAssets.ToString());
+        TotalAssets.text = TotalAssetsString(totalAssets);
 
         PropertyBar.GetComponent<RectTransform>().anchorMax = new Vector2((float)tempDeposity / (float)(Setting.CharacterSetting.Money + Setting.CharacterSetting.annuity + Setting.CharacterSetting.medicineInsurance + tempAnnuity + tempMedicineInsurance), 0.7f);
 
         InvestmentBar.GetComponent<RectTransform>().anchorMax = new Vector2((float)((tempDeposity) + tempStock + tempFund) / (float)(Setting.CharacterSetting.Money + Setting.CharacterSetting.annuity + Setting.CharacterSetting.medicineInsurance + tempAnnuity + tempMedicineInsurance), 0.7f);
+    }
+
+    void SetImageAlpha(Image image, float value)
+    {
+        var tempColor = image.color;
+        tempColor.a = value;
+        image.color = tempColor;
+    }
+
+    void SetTextAlpha(Text text, float value)
+    {
+        var tempColor = text.color;
+        tempColor.a = value;
+        text.color = tempColor;
     }
 }
