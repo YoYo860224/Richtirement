@@ -267,12 +267,10 @@ public class QuestionManager : MonoBehaviour {
 
         if (choice)
         {
-            SetImageAlpha(leftCardImage.GetComponent<Image>(), 1f);
             rightCardImage.SetActive(false);
         }
         else
         {
-            SetImageAlpha(rightCardImage.GetComponent<Image>(), 1f);
             leftCardImage.SetActive(false);
         }
 
@@ -329,8 +327,6 @@ public class QuestionManager : MonoBehaviour {
         var timeStart1 = Time.time;
         var timeEnd1 = timeStart1 + tweenTime;
 
-        //SetImageAlpha(leftCardImage.GetComponent<Image>(), 0.8f);
-        //SetImageAlpha(rightCardImage.GetComponent<Image>(), 0.8f);
         leftCardImage.transform.SetParent(this.transform);
 
 
@@ -393,8 +389,6 @@ public class QuestionManager : MonoBehaviour {
 
         leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
         rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
-        //SetImageAlpha(leftCardImage.GetComponent<Image>(), 0.8f);
-        //SetImageAlpha(rightCardImage.GetComponent<Image>(), 0.8f);
 
         var timeStart = Time.time;
         var timeEnd = timeStart + tweenTime;
