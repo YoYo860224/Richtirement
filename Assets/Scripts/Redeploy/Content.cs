@@ -196,7 +196,22 @@ namespace Content
                 switch (Setting.SystemSetting.nowLanguage)
                 {
                     case Localize.en:
-                        return "  million";
+                        return " million";
+                    case Localize.zh_tw:
+                        return " 萬";
+                }
+                return "Not Found.";
+            }
+        }
+
+        public static string BigMoneyUnit
+        {
+            get
+            {
+                switch (Setting.SystemSetting.nowLanguage)
+                {
+                    case Localize.en:
+                        return " M";
                     case Localize.zh_tw:
                         return " 萬";
                 }

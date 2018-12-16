@@ -534,7 +534,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 150 M
+  m_Text: 1.50 M
 --- !u!222 &65321713
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -966,7 +966,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Total assets  1500  million
+  m_Text: Total assets  15.00  million
 --- !u!222 &161462570
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3008,7 +3008,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 150 M
+  m_Text: 1.50 M
 --- !u!222 &961051124
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4094,7 +4094,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 150 M
+  m_Text: 1.50 M
 --- !u!222 &1209771650
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6373,7 +6373,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 150 M
+  m_Text: 1.50 M
 --- !u!222 &1815624841
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6730,7 +6730,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 150 M
+  m_Text: 1.50 M
 --- !u!222 &1974800804
 CanvasRenderer:
   m_ObjectHideFlags: 0

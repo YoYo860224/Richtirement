@@ -94,7 +94,7 @@ namespace Setting
             deposit += (int)(fund * 0.05);
             // 年金
             annuity = (int)(annuity * 0.05);
-        }
+        }   
     }
 
     public enum Localize
