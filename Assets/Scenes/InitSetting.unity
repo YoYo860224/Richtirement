@@ -1020,6 +1020,7 @@ MonoBehaviour:
   spouseText: {fileID: 143594123}
   kidText: {fileID: 1532978281}
   assetsText: {fileID: 1427018157}
+  assetsSubText: {fileID: 1895718186}
   nameInputField: {fileID: 194325060}
   nameInputPlaceHold: {fileID: 839126995}
   spouseYes: {fileID: 1806184570}
@@ -2496,7 +2497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 4000
+  m_Text: 40.00
 --- !u!222 &1256461240
 CanvasRenderer:
   m_ObjectHideFlags: 0
