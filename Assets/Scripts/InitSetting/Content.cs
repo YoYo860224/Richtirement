@@ -76,7 +76,22 @@ namespace Content
                     case Localize.en:
                         return "Current assets";
                     case Localize.zh_tw:
-                        return "現有總資產(萬)";
+                        return "現有總資產";
+                }
+                return "Not Found.";
+            }
+        }
+
+        public static string CurrentAssets_subTitle
+        {
+            get
+            {
+                switch (Setting.SystemSetting.nowLanguage)
+                {
+                    case Localize.en:
+                        return "(unit/million)";
+                    case Localize.zh_tw:
+                        return "(萬)";
                 }
                 return "Not Found.";
             }

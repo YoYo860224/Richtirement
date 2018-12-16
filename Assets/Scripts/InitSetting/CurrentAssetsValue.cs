@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ExtensionMethods;
 
 public class CurrentAssetsValue : MonoBehaviour {
     Slider sliders;
@@ -14,7 +15,7 @@ public class CurrentAssetsValue : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        value.text = ((int)(sliders.value/ 100) * 100).ToString();
+        value.text = ((int)(sliders.value/ 100) * 100).LocalMoneyString();
         sliders.value = (int)(sliders.value / 100) * 100;
 
     }

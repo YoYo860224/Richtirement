@@ -12,6 +12,7 @@ public class InitSettingManager : MonoBehaviour {
     public Text spouseText;
     public Text kidText;
     public Text assetsText;
+    public Text assetsSubText;
 
     public InputField nameInputField;
     public Text nameInputPlaceHold;
@@ -21,17 +22,12 @@ public class InitSettingManager : MonoBehaviour {
     public Slider currentAssets;
     // Use this for initialization
     void Start () {
-        //titleText.text = Content.InitSetting.Title;
-        nameText.text = Content.InitSetting.Name;
-        // TODO : spouseText
-        kidText.text = Content.InitSetting.Kids;
-        assetsText.text = Content.InitSetting.CurrentAssets;
-        nameInputPlaceHold.text = Content.InitSetting.NamePlaceHold;
+
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        Translate();
 	}
 
     public void NextButtom()
@@ -51,5 +47,13 @@ public class InitSettingManager : MonoBehaviour {
         Debug.Log(Setting.CharacterSetting.Money);
 
         SceneManager.LoadScene("Story");
+    }
+
+    public void Translate() {
+        nameText.text = Content.InitSetting.Name;
+        nameInputPlaceHold.text = Content.InitSetting.NamePlaceHold;
+        kidText.text = Content.InitSetting.Kids;
+        assetsText.text = Content.InitSetting.CurrentAssets;
+        assetsSubText.text = Content.InitSetting.CurrentAssets_subTitle;
     }
 }
