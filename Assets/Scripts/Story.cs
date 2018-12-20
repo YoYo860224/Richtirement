@@ -43,6 +43,9 @@ public static class StoryManager
             futureEventsID.Add(nextId);
         }
     }
+
+    
+
 }
 
 public class StoryEvent
@@ -160,13 +163,11 @@ public class ChoiceResult
 public class EventLog
 {
     public int id;
-    public bool choice;
-    public int nextId;
+    public List<bool> choice;
 
-    public EventLog(int id, bool choice, int nextId)
+    public EventLog(int id, List<bool> choice)
     {
         this.id = id;
         this.choice = choice;
-        this.nextId = nextId;
     }
 }

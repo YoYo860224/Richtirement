@@ -28,7 +28,7 @@ public class QuestionManager : MonoBehaviour {
     public Transform contentFadeInPosition;
 
     public Text leftText;
-    public GameObject leftCardImage; 
+    public GameObject leftCardImage;
     public Transform leftCardImageFadeOutPosition;
     public Transform leftCardImageFadeInPosition;
 
@@ -68,6 +68,8 @@ public class QuestionManager : MonoBehaviour {
     public float tweenTime = 0.4f;
     private int nextId;
 
+    private List<bool> choiceLog;
+
     private void Awake()
     {
         moneyColor = MoneyFilled.color;
@@ -92,6 +94,8 @@ public class QuestionManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        choiceLog = new List<bool>();
+
         // TODO: set money value
         // MoneyFilled.fillAmount = Setting.CharacterSetting.??;
         MentalFilled.fillAmount = Setting.CharacterSetting.Mental / 100.0f;
@@ -188,12 +192,23 @@ public class QuestionManager : MonoBehaviour {
 
         if (canTouchToNextStory == 3)
         {
+            StoryManager.log.Add(new EventLog(StoryManager.nowEvent.id, choiceLog));
+
+            //for(int i = 0;i < StoryManager.log.Count; i++)
+            //{
+            //    Debug.Log(StoryManager.log[i].id);
+            //    for (int j = 0;j < StoryManager.log[i].choice.Count; j++)
+            //    {
+            //        Debug.Log(StoryManager.log[i].choice[j]);
+            //    }
+            //}
+
             CharacterSetting.nYearsLater(StoryManager.nowEvent.year);
-            Debug.Log("Money " + Setting.CharacterSetting.Money);
-            Debug.Log("Mental " + Setting.CharacterSetting.Mental);
-            Debug.Log("Social " + Setting.CharacterSetting.Social);
-            Debug.Log("Hearth " + Setting.CharacterSetting.Hearth);
-            Debug.Log("IsGameOver " + IsGameOver().ToString());
+            //Debug.Log("Money " + Setting.CharacterSetting.Money);
+            //Debug.Log("Mental " + Setting.CharacterSetting.Mental);
+            //Debug.Log("Social " + Setting.CharacterSetting.Social);
+            //Debug.Log("Hearth " + Setting.CharacterSetting.Hearth);
+            //Debug.Log("IsGameOver " + IsGameOver().ToString());
 
             if (IsGameOver())
             {
@@ -409,6 +424,8 @@ public class QuestionManager : MonoBehaviour {
     {
         leftCardImage.GetComponent<Button>().enabled = false;
         rightCardImage.GetComponent<Button>().enabled = false;
+
+        choiceLog.Add(choice);
 
         if (choice)
         {
