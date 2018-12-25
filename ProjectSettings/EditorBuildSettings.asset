@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FinalResult.unity
     guid: 1e4cd0ee30f9e034a83f431d7969d193
+  - enabled: 1
+    path: Assets/Scenes/StoryReview.unity
+    guid: 28c530d29aa1b1c4fb944e7201e52ddf
   m_configObjects: {}

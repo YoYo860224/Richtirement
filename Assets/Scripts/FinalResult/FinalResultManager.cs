@@ -58,7 +58,7 @@ public class FinalResultManager : MonoBehaviour {
             }
             else
             {
-                SceneManager.LoadScene("AnalysisReport");
+                SceneManager.LoadScene("StoryReview");
             }
         }
     }

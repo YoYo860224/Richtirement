@@ -26,7 +26,7 @@ public static class StoryManager
         {
 
             int randomIndex = RandomUtil.random.Next(0, futureEventsID.Count);
-            nowEvent = AllSEventList.Find(x => x.id == futureEventsID[randomIndex]);
+            nowEvent = AllSEventList.Find(x => x.id == futureEventsID[randomIndex]).Copy();
             return true;
         }
         return false;
@@ -43,9 +43,6 @@ public static class StoryManager
             futureEventsID.Add(nextId);
         }
     }
-
-    
-
 }
 
 public class StoryEvent
@@ -63,6 +60,11 @@ public class StoryEvent
         this.content = content;
         this.question = q;
         this.year = year;
+    }
+
+    public StoryEvent Copy()
+    {
+        return new StoryEvent(id, imageUrl,content, question.Copy(), year);
     }
 }
 
@@ -84,6 +86,25 @@ public class Question
     {
         content = c;
     }
+
+    public Question(string content, string imageUrl, string hint, Choice leftChoice, Choice rightChoice, Choice absoluteChoice)
+    {
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.hint = hint;
+        this.leftChoice = leftChoice;
+        this.rightChoice = rightChoice;
+        this.absoluteChoice = absoluteChoice;
+    }
+
+    public Question Copy()
+    {
+        if(absoluteChoice != null)
+        {
+            return new Question(content, imageUrl, hint, leftChoice, rightChoice, absoluteChoice.Copy());
+        }
+        return new Question(content, imageUrl, hint, leftChoice.Copy(), rightChoice.Copy(), absoluteChoice);
+    }
 }
 
 public class Choice
@@ -103,6 +124,13 @@ public class Choice
         this.content = content;
         this.nextQuestion = null;
         this.choiceResults = new List<ChoiceResult>();
+    }
+
+    public Choice(string content, Question nextQuestion, List<ChoiceResult> choiceResults)
+    {
+        this.content = content;
+        this.nextQuestion = nextQuestion;
+        this.choiceResults = choiceResults;
     }
 
     public void AfterChoiceDo(ChoiceResult cr)
@@ -138,6 +166,14 @@ public class Choice
             // 改做 nextQuestion
             return -1;
         }
+    }
+    public Choice Copy()
+    {
+        if (nextQuestion != null)
+        {
+            return new Choice(content, nextQuestion.Copy(), choiceResults);
+        }
+        return new Choice(content, nextQuestion, choiceResults);
     }
 }
 
