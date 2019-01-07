@@ -1666,7 +1666,7 @@ MonoBehaviour:
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 70
+    m_MinSize: 40
     m_MaxSize: 100
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2000,7 +2000,7 @@ MonoBehaviour:
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 70
+    m_MinSize: 40
     m_MaxSize: 110
     m_Alignment: 3
     m_AlignByGeometry: 0
@@ -2805,7 +2805,7 @@ MonoBehaviour:
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 70
+    m_MinSize: 40
     m_MaxSize: 100
     m_Alignment: 4
     m_AlignByGeometry: 0
