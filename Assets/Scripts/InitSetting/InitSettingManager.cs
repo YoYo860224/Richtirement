@@ -20,6 +20,11 @@ public class InitSettingManager : MonoBehaviour {
     public Toggle spouseNo;
     public Dropdown kidDropdown;
     public Slider currentAssets;
+
+    public GameObject panel1;
+    public GameObject panel2;
+    public GameObject panel3;
+    public GameObject panel4;
     // Use this for initialization
     void Start () {
 
@@ -30,7 +35,7 @@ public class InitSettingManager : MonoBehaviour {
         Translate();
 	}
 
-    public void NextButtom()
+    public void NextButtom1()
     {
         Setting.CharacterSetting.name = nameInputField.text;
         if(Setting.CharacterSetting.name == "")
@@ -38,8 +43,29 @@ public class InitSettingManager : MonoBehaviour {
             nameInputPlaceHold.color = Color.red;
             return;
         }
+        var p = panel2.GetComponent<RectTransform>().localPosition;
+        p.x = 0;
+        panel2.GetComponent<RectTransform>().localPosition = p;
+    }
+
+    public void NextButtom2()
+    {
         Setting.CharacterSetting.hasSpouse = spouseYes.isOn;
+        var p = panel3.GetComponent<RectTransform>().localPosition;
+        p.x = 0;
+        panel3.GetComponent<RectTransform>().localPosition = p;
+    }
+
+    public void NextButtom3()
+    {
         Setting.CharacterSetting.kidAmount = kidDropdown.value;
+        var p = panel4.GetComponent<RectTransform>().localPosition;
+        p.x = 0;
+        panel4.GetComponent<RectTransform>().localPosition = p;
+    }
+
+    public void NextButtom4()
+    {
         Setting.CharacterSetting.Money = (int)(currentAssets.value);
         Debug.Log(Setting.CharacterSetting.name);
         Debug.Log(Setting.CharacterSetting.hasSpouse);
