@@ -23,6 +23,7 @@ public class QuestionManager : MonoBehaviour {
     private Color socialHearthColor;
 
     public Image questionImage;
+    public Image questionFrame;
     public Text questionContent;
     public Transform contentFadeOutPosition;
     public Transform contentFadeInPosition;
@@ -89,7 +90,6 @@ public class QuestionManager : MonoBehaviour {
         MentalText.text = "";
         PhysicalHearthText.text = "";
         SocialHearthText.text = "";
-
     }
 
     // Use this for initialization
@@ -118,6 +118,7 @@ public class QuestionManager : MonoBehaviour {
     public void SetQuestion(Question q)
     {
         this.transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(q.imageUrl);
+        this.questionFrame.enabled = true;
         this.questionContent.text = q.content;
         this.leftText.text = q.leftChoice.content;
         this.rightText.text = q.rightChoice.content;
@@ -130,7 +131,7 @@ public class QuestionManager : MonoBehaviour {
         }
         else
         {
-            helpButton.SetActive(true);
+            // helpButton.SetActive(true);
         }
     }
 
@@ -138,7 +139,7 @@ public class QuestionManager : MonoBehaviour {
     {
         if (StoryManager.nowEvent.question.absoluteChoice == null)
         {
-            StartCoroutine(StartChoiceAnimation());
+            //StartCoroutine(StartChoiceAnimation());
         }
         else
         {
@@ -148,28 +149,32 @@ public class QuestionManager : MonoBehaviour {
 
     public void choiceLeft()
     {
-        if (!choiceCard)
-        {
-            choiceCard = true;
-            StartCoroutine(ChoiceCard(true));
-        }
-        else
-        {
-            StartCoroutine(DoubleChoiceCard(true));
-        }
+        StartCoroutine(DoubleChoiceCard(true));
+
+        //if (!choiceCard)
+        //{
+        //    choiceCard = true;
+        //    StartCoroutine(ChoiceCard(true));
+        //}
+        //else
+        //{
+        //    StartCoroutine(DoubleChoiceCard(true));
+        //}
     }
 
     public void choiceRight()
     {
-        if (!choiceCard)
-        {
-            choiceCard = true;
-            StartCoroutine(ChoiceCard(false));
-        }
-        else
-        {
-            StartCoroutine(DoubleChoiceCard(false));
-        }
+        StartCoroutine(DoubleChoiceCard(true));
+
+        //if (!choiceCard)
+        //{
+        //    choiceCard = true;
+        //    StartCoroutine(ChoiceCard(false));
+        //}
+        //else
+        //{
+        //    StartCoroutine(DoubleChoiceCard(false));
+        //}
     }
 
     public void TouchBackGround()
@@ -444,60 +449,11 @@ public class QuestionManager : MonoBehaviour {
         // nextQuestion
         if (nextId == -1)
         {
-            var timeStart = Time.time;
-            var timeEnd = timeStart + 0.3f;
-            while (Time.time < timeEnd)
-            {
-                if (choice)
-                {
-                    var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-                    var v = LinearEase(t);
-                    var position = Vector3.LerpUnclamped(leftCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
-                    leftCardImage.transform.localPosition = position;
-                }
-                else
-                {
-                    var t = Mathf.InverseLerp(timeStart, timeEnd, Time.time);
-                    var v = LinearEase(t);
-                    var position = Vector3.LerpUnclamped(rightCardImage.transform.localPosition, DoubleChoiceCardPosition.localPosition, v);
-                    rightCardImage.transform.localPosition = position;
-                }
-                yield return null;
-            }
-            if (choice)
-            {
-                leftCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
-            }
-            else
-            {
-                rightCardImage.transform.localPosition = DoubleChoiceCardPosition.localPosition;
-            }
-
             StoryManager.nowEvent.question = StoryManager.nowChoice.nextQuestion;
             SetQuestion(StoryManager.nowEvent.question);
 
-            SetUIToFadeOutLoc();
-
-            rightCardImage.SetActive(true);
-            leftCardImage.SetActive(true);
-            leftCardImage.transform.localScale = new Vector3(1f, 1f, 1);
-            rightCardImage.transform.localScale = new Vector3(1f, 1f, 1);
-
-            timeStart = Time.time;
-            timeEnd = timeStart + tweenTime;
-            while (Time.time < timeEnd)
-            {
-                UIFadeInTween(timeStart, timeEnd);
-                yield return null;
-            }
-
-            SetUIToFadeInLoc();
-
-
             leftCardImage.GetComponent<Button>().enabled = true;
             rightCardImage.GetComponent<Button>().enabled = true;
-
-            helpState = false;
         }
         // showResult
         else
@@ -524,6 +480,7 @@ public class QuestionManager : MonoBehaviour {
 
             leftCardImage.SetActive(false);
             rightCardImage.SetActive(false);
+            questionFrame.enabled = false;
             questionContent.text = "";
 
             transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
@@ -548,6 +505,7 @@ public class QuestionManager : MonoBehaviour {
     {
         SetUIToFadeOutLoc();
 
+        questionFrame.enabled = false;
         leftCardImage.SetActive(false);
         rightCardImage.SetActive(false);
         whitePanel.SetActive(true);
