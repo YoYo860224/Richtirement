@@ -75,6 +75,10 @@ public class RedeployManager : MonoBehaviour {
         {
             annuityGameObject.SetActive(false);
             medicineInsuranceGameObject.SetActive(false);
+
+            var ct = ScrollView1.transform.Find("Viewport").Find("Content");
+            var rt = ct.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(rt.sizeDelta.x, 0);
         }
 
     }
