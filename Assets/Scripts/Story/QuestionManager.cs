@@ -117,7 +117,7 @@ public class QuestionManager : MonoBehaviour {
 
     public void SetQuestion(Question q)
     {
-        this.transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(q.imageUrl);
+        this.transform.parent.Find("BackGroundImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(q.imageUrl);
         this.questionFrame.enabled = true;
         this.questionContent.text = q.content;
         this.leftText.text = q.leftChoice.content;
@@ -263,7 +263,7 @@ public class QuestionManager : MonoBehaviour {
         {
             // Set Background Color
             SetImageAlpha(this.GetComponent<Image>(), Time.time / timeEnd * 0.8f);
-            SetImageAlpha(transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>(), Time.time / timeEnd);
+            SetImageAlpha(transform.parent.Find("BackGroundImage").gameObject.GetComponent<Image>(), Time.time / timeEnd);
 
             UIFadeInTween(timeStart, timeEnd);
             yield return null;
@@ -483,7 +483,7 @@ public class QuestionManager : MonoBehaviour {
             questionFrame.enabled = false;
             questionContent.text = "";
 
-            transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
+            transform.parent.Find("BackGroundImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
             this.GetComponent<Image>().sprite = null;
 
             SetImageAlpha(this.GetComponent<Image>(), 0);
@@ -524,8 +524,8 @@ public class QuestionManager : MonoBehaviour {
             yield return null;
         }
 
-        transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().color = new Color(255, 255, 255, 255);
-        transform.parent.Find("QuestionImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
+        transform.parent.Find("BackGroundImage").gameObject.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+        transform.parent.Find("BackGroundImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
         this.GetComponent<Image>().sprite = null;
         var thisColor = this.GetComponent<Image>().color;
         thisColor.a = 0;

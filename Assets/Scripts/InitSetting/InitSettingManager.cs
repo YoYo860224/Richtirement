@@ -27,7 +27,7 @@ public class InitSettingManager : MonoBehaviour {
     public GameObject panel4;
     // Use this for initialization
     void Start () {
-
+        Setting.CharacterSetting.InitCharacter();
     }
 	
 	// Update is called once per frame

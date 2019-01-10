@@ -17,12 +17,31 @@ namespace Setting
 
     public class CharacterSetting
     {
+        public static void InitCharacter()
+        {
+            CharacterSetting.name = "";
+            CharacterSetting.age = 55;
+            CharacterSetting.hasSpouse = false;
+            CharacterSetting.kidAmount = 0;
+            CharacterSetting.Mental = 75;
+            CharacterSetting.Hearth = 75;
+            CharacterSetting.Social = 75;
+            CharacterSetting.moneyHasChanged = 0;
+            CharacterSetting.mentalHasChanged = 0;
+            CharacterSetting.hearthHasChanged = 0;
+            CharacterSetting.socialHasChanged = 0;
+            CharacterSetting.deposit = 0;
+            CharacterSetting.stock = 0;
+            CharacterSetting.fund = 0;
+            CharacterSetting.annuity = 0;
+            CharacterSetting.medicineInsurance = 0;
+        }
+
         // 基本人設
         public static string name;
         public static int age = 55;
         public static bool hasSpouse;
         public static int kidAmount;
-        public static bool spouse;
 
         // 四大基本數值
         public static int Money

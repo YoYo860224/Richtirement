@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class StoryCreate : MonoBehaviour {
 
+    public void InitStory()
+    {
+        StoryManager.futureEventsID.Clear();
+        StoryManager.futureEventsID.Add(0);
+    }
+
     private void Awake()
     {
         {
@@ -479,6 +485,7 @@ public class StoryCreate : MonoBehaviour {
 
             StoryManager.AddStory(new StoryEvent(id, imageUrl, content, q, 4));
         }
+        InitStory();
     }
 }
 
