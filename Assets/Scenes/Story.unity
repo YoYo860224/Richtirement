@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 92274241}
   - component: {fileID: 92274240}
   m_Layer: 5
-  m_Name: QuestionImage
+  m_Name: BackGroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
