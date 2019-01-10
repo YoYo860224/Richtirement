@@ -9,9 +9,9 @@ public class StoryCreate : MonoBehaviour {
         {
             int id = 0;
             string imageUrl = "Story/0";                                          // 圖的url
-            string content = "You would be retired in 10 years.";                  // 開頭簡介
+            string content = "You will be retired in 10 years";                  // 開頭簡介
 
-            Question q0 = new Question("You have worked for several years and have some assets, do you want to do some money management?？")
+            Question q0 = new Question("You have worked for several years and have some assets, do you want to do some money management?")
             {
                 imageUrl = "Story/0",
                 hint = "",
@@ -19,17 +19,17 @@ public class StoryCreate : MonoBehaviour {
                 rightChoice = new Choice("No")
             };
 
-            Question q0_1 = new Question("What kind of money management you want to buy？")
+            Question q0_1 = new Question("What kind of money management you want to buy?")
             {
                 imageUrl = "Story/0",
                 hint = "",
                 leftChoice = new Choice("Buy stocks"),
-                rightChoice = new Choice("Buy saving insurance")
+                rightChoice = new Choice("Buy deposit insurance")
             };
 
-            ChoiceResult r0_1 = new ChoiceResult("恭喜！跟上這波漲潮，存款增加，龍心大悅")
+            ChoiceResult r0_1 = new ChoiceResult("Congratulations!Keep up with this wave of high tide, deposits increase.")
             {
-                imageUrl = "Story/0_2",
+                imageUrl = "Story/0_1",
                 prob = 0.3f,
                 valueChanges = new List<string> { "P + 15 18", "$ + 30 80"},
                 nextIds = new List<int> { 1 }
@@ -37,13 +37,13 @@ public class StoryCreate : MonoBehaviour {
 
             ChoiceResult r0_2 = new ChoiceResult("Oh no! The stock market crashes! Your wealth lost a lot.")
             {
-                imageUrl = "Story/0_1",
+                imageUrl = "Story/0_2",
                 prob = 0.7f,
                 valueChanges = new List<string> { "P - 15 18", "$ - 30 80" },
                 nextIds = new List<int> { 1 }
             };
 
-            ChoiceResult r0_3 = new ChoiceResult("成功與保險人購買保險")
+            ChoiceResult r0_3 = new ChoiceResult("Successful insurance with the insurer.")
             {
                 imageUrl = "Story/0_3",
                 prob = 1.0f,
@@ -51,7 +51,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 1 }
             };
 
-            ChoiceResult r0_4 = new ChoiceResult("將部分存款放入定存")
+            ChoiceResult r0_4 = new ChoiceResult("Put some deposits into certificate Deposit.")
             {
                 imageUrl = "Story/0_4",
                 prob = 1.0f,
@@ -74,20 +74,20 @@ public class StoryCreate : MonoBehaviour {
             string imageUrl = "Story/1";
             string content = "You are 60 years old now. Your kids have grown up.You can enjoy your retirement after 5 years. Work harder!";
 
-            Question q1 = new Question("The boss asked you to work overtime and work on weekend. How would you do?")
+            Question q1 = new Question("The boss asked you to work overtime and work on weekend. What would you do?")
             {
                 imageUrl = "Story/1",
                 hint = "",
                 leftChoice = new Choice("Yes"),
-                rightChoice = new Choice("No, I want to spend time with family.")
+                rightChoice = new Choice("No, family first.")
             };
 
-            Question q1_1 = new Question("這個時候，老闆叫你代替他去應酬，你會如何選擇？")
+            Question q1_1 = new Question("At this time, the boss told you to enter him for entertainment, how would you choose?")
             {
                 imageUrl = "Story/1",
                 hint = "",
-                leftChoice = new Choice("去"),
-                rightChoice = new Choice("不去，回家")
+                leftChoice = new Choice("Okay, go"),
+                rightChoice = new Choice("No, go home")
             };
 
             Question q1_2 = new Question("What do you want to do with your family？")
@@ -98,7 +98,7 @@ public class StoryCreate : MonoBehaviour {
                 rightChoice = new Choice("Watch the movie")
             };
 
-            ChoiceResult r1_1 = new ChoiceResult("經常與廠商應酬傷害身心理健康")
+            ChoiceResult r1_1 = new ChoiceResult("Frequently have intercourse with manufacturers which is harmful to mental health.")
             {
                 imageUrl = "Story/1_1",
                 prob = 1.0f,
@@ -106,7 +106,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 2 }
             };
 
-            ChoiceResult r1_2 = new ChoiceResult("在每天繁忙的生活中，偶爾偷閒，可能損失社交力，但減少更多身心理的損失")
+            ChoiceResult r1_2 = new ChoiceResult("Occasionally stealing in daily life may lose social power, but reduce more psychological damage.")
             {
                 imageUrl = "Story/1_2",
                 prob = 1.0f,
@@ -122,7 +122,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 2 }
             };
 
-            ChoiceResult r1_4 = new ChoiceResult("偶爾與家人出去放鬆、看看電影，增進感情，但也要注意健康喔～")
+            ChoiceResult r1_4 = new ChoiceResult("Sometimes going out with your family would increase each other's emotion and also good to health.")
             {
                 imageUrl = "Story/1_4",
                 prob = 1.0f,
@@ -161,7 +161,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 3 }
             };
 
-            ChoiceResult r2_2 = new ChoiceResult("進入新公司，準備迎接全新的挑戰吧！")
+            ChoiceResult r2_2 = new ChoiceResult("Enter the new company.Get ready for the new challenge!")
             {
                 imageUrl = "Story/1_6",
                 prob = 1.0f,
@@ -178,25 +178,25 @@ public class StoryCreate : MonoBehaviour {
         {
             int id = 3;
             string imageUrl = "Story/2";
-            string content = "恭喜你退休了！準備好過想過的人生嗎：）";
+            string content = "Congratulations on your retirement!Ready to  live an ideal life?";
 
-            Question q = new Question("這時小孩突然告知要創業，想跟你借500萬，借給他嗎？")
+            Question q = new Question("Your child suddenly told that he wants to start a business. Would you like to borrow 5 million, will you lend him?")
             {
                 imageUrl = "Story/2",
                 hint = "",
-                leftChoice = new Choice("借"),
-                rightChoice = new Choice("不借")
+                leftChoice = new Choice("Yeah, sure"),
+                rightChoice = new Choice("Nope")
             };
 
-            Question q_1 = new Question("小孩生意失敗，堅持要他還錢嗎？")
+            Question q_1 = new Question("Your child failed in business, would you insisted he to pay back the money?")
             {
                 imageUrl = "Story/2",
                 hint = "",
-                leftChoice = new Choice("要"),
-                rightChoice = new Choice("不要")
+                leftChoice = new Choice("Yes"),
+                rightChoice = new Choice("Hmm...that's ok")
             };
 
-            ChoiceResult r_1 = new ChoiceResult("和小孩大吵一架，心理指數大減。")
+            ChoiceResult r_1 = new ChoiceResult("A big fight with the child, the psychology index greatly reduced.")
             {
                 imageUrl = "Story/2_1",
                 prob = 1.0f,
@@ -204,7 +204,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 4 }
             };
 
-            ChoiceResult r_2 = new ChoiceResult("孩子非常感謝你的幫助，感情加深")
+            ChoiceResult r_2 = new ChoiceResult("The child is very grateful for your help, deep feelings.")
             {
                 imageUrl = "Story/2_2",
                 prob = 1.0f,
@@ -212,7 +212,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 4 }
             };
 
-            ChoiceResult r_3 = new ChoiceResult("和小孩大吵一架，心理指數大減。")
+            ChoiceResult r_3 = new ChoiceResult("A big fight with the child, the psychology index greatly reduced.")
             {
                 imageUrl = "Story/2_1",
                 prob = 1.0f,
@@ -231,17 +231,17 @@ public class StoryCreate : MonoBehaviour {
         {
             int id = 4;
             string imageUrl = "Story/livingroom";
-            string content = "退休也五年了，時間真的不等人呢．．．";
+            string content = "You have been retiring for five years, and time would never ever waiting for you...";
 
-            Question q = new Question("退休後有許多空閒的時間，要不要培養個興趣呢？")
+            Question q = new Question("There're a lot of free time after retirement. Do you want to cultivate an interest?")
             {
                 imageUrl = "Story/livingroom",
                 hint = "",
-                leftChoice = new Choice("好，多出去走走"),
-                rightChoice = new Choice("不了，很花錢的")
+                leftChoice = new Choice("Do some outdoor activities."),
+                rightChoice = new Choice("It's too expensive.")
             };
 
-            ChoiceResult r_1 = new ChoiceResult("偶爾出遊看看世界、認識新朋友，心情也跟著變好了呢！")
+            ChoiceResult r_1 = new ChoiceResult("Travel through the world could not only meet new friends, but have a better mental status!")
             {
                 imageUrl = "Story/3_1",
                 prob = 1.0f,
@@ -249,7 +249,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 5 }
             };
 
-            ChoiceResult r_2 = new ChoiceResult("選擇待在家中，身心健康與社交能力大量下降。")
+            ChoiceResult r_2 = new ChoiceResult("Choose to stay at home results to worse physical and mental health and social skills.")
             {
                 imageUrl = "Story/3_2",
                 prob = 1.0f,
@@ -268,15 +268,15 @@ public class StoryCreate : MonoBehaviour {
             string imageUrl = "Story/livingroom";
             string content = "";
 
-            Question q = new Question("還是跟一些老朋友聚聚聊聊嗎？")
+            Question q = new Question("How about having some appointment with old friends?")
             {
                 imageUrl = "Story/livingroom",
                 hint = "",
-                leftChoice = new Choice("好！"),
-                rightChoice = new Choice("不了。")
+                leftChoice = new Choice("Sure!"),
+                rightChoice = new Choice("Nope...")
             };
 
-            ChoiceResult r_1 = new ChoiceResult("與老朋友聊聊近況與往事，心情大好")
+            ChoiceResult r_1 = new ChoiceResult("Talk to old friends about the current situation and past events, increase in mental index.")
             {
                 imageUrl = "Story/3_3",
                 prob = 1.0f,
@@ -284,7 +284,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 6 }
             };
 
-            ChoiceResult r_2 = new ChoiceResult("一直待在家中，要注意健康...")
+            ChoiceResult r_2 = new ChoiceResult("Always stay at home...You should pay more attention to health...")
             {
                 imageUrl = "Story/3_4",
                 prob = 1.0f,
@@ -301,25 +301,25 @@ public class StoryCreate : MonoBehaviour {
         {
             int id = 6;
             string imageUrl = "Story/4";                                             
-            string content = "恭喜你退休了！準備好過想過的人生嗎：）";               
+            string content = "You're now 75 years old. Are you satisfied with current life?";               
 
-            Question q0 = new Question("朋友找你投資150萬創業，你會？")
+            Question q0 = new Question("An old friend ask if you want to invest 2.5 million in new  restaurant business, yes?")
             {
                 imageUrl = "Story/4",
                 hint = "",
-                leftChoice = new Choice("投資"),
-                rightChoice = new Choice("不投資")
+                leftChoice = new Choice("Yes, invest"),
+                rightChoice = new Choice("Not to invest")
             };
 
-            Question q0_1 = new Question("開了間餐廳也裝潢好了；面對生意的經營，你會怎麼做呢？")
+            Question q0_1 = new Question("The restaurant is well decorated; what would you do in the face of business operations?")
             {
                 imageUrl = "Story/4",
                 hint = "",
-                leftChoice = new Choice("隨時到場監督"),
-                rightChoice = new Choice("每月查看報表")
+                leftChoice = new Choice("Supervise any time"),
+                rightChoice = new Choice("View reports monthly")
             };
 
-            ChoiceResult r0_1 = new ChoiceResult("餐廳生意興隆，存款跟心情都大增！")
+            ChoiceResult r0_1 = new ChoiceResult("The restaurant business is booming!!Deposits and moods are increasing!")
             {
                 imageUrl = "Story/4_1",
                 prob = 0.5f,
@@ -327,7 +327,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 7 }
             };
 
-            ChoiceResult r0_2 = new ChoiceResult("餐廳營運因缺乏管理不如預期。")
+            ChoiceResult r0_2 = new ChoiceResult("Restaurant operations are not as expected due to lack of management.")
             {
                 imageUrl = "Story/4_2",
                 prob = 0.5f,
@@ -335,7 +335,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 7 }
             };
 
-            ChoiceResult r0_3 = new ChoiceResult("餐廳營運因缺乏管理不如預期。")
+            ChoiceResult r0_3 = new ChoiceResult("Restaurant operations are not as expected due to lack of management.")
             {
                 imageUrl = "Story/4_2",
                 prob = 1.0f,
@@ -343,7 +343,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 7 }
             };
 
-            ChoiceResult r0_4 = new ChoiceResult("還是覺得多放點錢在定存比較保險呢，但與朋友的友情指數下降")
+            ChoiceResult r0_4 = new ChoiceResult("Still think it is safer to put more money in the deposit, but the friendship index with friends drops.")
             {
                 imageUrl = "Story/4_3",
                 prob = 1.0f,
@@ -394,8 +394,8 @@ public class StoryCreate : MonoBehaviour {
             {
                 imageUrl = "Story/livingroom",
                 hint = "",
-                leftChoice = new Choice("Develop the habit of exercising"),
-                rightChoice = new Choice("Being disabled, keep staying home.")
+                leftChoice = new Choice("keep exercising outdoor"),
+                rightChoice = new Choice("Keep staying home.")
             };
 
             ChoiceResult r_1 = new ChoiceResult("Exercise more and go outside. Get your strength back and make new friends.")
@@ -406,7 +406,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { 9 }
             };
 
-            ChoiceResult r_2 = new ChoiceResult("行動不便，待在家")
+            ChoiceResult r_2 = new ChoiceResult("Keep staying home.")
             {
                 imageUrl = "",
                 prob = 1.0f,
@@ -423,7 +423,7 @@ public class StoryCreate : MonoBehaviour {
         {
             int id = 9;
             string imageUrl = "Story/livingroom";
-            string content = "85歲，是個含飴弄孫的年紀呢！等等，老伴！老伴？老伴...";
+            string content = "85 is the age of having a grandson! Wait, my wife! Old companion? Wife...";
 
             Question q = new Question("123")
             {
@@ -432,7 +432,7 @@ public class StoryCreate : MonoBehaviour {
                 absoluteChoice = new Choice("Absolute")
             };
 
-            ChoiceResult r = new ChoiceResult("老伴提前走了，心情大受影響，儀式也花了不少錢...")
+            ChoiceResult r = new ChoiceResult("Since wife left in advance, the mood was greatly affected; even more, the ceremony cost a lot of money...")
             {
                 imageUrl = "Story/6",
                 prob = 1.0f,
@@ -450,15 +450,15 @@ public class StoryCreate : MonoBehaviour {
             string imageUrl = "Story/livingroom";
             string content = "";
 
-            Question q = new Question("老伴走了，但一直難過下去也不是辦法呢...走出傷痛吧，做點什麼呢？")
+            Question q = new Question("Wife is gone, but it’s not a way to be sad whole life... Trying to go out of the pain, what can you do?")
             {
                 imageUrl = "Story/livingroom",
                 hint = "",
-                leftChoice = new Choice("活到老學到老"),
-                rightChoice = new Choice("花點時間陪家人")
+                leftChoice = new Choice("Live and learn"),
+                rightChoice = new Choice("Spend time with family")
             };
 
-            ChoiceResult r_1 = new ChoiceResult("培養閱讀習慣，陶冶心靈，耶參加讀書會，認識新朋友")
+            ChoiceResult r_1 = new ChoiceResult("Cultivate reading habits, cultivate the soul, join the reading club, and meet new friends.")
             {
                 imageUrl = "Story/6_1",
                 prob = 1.0f,
@@ -466,7 +466,7 @@ public class StoryCreate : MonoBehaviour {
                 nextIds = new List<int> { }
             };
 
-            ChoiceResult r_2 = new ChoiceResult("含飴弄孫，與孩子有也保有良好關係")
+            ChoiceResult r_2 = new ChoiceResult("Have a good relationship with  children and grandson.")
             {
                 imageUrl = "Story/6_2",
                 prob = 1.0f,

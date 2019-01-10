@@ -164,7 +164,7 @@ public class QuestionManager : MonoBehaviour {
 
     public void choiceRight()
     {
-        StartCoroutine(DoubleChoiceCard(true));
+        StartCoroutine(DoubleChoiceCard(false));
 
         //if (!choiceCard)
         //{
