@@ -484,6 +484,7 @@ public class QuestionManager : MonoBehaviour {
             questionContent.text = "";
 
             transform.parent.Find("BackGroundImage").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(StoryManager.nowChoice.choiceResults[nextId].imageUrl);
+            transform.parent.Find("BackGroundImage").gameObject.GetComponent<Image>().color = new Color(255, 255, 255, 255);
             this.GetComponent<Image>().sprite = null;
 
             SetImageAlpha(this.GetComponent<Image>(), 0);
