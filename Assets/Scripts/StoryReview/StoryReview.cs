@@ -55,13 +55,14 @@ public class StoryReview : MonoBehaviour {
         }
         // 使用 vertical layout 修正看看
 
-        RectTransform rt = content.GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(rt.sizeDelta.x, 520 * eventAmount + 250);
+        //RectTransform rt = content.GetComponent<RectTransform>();
+        //rt.sizeDelta = new Vector2(rt.sizeDelta.x, 520 * eventAmount + 250);
         // content.transform.localPosition = new Vector2(0, 0);
         for (int i = 0; i < eventAmount; i++)
         {
-            GameObject instance = Instantiate(StoryBoxPrefab) as GameObject;
+            GameObject instance = Instantiate(StoryBoxPrefab) as GameObject;  
             instance.transform.SetParent(content.transform);
+            instance.transform.localScale = new Vector3(1, 1, 1);
             instance.GetComponent<StoryBox>().SetText(question[i], choice[i]);
             // instance.transform.localPosition = new Vector2(0, i * (-520));
         }
@@ -80,6 +81,6 @@ public class StoryReview : MonoBehaviour {
 
     public void ToAnalysis()
     {
-        SceneManager.LoadScene("AnalysisReport");
+        SceneManager.LoadScene("Splash");
     }
 }
